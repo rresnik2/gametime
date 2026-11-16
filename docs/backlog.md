@@ -305,7 +305,7 @@ own URL.
 
 Grow the greybox into the complete game loop from `docs/game/design.md`.
 
-- [ ] One mechanic, one screen, rounds of 1–3 minutes, with scoring and a visible timer
+- [ ] One mechanic, one screen, at the session length the design doc sets (quick rounds or a long session, [decision 012](decisions/012-game-session-length.md)), with a visible score, timer or goal
 - [ ] Win/lose states as specified in the design doc
 - [ ] Runs at 60 fps on a mid-range laptop in Chrome at 1080p (the OBS capture setup)
 - [ ] Original name, rules and placeholder art: nothing copied from an existing game
@@ -326,12 +326,13 @@ screen once they join it ([decision 011](decisions/011-stream-orientation.md)).
 - [ ] The design doc declares the game's primary orientation, and the game is streamed in it
 - [ ] Score, timer and the action stay readable at phone size in that orientation, including fitted to width in the feed if it's landscape (a vertical-crop-safe area only matters if the game is portrait)
 - [ ] Streamed through OBS into the app on a phone; a screenshot and notes on what was hard to read go in the PR
+- [ ] Someone who hasn't seen the game can say what's happening after 5 seconds of a stream joined mid-session ([decision 012](decisions/012-game-session-length.md))
 - [ ] Fixes for anything unreadable (size, contrast, clutter)
 
 #### P2-GAME-05 · Playtest #1
 - **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-03 · **Blocked on:** ⛔ GAME
 
-- [ ] 3–5 classmates play two or more rounds each; at least one watches it as a stream on a phone
+- [ ] 3–5 classmates play two or more rounds each (or one long session); at least one watches it as a stream on a phone, joining partway through
 - [ ] Findings and the changes they lead to written in `docs/game/playtests.md`
 
 ### Design
@@ -628,7 +629,7 @@ Risk #2 mitigation: cap resolution and stream length.
 - **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-05 · **Blocked on:** ⛔ GAME
 
 - [ ] Feedback effects (hits, score pops, round end) that read on a small screen
-- [ ] Difficulty and round length tuned from playtest #1; changes noted in `docs/game/playtests.md`
+- [ ] Difficulty and pacing (round length, or how a long session progresses) tuned from playtest #1; changes noted in `docs/game/playtests.md`
 
 #### P3-GAME-04 · Production deploy and "Play it" link
 - **Size:** S · **Owner:** TBD · **Depends on:** P2-OPS-01, P3-DATA-06 · **Blocked on:** ⛔ GAME
