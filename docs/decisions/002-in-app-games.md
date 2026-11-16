@@ -1,6 +1,7 @@
 # 002. Ship one original browser game in the MVP
 
-- **Status:** Decided
+- **Status:** Decided. The 1–3 minute round limit is superseded by
+  [decision 012](012-game-session-length.md); the rest stands.
 - **Date:** Nov 15, 2026
 - **Decided by:** Reece (project lead)
 
@@ -21,7 +22,9 @@ games entirely was the lower-risk option and was rejected.
 ## Consequences
 - It's a **browser game** (Phaser 3 or plain Canvas) in `games/<slug>/`, deployed separately,
   streamed via OBS like any other game. No mobile capture needed.
-- One mechanic, one screen, 1–3 minute rounds, readable on a phone-sized stream.
+- One mechanic, one screen, readable on a phone-sized stream. ~~1–3 minute rounds~~: superseded by
+  [decision 012](012-game-session-length.md) (quick or long-form; a viewer who swipes in can tell
+  what's happening within a few seconds).
 - Fully original: its own name, rules, art and sound.
 - It's a normal row in `games` with `is_original = true`.
 - If it slips, cut to the simplest concept; the app's core loop takes priority over game polish.
