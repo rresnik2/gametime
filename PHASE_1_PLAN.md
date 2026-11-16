@@ -16,6 +16,34 @@ has a deployable skeleton app that CI builds on every pull request.
 
 ---
 
+## Status (updated Nov 15, 2026)
+
+Update this list in the same PR as the work.
+
+**Done**
+- [x] Repo `rresnik2/gametime` (public), `main` protected: PRs required, both CI jobs must pass, linear history
+- [x] Expo SDK 58 skeleton: Expo Router, five tabs (Squads is a v2 placeholder), sidebar on web ≥ 768px, dark theme tokens, Space Grotesk + Inter, base components (`AppText`, `Button`, `LivePill`, `GameChip`, `Avatar`)
+- [x] CI: app job (lint, typecheck, Jest, web export) and database job (migrations, seed, schema lint, RLS tests, types drift)
+- [x] Schema v1 with RLS (§4C), seed data, 16 pgTAP tests; `getSupabase()` client with generated types
+- [x] Hosted Supabase project (us-west-1): schema pushed, auth URLs set, no seed data
+- [x] Vercel: production at https://gametime-gold.vercel.app, a preview per PR; Supabase env vars set
+- [x] EAS: four build profiles, project `@rresniks-team/gametime`; iOS Simulator dev build verified; Supabase env vars set for preview and production
+- [x] D2 decided: one original browser game in the MVP ([decision record](docs/decisions/002-in-app-games.md))
+- [x] D3, D5, D6 implemented in the schema ([records](docs/decisions/))
+
+**Open**
+- [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
+- [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
+- [ ] Wireframes for all MVP screens and flows, including the empty feed (exit criterion 3)
+- [ ] Game: three concepts, design doc, greybox prototype streamed through OBS (§4F, exit criterion 8)
+- [ ] Production games list (production has none; the seed list is local-only)
+- [ ] `docs/obs-setup.md`
+- [ ] Phases 2–4 backlog ticketed with owners (exit criterion 7)
+- [ ] Teammates added to GitHub, the `rresniks-team` Expo account and the GameTime Supabase org; raise required PR approvals to 1
+- [ ] Real app icon and splash (template placeholders today)
+
+---
+
 ## 1. Exit criteria (the Phase 1 gate)
 
 Phase 1 is done when all of these are true:
