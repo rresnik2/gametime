@@ -61,6 +61,26 @@ project.
 
 In the app, use `getSupabase()` from `src/lib/supabase.ts`.
 
+## Native builds (EAS)
+
+The Expo project is `@rresniks-team/gametime`. To run builds you need to be a member of the
+`rresniks-team` Expo account and logged in (`npx eas-cli@latest login`).
+
+| Command | Profile | What you get |
+|---|---|---|
+| `npm run build:dev` | `development` | Dev build for real devices, shared by install link |
+| `npm run build:dev:sim` | `development-simulator` | Dev build for the iOS Simulator (no Apple developer account needed) |
+| `npm run build:preview` | `preview` | Non-dev build for testers; Android is an installable `.apk` |
+| `npm run build:prod` | `production` | Store build; the build number increments automatically |
+
+Add `--platform ios` or `--platform android` to build one platform, for example
+`npm run build:dev -- --platform android`. Builds only start when someone runs one of these
+commands, to save the free plan's build credits. Real-device iOS builds need an Apple Developer
+account.
+
+Each profile reads environment variables from the EAS environment with the same name
+(development, preview, production); set them on expo.dev or with `npx eas-cli@latest env:create`.
+
 ## Adding packages
 
 Use `npx expo install <package>` rather than `npm install`, so you get versions that match the
