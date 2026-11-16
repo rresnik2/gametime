@@ -16,7 +16,7 @@ has a deployable skeleton app that CI builds on every pull request.
 
 ---
 
-## Status (updated Nov 15, 2026)
+## Status (updated Nov 16, 2026)
 
 Update this list in the same PR as the work.
 
@@ -38,7 +38,10 @@ Update this list in the same PR as the work.
 - [ ] Game: three concepts, design doc, greybox prototype streamed through OBS (§4F, exit criterion 8). Candidate under test: **The Biosphere Realm** in `games/the-biosphere-realm/` (a god-simulation sandbox, copied from SudipKing/The-Biosphere-Realm), with a local seed row. Not chosen yet: it's open-ended rather than D2's 1–3 minute rounds
 - [ ] Production games list (production has none; the seed list is local-only)
 - [ ] `docs/obs-setup.md`
-- [ ] Phases 2–4 backlog ticketed with owners (exit criterion 7)
+- [ ] Phases 2–4 backlog (exit criterion 7): **drafted, issues not created.** 82 tickets in
+  [docs/backlog.md](docs/backlog.md) (Phase 2: 30, Phase 3: 35, Phase 4: 17) plus 15 unscheduled v2 items.
+  Left to do: create the GitHub issues with `scripts/create-backlog-issues.sh --apply` (public repo,
+  so the project lead approves first) and assign owners
 - [ ] Teammates added to GitHub, the `rresniks-team` Expo account and the GameTime Supabase org; raise required PR approvals to 1
 - [ ] Real app icon and splash (template placeholders today)
 

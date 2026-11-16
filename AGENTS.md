@@ -5,6 +5,7 @@ one Expo codebase). Read these first:
 
 - `GameTime — Product Plan.pdf`: the product plan (vision, MVP scope, roadmap)
 - [PHASE_1_PLAN.md](PHASE_1_PLAN.md): the current phase, with a **status** section at the top
+- [docs/backlog.md](docs/backlog.md): Phases 2–4 tickets by phase and workstream, plus the v2 stretch list
 - [docs/decisions/](docs/decisions/): decisions already made, and why
 - [README.md](README.md): setup and commands
 
@@ -65,7 +66,12 @@ the notes: open a small `docs/…` PR for them.
   `supabase/`, also `npm run db:reset`, `npm run db:test` and `npm run db:types` (CI fails if
   `src/lib/database.types.ts` is stale).
 - **Scope is frozen at the MVP column** of the product plan. v2 work (Play with me, clips, squads,
-  push, mobile capture, a second game) goes in the backlog, not in a PR.
+  push, mobile capture, a second game) goes in the "Stretch (v2)" list in `docs/backlog.md`, not in a PR.
+- **Backlog:** tickets live in `docs/backlog.md` until `scripts/create-backlog-issues.sh --apply` files
+  them as GitHub issues (milestones Phase 2–4, labels `ws:*`, `size:*`, `blocked:*`). After that,
+  the issues are the source of truth for owner and progress; edit the file only to add, cut or
+  re-scope tickets, and keep the ticket format (the script validates it; its default dry run
+  touches nothing).
 - **Never start an EAS build** unless a person asks; the free plan has limited build credits.
 - **Never push seed data to production.** `supabase/seed.sql` is local-only test data.
 - **Schema changes are new migrations** (`npx supabase migration new <name>`). Never edit a
@@ -84,6 +90,7 @@ the notes: open a small `docs/…` PR for them.
 | App IDs | iOS bundle ID and Android package `com.rresnik2.gametime` |
 | Design tokens | `src/theme/tokens.ts` (from the product plan's Theming section) |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
+| Backlog | `docs/backlog.md`; issue filer `scripts/create-backlog-issues.sh` (dry run unless `--apply`) |
 | Original games | `games/<slug>/`, static web builds kept out of the Expo app; candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
 
 Environment variables: `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
