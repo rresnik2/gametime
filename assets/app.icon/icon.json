@@ -1,0 +1,42 @@
+{
+  "fill": {
+    "solid": "extended-srgb:0.04314,0.04314,0.07059,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "live.svg",
+          "name": "live"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.4
+      }
+    },
+    {
+      "layers": [
+        {
+          "image-name": "play.svg",
+          "name": "play"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.4
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}
