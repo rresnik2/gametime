@@ -12,6 +12,8 @@ One file per decision, numbered in order. 001–006 match D1–D6 in `PHASE_1_PL
 | [006](006-stream-key-security.md) | Stream keys in an owner-only table | Decided |
 | [007](007-accounts-and-hosting.md) | Accounts, regions and app IDs | Decided |
 | [008](008-brand-mark-and-app-icons.md) | Brand mark and app icons | Decided |
+| 009, 010 | Reserved by the open game PR (rresnik2/gametime#8): game concept, multiplayer and viewers | — |
+| [011](011-stream-orientation.md) | Every stream plays in its game's orientation | Decided |
 
 ## Adding a record
 

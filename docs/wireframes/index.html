@@ -1618,7 +1618,7 @@ ol.notes a{font-weight:700}
   <h2>Open product questions</h2>
   <p class="lede">Raised while drawing these. Each needs an answer (or "go with the drawn default") at the design review; decisions go in <code>docs/decisions/</code>.</p>
   <ol class="notes" style="max-width:980px;font-size:14px" id="qlist">
-    <li><b>Landscape streams in a vertical feed.</b> OBS sends 16:9. Drawn: fit to width, blurred copy fills the rest, chat sits below the video. Alternative: crop to fill the screen (more immersive, but cuts off game HUDs). Also: rotate to landscape full screen on phones?</li>
+    <li><b>Landscape streams in a vertical feed.</b> <b>Answered by decision 011 (Nov 16, 2026):</b> every stream plays in its game's orientation, so landscape streams rotate to landscape full screen on phones; nothing is cropped. The fit-to-width drawing stays as the fallback when "Rotate to fit each stream" is off. Landscape variants of the feed card, overlay and Go Live picker still need drawing. Follow-ups: auto-rotate on by default? Swipe stays vertical in landscape? Tablets adapt the frame only?</li>
     <li><b>Onboarding: skip, and how many games?</b> Drawn: 3 minimum, no skip. Should Edit profile also enforce 3?</li>
     <li><b>Cold start.</b> Drawn: "Usually live" streamers + Go Live CTA, an end card instead of looping, and an optional hand-set team schedule card. Do we want the schedule card (needs a small config table)? Loop or end card?</li>
     <li><b>Under-13 retries.</b> Remember a failed age check on the device?</li>

@@ -7,6 +7,9 @@ Drafted Nov 16, 2026, from the product plan's MVP column, [PHASE_1_PLAN.md](../P
 
 **Status:** filed as GitHub issues #9–#90 on Nov 16, 2026 (milestones Phase 2–4). Owners are TBD
 until the team assigns them on the issues (Phase 1 exit criterion 7). The v2 items are not filed.
+P2-APP-10 and P2-DATA-07 were added later on Nov 16 for
+[decision 011](decisions/011-stream-orientation.md) and aren't filed yet; nine existing tickets
+gained orientation criteria that their GitHub issues don't show yet.
 
 ## How to read a ticket
 
@@ -46,10 +49,10 @@ changes to existing tickets must be mirrored on the issue by hand.
 
 | Phase | Weeks | APP | DATA | VID | GAME | DES | OPS | Total |
 |---|---|---|---|---|---|---|---|---|
-| 2. Watch the feed | 3–5 | 9 | 6 | 3 | 5 | 4 | 3 | **30** |
+| 2. Watch the feed | 3–5 | 10 | 7 | 3 | 5 | 4 | 3 | **32** |
 | 3. Go live and chat | 6–8 | 14 | 6 | 4 | 5 | 2 | 4 | **35** |
 | 4. Polish and demo | 9–10 | 3 | 2 | 1 | 2 | 3 | 6 | **17** |
-| **Total** | | 26 | 14 | 8 | 12 | 9 | 13 | **82** |
+| **Total** | | 27 | 15 | 8 | 12 | 9 | 13 | **84** |
 
 Plus 15 [Stretch (v2)](#stretch-v2) items, unscheduled. `scripts/create-backlog-issues.sh`
 (dry run by default) prints these counts from the tickets below; rerun it after editing.
@@ -111,6 +114,7 @@ The Live tab: a full-screen, vertically paging list of live streams. Start on th
 `get_live_feed` RPC and switch to the ranked feed when P2-DATA-02 lands.
 
 - [ ] Each card shows the stream full-bleed with a bottom gradient scrim, streamer avatar + name, game chip and a LIVE pill with viewer count
+- [ ] Cards lay out in the stream's orientation ([decision 011](decisions/011-stream-orientation.md)): portrait streams fill the portrait screen; landscape streams hand off to P2-APP-10. Nothing is cropped
 - [ ] Swipe up/down snaps to the next/previous stream in under 300 ms; haptic tick on native
 - [ ] Skeleton card while loading; pull to refresh; next page loads before the user reaches the end
 - [ ] Streams that end while in the list are removed or marked (see P2-VID-03)
@@ -157,12 +161,27 @@ offline followed streamers (design from Phase 1 wireframes).
 #### P2-APP-09 · Web and tablet feed layout
 - **Size:** M · **Owner:** TBD · **Depends on:** P2-APP-04 · **Blocked on:** —
 
-At 768 px and wider the tabs are already a left sidebar; the stream centers in a 9:16 frame with
-space reserved for docked chat (filled in P3-APP-05).
+At 768 px and wider the tabs are already a left sidebar; the stream centers in a frame with the
+stream's own aspect ratio (16:9 or 9:16, [decision 011](decisions/011-stream-orientation.md)),
+with space reserved for docked chat (filled in P3-APP-05). Tablets and web don't rotate the screen.
 
-- [ ] Stream centered and letterboxed with the background color; no horizontal scroll at any width
+- [ ] Stream centered in a 16:9 or 9:16 frame matching the stream, letterboxed with the background color; no horizontal scroll at any width
 - [ ] Arrow keys and mouse wheel move between streams; focus is visible
 - [ ] Right column reserved for chat, showing a placeholder until P3-APP-05
+
+#### P2-APP-10 · Rotate to each stream's orientation
+- **Size:** L · **Owner:** TBD · **Depends on:** P2-APP-04, P2-VID-01, P2-DATA-07 · **Blocked on:** —
+
+[Decision 011](decisions/011-stream-orientation.md): every stream plays in its game's orientation.
+On phones, a landscape stream switches the screen to landscape full screen, and a portrait stream
+switches it back.
+
+- [ ] `app.json` orientation unlocked and `expo-screen-orientation` added (`npx expo install`); needs a new development build, so ask before running EAS
+- [ ] When the visible card changes, the screen orientation follows the stream: `streams.orientation` first, corrected by the player's real aspect ratio once video plays
+- [ ] Landscape overlay: action rail on the right edge, chat lower-left, top bar reduced to the LIVE pill and viewer count; vertical swipe still moves between streams
+- [ ] Setting "Rotate to fit each stream" (on by default); when off, landscape streams play fitted to width in portrait with a rotate button on the card
+- [ ] No orientation animation when reduce motion is on; the screen reader announces the stream, not the rotation
+- [ ] Leaving the Live tab returns the app to portrait
 
 ### Backend / data
 
@@ -222,6 +241,16 @@ snapshot to `streams.viewer_count` (service role only), which the feed ranking r
 - [ ] Spike first: if Presence can't be read server-side, fall back to a heartbeat table and record the change in a new decision record that supersedes 003
 - [ ] Viewer count on the card updates live from Presence; the feed ranking uses the snapshot
 
+#### P2-DATA-07 · `streams.orientation` column
+- **Size:** S · **Owner:** TBD · **Depends on:** — · **Blocked on:** —
+
+[Decision 011](decisions/011-stream-orientation.md): the feed needs each stream's orientation
+before its first frame.
+
+- [ ] Migration adds `streams.orientation` (`landscape` | `portrait`, default `landscape`); clients may set it on insert and edit it like `title` and `game_id` (extend the column privileges)
+- [ ] `get_live_feed` and the ranked feed (P2-DATA-02) return it
+- [ ] Seed streams include both orientations; RLS tests cover the new column; `db:types` regenerated
+
 ### Video
 
 #### P2-VID-01 · StreamPlayer component (iOS, Android, web)
@@ -234,6 +263,7 @@ blocked on D1, but it uses the spike's finding on web HLS (`expo-video` on web v
 - [ ] Muted autoplay with a tap-to-unmute control (browsers block autoplay with sound)
 - [ ] Loading, buffering, error ("Stream unavailable, swipe for the next one") and ended states
 - [ ] Plays every seeded stream on all three platforms
+- [ ] Reports the video's real aspect ratio once playing (P2-APP-10 uses it when it disagrees with `streams.orientation`)
 - [ ] Note: adding `expo-video` needs a new development build; ask before running EAS (see P2-OPS-02)
 
 #### P2-VID-02 · Feed playback lifecycle and performance
@@ -244,6 +274,7 @@ Only the visible card plays; the next one is ready before the swipe lands.
 - [ ] Only the on-screen stream plays audio/video; the next card is preloaded; off-screen players are released
 - [ ] Playback pauses when the app is backgrounded or the tab is hidden, and resumes on return
 - [ ] Time to first frame after a swipe measured on a mid-range Android, an iPhone and Chrome, and recorded in the PR
+- [ ] Also measured for a swipe that changes orientation (portrait to landscape); still lands in under 300 ms
 - [ ] Memory stays flat after swiping through 30 streams
 
 #### P2-VID-03 · Stream ended while watching
@@ -286,9 +317,11 @@ Grow the greybox into the complete game loop from `docs/game/design.md`.
 #### P2-GAME-04 · Stream readability pass
 - **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-02 · **Blocked on:** ⛔ GAME
 
-Viewers see the game in a compressed vertical video on a phone.
+Viewers see the game full screen on a phone, in the game's own orientation
+([decision 011](decisions/011-stream-orientation.md)).
 
-- [ ] Layout keeps score, timer and the action inside a vertical-crop-safe area
+- [ ] The design doc declares the game's primary orientation, and the game is streamed in it
+- [ ] Score, timer and the action stay readable at phone size in that orientation (a vertical-crop-safe area only matters if the game is portrait)
 - [ ] Streamed through OBS into the app on a phone; a screenshot and notes on what was hard to read go in the PR
 - [ ] Fixes for anything unreadable (size, contrast, clutter)
 
@@ -306,6 +339,7 @@ Viewers see the game in a compressed vertical video on a phone.
 Design stays one step ahead of the build. Phase 2 can start from approved low-fi wireframes.
 
 - [ ] Hi-fi screens for sign up, log in, age gate, onboarding, the feed card and overlay, profiles and edit profile, using `src/theme/tokens.ts`
+- [ ] Landscape variants of the feed card and overlay (rail, LIVE pill, chat), and the "Rotate to fit each stream" setting ([decision 011](decisions/011-stream-orientation.md))
 - [ ] Mobile and web/tablet layouts
 - [ ] Contrast checked to WCAG AA
 
@@ -377,6 +411,7 @@ week 6 against seed streams.
 Flow 3: tap + → name the stream and pick a game.
 
 - [ ] Title (1–140 chars) and game picker; creates a `pending` stream
+- [ ] Orientation picker, "Landscape: PC, console, browser" (default) or "Portrait: phone", saved to `streams.orientation` ([decision 011](decisions/011-stream-orientation.md))
 - [ ] Under-16 and no-birth-date users get the age gate screens from P2-APP-02
 - [ ] If the user already has a pending or live stream, it resumes that one instead of failing on the unique index
 
@@ -387,6 +422,7 @@ Server URL and key format depend on the provider.
 
 - [ ] Shows the RTMP server URL and the stream key from `stream_keys` (hidden by default, tap to reveal, copy buttons)
 - [ ] Step-by-step OBS guide built from `docs/obs-setup.md`, including the resolution/bitrate caps
+- [ ] The guide's canvas size matches the orientation picked in setup: 1920×1080 for landscape, 1080×1920 for portrait
 - [ ] "Reset stream key" with a confirmation, calling P3-VID-01's reset endpoint
 - [ ] The key is never logged or sent to analytics
 
@@ -410,6 +446,7 @@ Text chat + emoji (MVP column). `chat_messages` is in the Realtime publication.
 
 - [ ] Collapsed: semi-transparent, auto-fading recent messages over the lower third; tap to expand to a full panel
 - [ ] Docked to the right of the stream on web/tablet (fills P2-APP-09's column)
+- [ ] In landscape on phones, overlays the lower-left so it doesn't cover the action rail
 - [ ] Send box with the system emoji keyboard; 300-char limit; signed-out users are prompted to sign in
 - [ ] Loads recent history, then live messages via Realtime; unsubscribes when the card leaves the screen
 - [ ] Hides messages from users the viewer has blocked; shows the server's rejection message when a filter blocks a send
