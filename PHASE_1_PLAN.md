@@ -1,0 +1,315 @@
+# GameTime — Phase 1 Plan: Plan & Design (Weeks 1–2)
+
+Source: *GameTime — Product Plan* (Nov 15, 2026). The product plan sets four class phases:
+
+| Phase | Weeks | Goal |
+|---|---|---|
+| **1. Plan and design** | **1–2** | **Wireframes, stack setup, repo, CI** ← this document |
+| 2. Watch the feed | 3–5 | Auth, profiles, live feed, video playback |
+| 3. Go live and chat | 6–8 | OBS streaming, chat, follow, discover |
+| 4. Polish and demo | 9–10 | Testing, seed streams, safety, demo day |
+
+**Phase 1 goal:** at the end of week 2, nobody is blocked on a decision, a design, or setup. Every
+open question that could stall Phases 2–3 is answered, the riskiest technical path (OBS → video
+service → playback in the app on iOS, Android and web) has been proven end to end, and the team
+has a deployable skeleton app that CI builds on every pull request.
+
+---
+
+## 1. Exit criteria (the Phase 1 gate)
+
+Phase 1 is done when all of these are true:
+
+1. **Video spike works.** A teammate streams from OBS, the stream plays in the Expo app on an iOS
+   device, an Android device, and Chrome desktop web, and a webhook marks it `live`/`ended` in the
+   database.
+2. **Streaming provider chosen.** This answers the product plan's open question, with a written
+   cost estimate for the class quarter (see §3).
+3. **Wireframes approved** for every MVP screen and all four MVP user flows (see §4).
+4. **Design tokens and core components exist in code** (colors, type, spacing, the LIVE pill, game
+   chip, and buttons), matching the Theming section.
+5. **Repo and CI are live.** Every PR runs lint, typecheck and tests, and gets a web preview URL.
+   `main` is protected.
+6. **The database schema v1 is migrated** in Supabase, row-level security is on, and seed data is
+   loaded (games, test users, and fake "live" streams pointing at a test video).
+7. **The MVP scope is frozen.** Phases 2–4 are broken into tickets, each with an owner and a phase.
+8. **The original game is defined.** Its design doc is approved and a greybox prototype of the core
+   mechanic runs in a browser and has been streamed through OBS once.
+
+---
+
+## 2. Scope
+
+**In Phase 1**
+- Product decisions and scope freeze
+- Streaming provider spike and decision
+- Wireframes, then a clickable prototype of the core loop
+- Design tokens and the base component library
+- Repo, project structure, CI/CD, environments
+- Database schema v1, row-level security policies, seed data
+- Backlog for Phases 2–4
+- Original game: concept, design doc, tech choice, greybox prototype
+
+**Not in Phase 1** (it belongs to later phases; don't start it early)
+- Real auth flows, the real feed, chat, and follow logic (Phases 2–3)
+- Feed ranking beyond a placeholder query
+- Anything in the v2 column: Play with me, clips, squads, push notifications, mobile capture
+- A second original game, or viewer interaction inside the game
+
+---
+
+## 3. Decisions to lock in Phase 1
+
+These are listed in priority order. Each has an owner and a deadline so it doesn't drift.
+
+### D1. Streaming provider (open question in the product plan) · decide by end of week 1
+
+Spike the top two candidates against the same checklist. Don't decide from marketing pages.
+
+| Criterion | Why it matters |
+|---|---|
+| Cost for ~10 weeks of testing plus a demo day, under free tier or student credits | Open question and risk #2 |
+| RTMP ingest from OBS with a persistent per-user stream key | Go-live flow |
+| HLS playback that works in `expo-video` on iOS/Android and in a web player | Core loop |
+| Webhooks for stream start/end | The feed lists only streams that the API knows are live |
+| Latency mode (standard vs. low-latency) and time to first frame | "In a stream within one second" |
+| Caps on resolution and duration | Risk #2 mitigation |
+
+**Recommendation:** spike **Mux Live** first (simple API, live-stream webhooks, low-latency
+option), with **Amazon IVS** as the fallback if AWS student credits make it cheaper. Keep LiveKit
+for later, if sub-second latency becomes a requirement. Write the result as a half-page decision
+record in `docs/decisions/001-streaming-provider.md`.
+
+### D2. In-app games: **decided — ship one original game in the MVP**
+
+The risk table says the MVP ships 1–2 in-app games, while the rest of the plan assumes streamers
+play any game through OBS. **Decision: both.** Streamers can stream any game via OBS, and the MVP
+also ships **exactly one** small original game built for streaming. A second game is a v2 item.
+
+Constraints that keep it to one person's work over Weeks 3–8:
+- **It's a browser game.** Streamers play it on desktop and capture it with OBS like any other game,
+  so it needs no new streaming path. (Playing it on a phone would need mobile capture, which is v2.)
+- **It's small.** One core mechanic, one screen, rounds of 1–3 minutes, no accounts or saves of its
+  own. Rounds that short suit a 30-second-bite feed.
+- **It reads well on a phone stream.** High contrast, big shapes, and a visible score or timer,
+  because viewers see it in a vertical, compressed video.
+- **It's original.** Its own name, rules, art and sound, not a clone of an existing game, which is
+  also what keeps it free of publisher rights issues.
+- **It's a normal row in `games`**, plus a `is_original` flag, so it gets a game page and tag like
+  any other game.
+
+Viewer interaction (for example, chat or reactions affecting the game) is a v2 stretch, not MVP.
+
+Phase 1 deliverables for the game: concept chosen, a one-page game design doc
+(`docs/game/design.md`), a tech choice, and a greybox prototype of the core mechanic (§4F).
+
+### D3. Viewer count source
+
+Mux and IVS don't push live viewer counts to the database in real time. **Recommendation:** use
+**Supabase Realtime Presence** on each stream's channel, since the chat channel already exists.
+Write a periodic snapshot to `streams.viewer_count` so the feed ranking can read it.
+
+### D4. Anonymous viewing
+
+Flow 1 says sign-up is optional until the user chats or follows, but onboarding collects favorite
+games. **Recommendation:** use Supabase anonymous sign-in, or store favorite games locally and
+migrate them to the profile on sign-up. Both keep the "land in a stream" promise.
+
+### D5. Age gate
+
+The plan requires 13+ to watch and 16+ to stream, but the data model has no age field.
+**Recommendation:** collect a birth date at sign-up, block under-13 users, and gate the Go Live tab
+on 16+. Store only what is needed (for example `birth_date` or a derived `age_verified_at` with the
+age bracket).
+
+### D6. Stream key security
+
+The stream key is a credential, so it must never be readable through the public `streams` table.
+Store it in a separate owner-only table, or fetch it on demand through an Edge Function.
+
+---
+
+## 4. Workstreams and owners
+
+These are written for a team of 4 plus the game. **The game needs its own owner (F) from Phase 2
+onward**, so a team of 5 gives F a dedicated person. With 4, A (design) also owns F in Phase 1 and
+hands the build to whoever finishes the video spike (D). With 3, merge B and E as well, and keep
+the game to the smallest concept on the shortlist.
+
+### A. Product & design (1 person)
+- Wireframes (low fidelity) for every MVP screen:
+  - **Onboarding:** splash, then pick 3+ games
+  - **Live tab:** full-screen feed, stream overlay (avatar, name, game chip, LIVE pill + viewers),
+    right action rail (follow, react, share), chat overlay collapsed and expanded,
+    Following / For You toggle, empty-feed state
+  - **Discover:** search, game tiles, game page, search results
+  - **Go Live:** setup (title, game), stream key + OBS guide, live dashboard, end-of-stream summary
+  - **Profile:** own and others' profiles, edit profile, settings/safety (block list, chat filters)
+  - **Auth:** sign up, log in, age gate
+  - **Web/tablet layout:** left sidebar and docked chat
+- Clickable prototype of the core loop (open, watch, swipe, chat/follow, go live). Test it with
+  3–5 classmates in week 2.
+- **Cold-start states:** design the feed when 0, 1 or 2 streams are live (the #1 risk in the plan).
+  The plan's fallback is "recent clips," but clips are v2, so the MVP needs a different empty
+  state. Options: "next scheduled stream" cards, a list of offline followed streamers, or looping
+  seed content.
+- Logo exploration: a play triangle that doubles as a pulsing live dot.
+
+### B. App shell & design system (1 person)
+- `npx create-expo-app` with Expo Router and TypeScript. Five-tab layout with Go Live in the
+  center. Squads shows a "coming in v2" placeholder.
+- Theme tokens from the plan: `bg #0B0B12`, `surface #16161F`, `primary #7C5CFF`,
+  `live #FF3B5C`, `mint #2EF2C3`, `text #FFFFFF / #A1A1B5`. Dark-only for the MVP.
+- Fonts: Space Grotesk (display) and Inter (UI), via `expo-font`.
+- Base components: `Button`, `LivePill`, `GameChip`, `Avatar`, `ActionRail` (stub),
+  `StreamCardSkeleton`.
+- A vertical snap-paging feed prototype (`FlatList` with `pagingEnabled`, or FlashList) using
+  placeholder video. Confirm the swipe takes under 300 ms and only the visible card plays.
+- Accessibility baseline: 44px minimum touch targets, `accessibilityLabel` on rail buttons, and a
+  `useReducedMotion` hook.
+
+### C. Backend & data (1 person)
+- Create Supabase projects for `dev` and `prod` (or one project plus local Supabase CLI for dev).
+- Schema v1 migration. It extends the product plan's model to cover D3–D6 and the
+  "block user" safety basic:
+
+  ```sql
+  profiles      (id → auth.users, username unique, avatar_url, bio, birth_date, created_at)
+  games         (id, name, slug, cover_art_url, color, is_original bool default false)
+  favorite_games(user_id, game_id)                  -- replaces profiles.favorite_games array
+  stream_keys   (user_id PK, provider_stream_id, stream_key, playback_id)   -- owner-only RLS
+  streams       (id, user_id, title, game_id, status live|ended, playback_id,
+                 viewer_count, started_at, ended_at)
+  follows       (follower_id, followee_id, created_at, PK both)
+  chat_messages (id, stream_id, user_id, text, created_at)
+  reactions     (stream_id, user_id, type, created_at)
+  reports       (id, reporter_id, target_type, target_id, reason, created_at, status)
+  blocks        (blocker_id, blocked_id, created_at)
+  ```
+
+- RLS policies: public read on live streams, profiles and games; users write only their own rows;
+  `stream_keys` readable only by the owner; `reports` are insert-only.
+- Seed script: about 10 games, 8 test users, 5 fake live streams that point at a public HLS test
+  stream so Phase 2 can build the feed without anyone streaming.
+- Placeholder feed query (`get_feed`) that returns live streams ordered by `started_at`. The
+  ranking from the plan (followed, favorite game, viewers, small-streamer boost) is Phase 2 work.
+
+### D. Video spike (1 person, pairs with C on webhooks) · week 1 priority
+- Test both candidate providers against the D1 checklist.
+- Proof of concept: an Edge Function creates a live stream for a user and returns the key. OBS
+  streams to it. A webhook Edge Function sets `streams.status`. The app plays the `playback_id`.
+- Check web playback specifically. Chrome doesn't play HLS natively, so confirm that
+  `expo-video` on web, or an `hls.js` fallback, works.
+- Measure time to first frame and glass-to-glass latency, and record the numbers in the decision
+  record.
+- Write `docs/obs-setup.md`: the OBS settings (resolution/bitrate caps) that streamers will use.
+  The in-app OBS guide is built from it in Phase 3.
+
+### E. DevOps & CI (shared; whoever finishes B or C first)
+- GitHub repo with branch protection on `main`, a PR template, and CODEOWNERS.
+- GitHub Actions on each PR: `eslint`, `tsc --noEmit`, `jest`, and a migration check
+  (`supabase db reset` against local Supabase).
+- Vercel preview deploy for the Expo web build on every PR, and production deploy from `main`.
+- EAS Build profiles (`development`, `preview`, `production`). Trigger builds manually or on tag to
+  save build credits. Use an internal distribution or TestFlight group for the team.
+- Secrets in GitHub/Vercel/EAS. Commit `.env.example` and never `.env`.
+- Add the game's build and a Vercel preview for it to CI.
+
+### F. Original game (1 person; see D2)
+- **Concept shortlist (week 1):** 3 one-paragraph original concepts that meet the D2 constraints.
+  Score each on: fun to watch for 30 seconds, fun to play for 3 minutes, buildable by one person in
+  6 weeks, and readable on a phone-sized stream. Pick one at the week 1 decision day.
+- **Tech choice:** Phaser 3 (or plain Canvas/TypeScript if the game is very simple), as its own
+  web build in `games/<slug>/`, deployed to its own Vercel URL. Keep it separate from the Expo app
+  so a game bug can't break the app.
+- **Design doc** (`docs/game/design.md`, one page): core loop, controls, round length, scoring,
+  win/lose states, art direction using GameTime's palette, and what a viewer sees in the first
+  5 seconds.
+- **Greybox prototype (week 2):** the core mechanic playable in a browser with placeholder shapes,
+  streamed once through OBS into the app to check it reads on a phone screen.
+- **Seed data:** add the game to `games` with `is_original = true` and a placeholder cover.
+- **Build plan:** Phase 2 (weeks 3–5) builds the full playable loop. Phase 3 (weeks 6–8) adds art,
+  sound and polish. Phase 4 is bug fixing only. The team streams it on a schedule during Phase 4,
+  which also helps the cold-start risk.
+
+---
+
+## 5. Week-by-week schedule
+
+### Week 1: decide and de-risk
+| Day | Milestone |
+|---|---|
+| Mon | Kickoff: read the product plan together, assign workstreams including the game owner |
+| Mon–Tue | Repo, Expo skeleton, Supabase project, CI with lint/typecheck |
+| Tue–Thu | Video spike on both providers, low-fi wireframes, schema draft, 3 game concepts |
+| Thu | Design review #1: low-fi wireframes for all flows, including the empty feed |
+| Fri | **Decision day:** provider chosen (D1), game concept chosen, D3–D6 confirmed, schema reviewed |
+
+### Week 2: build the foundation
+| Day | Milestone |
+|---|---|
+| Mon–Tue | Schema v1 migration with RLS and seed data; theme tokens and base components |
+| Mon–Wed | Webhook → `streams.status` working; OBS → app playback on all 3 platforms |
+| Mon–Wed | Game design doc; greybox prototype of the core mechanic |
+| Wed | Clickable prototype; hallway test with 3–5 classmates (include the greybox game) |
+| Thu | Backlog: Phases 2–4 broken into tickets with owners, including the game; scope frozen |
+| Fri | **Phase 1 gate demo:** the greybox game, streamed through OBS, plays in the app skeleton on iOS, Android and web, and CI is green |
+
+---
+
+## 6. Proposed repo layout
+
+```
+gametime/
+├─ src/
+│  ├─ app/                 # Expo Router routes (SDK 58 default location)
+│  │  ├─ (tabs)/           # live (index), discover, go-live, profile
+│  │  ├─ onboarding/
+│  │  └─ auth/
+│  ├─ components/          # Button, LivePill, GameChip, StreamCard, ActionRail...
+│  ├─ theme/               # tokens.ts, typography.ts
+│  ├─ lib/                 # supabase client, video provider client
+│  └─ features/            # feed/, chat/, stream/, profile/ (filled in Phases 2–3)
+├─ supabase/
+│  ├─ migrations/
+│  ├─ functions/           # create-live-stream, video-webhook
+│  └─ seed.sql
+├─ games/
+│  └─ <slug>/              # the original browser game (Phaser/Canvas), deployed separately
+├─ docs/
+│  ├─ decisions/           # 001-streaming-provider.md, 002-in-app-games.md ...
+│  ├─ game/design.md
+│  ├─ wireframes/
+│  └─ obs-setup.md
+└─ .github/workflows/ci.yml
+```
+
+---
+
+## 7. Phase 1 risks
+
+| Risk | Signal | Response |
+|---|---|---|
+| Web HLS playback is flaky in Expo web | Spike fails in Chrome by Wed of week 1 | Use a web-only `<video>` + `hls.js` component behind a platform split |
+| Provider free tier is too small for testing plus demo | Cost estimate exceeds budget | Apply for student/startup credits now, cap at 720p and 1-hour streams, use seed HLS for most dev work |
+| Design runs long and blocks Phase 2 | Wireframes not approved by Thu of week 1 | Phase 2 starts from low-fi wireframes; high fidelity continues in parallel |
+| Scope creep (a second game, clips, Play with me) | New tickets outside the MVP column | Put them on a "v2 stretch" label and don't schedule them |
+| The game eats the quarter | Greybox not fun or not working by end of week 2, or game tickets slipping in Phase 2 | Cut to the simplest concept on the shortlist; the app's core loop always takes priority over game polish |
+| The game is unreadable on a phone stream | Greybox looks muddy in the OBS test | Bigger shapes, fewer on-screen elements, higher contrast, and a layout designed for a vertical crop |
+| Team members blocked on setup | Someone can't run the app by day 3 | Write a 10-minute `README` quickstart and pair on setup |
+
+---
+
+## 8. Handoff to Phase 2 ("Watch the feed," weeks 3–5)
+
+Phase 2 starts with the following ready:
+- Working stream playback from a `playback_id`
+- Seeded live streams in the database
+- A feed query stub
+- Theme and base components
+- Approved wireframes for auth, onboarding, the feed and profiles
+- A ticketed backlog
+- An approved game design doc and a greybox prototype, ready for the full build
+
+Phase 2 can then go straight to the real auth flow, onboarding, the snap-scroll feed with
+playback, profiles, and MVP ranking.
