@@ -44,3 +44,8 @@ example
 
 # env files (commit .env.example only)
 .env
+
+# Vercel
+.vercel
+.env*
+!.env.example
