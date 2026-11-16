@@ -49,3 +49,24 @@ jobs:
         run: |
           npx supabase gen types typescript --local > src/lib/database.types.ts
           git diff --exit-code src/lib/database.types.ts
+
+  # The original game is a separate web build (games/ringward). It runs in parallel with the app
+  # and database jobs, so it doesn't make them slower. It isn't a required check.
+  game:
+    name: Game (Ringward typecheck, test, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: games/ringward
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: games/ringward/package-lock.json
+      - run: npm ci
+      - name: Test
+        run: npm test
+      - name: Build (typecheck + Vite)
+        run: npm run build

@@ -1,7 +1,8 @@
 # 002. Ship one original browser game in the MVP
 
 - **Status:** Decided. The 1–3 minute round limit is superseded by
-  [decision 012](012-game-session-length.md); the rest stands.
+  [decision 012](012-game-session-length.md), and "viewer interaction is v2" by
+  [decision 010](010-game-multiplayer-and-viewers.md); the rest stands.
 - **Date:** Nov 15, 2026
 - **Decided by:** Reece (project lead)
 
@@ -12,7 +13,8 @@ assumes streamers play any existing game through OBS. Building games adds a seco
 
 ## Decision
 Both: streamers can stream any game via OBS, **and** the MVP ships exactly one small original
-game built for streaming. A second game, and viewer interaction inside the game, are v2.
+game built for streaming. A second game, and viewer interaction inside the game, are v2. *(Nov 16, 2026: decision 010 moves viewer
+interaction and a 2-player mode into the MVP.)*
 
 ## Why
 Keeping one game gives the demo something unique and gives the team content to stream during

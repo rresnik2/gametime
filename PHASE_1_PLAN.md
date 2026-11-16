@@ -34,11 +34,15 @@ Update this list in the same PR as the work.
 - [x] Wireframes for every MVP screen and the four MVP flows, including the 0/1/2-live cold start and web/tablet layouts: [`docs/wireframes/index.html`](docs/wireframes/index.html). **Draft, needs team review** (exit criterion 3 needs approval); its "Open product questions" list needs answers at the design review
 - [x] Stream orientation decided: the feed is always vertical; joining a landscape stream rotates it to landscape full screen on phones and tablets, with auto-rotate on by default ([decision 011](docs/decisions/011-stream-orientation.md)). Answers the wireframes' landscape-stream question; two follow-up questions go to the design review
 - [x] Game session length: no round-length limit; the game may be quick or long-form, as long as a viewer who swipes in can tell what's happening within a few seconds ([decision 012](docs/decisions/012-game-session-length.md)). Issues #28, #30, #31 and #65 are updated to match
+- [x] Game: three original concepts scored alongside The Biosphere Realm, re-scored Nov 16, 2026 without the round-length limit ([decision 012](docs/decisions/012-game-session-length.md)) and with decision 011's orientation rules ([docs/game/concepts.md](docs/game/concepts.md)), one-page design doc for the recommended one ([docs/game/design.md](docs/game/design.md)), and a greybox of its core mechanic in `games/ringward/` (Canvas + TypeScript, Vite; portrait 9:16 layout, also runs in a 16:9 window; own CI job). The greybox includes viewer raids (simulated with `?viewers=N`) and a local duo mode (`?duo`)
+- [x] Decided: the MVP game has viewer interaction and a 2-player mode, hosted by the streamer's browser over Supabase Realtime ([decision 010](docs/decisions/010-game-multiplayer-and-viewers.md); design in [docs/game/hosting-and-interaction.md](docs/game/hosting-and-interaction.md))
 
 **Open**
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
 - [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
-- [ ] Game: three concepts, design doc, greybox prototype streamed through OBS (§4F, exit criterion 8). Candidate under test: **The Biosphere Realm** in `games/the-biosphere-realm/` (a god-simulation sandbox, copied from SudipKing/The-Biosphere-Realm), with a local seed row. Not chosen yet. The 1–3 minute round limit is gone ([decision 012](docs/decisions/012-game-session-length.md)); the candidates are being re-scored in the game PR
+- [ ] **Game concept: proposed, awaiting pick** between Ringward, Lumen Drop, Hot Core and The Biosphere Realm (as is or with a streaming mode). Recommended: **Ringward** (37/40; portrait) ([decision 009](docs/decisions/009-game-concept.md), Open; the team's call). After the pick: mark 009 Decided, seed row with `is_original = true`, its own Vercel project (README)
+- [ ] Game networking tickets with owners for Phases 2–3 (decision 010): host and partner networking (F), `ringward-launch` Edge Function plus Realtime Authorization policies and RLS tests (C), Raid bottom sheet in the app (B)
+- [ ] Game: stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
 - [ ] Production games list (production has none; the seed list is local-only)
 - [ ] `docs/obs-setup.md`
 - [ ] Phases 2–4 backlog (exit criterion 7): **ticketed, owners not assigned.** 84 tickets in
@@ -88,7 +92,8 @@ Phase 1 is done when all of these are true:
 - Real auth flows, the real feed, chat, and follow logic (Phases 2–3)
 - Feed ranking beyond a placeholder query
 - Anything in the v2 column: Play with me, clips, squads, push notifications, mobile capture
-- A second original game, or viewer interaction inside the game
+- A second original game, or building the game's networking (viewer raids and online duo are
+  Phase 2–3 work, [decision 010](docs/decisions/010-game-multiplayer-and-viewers.md))
 
 ---
 
@@ -136,7 +141,8 @@ Constraints that keep it to one person's work over Weeks 3–8:
 - **It's a normal row in `games`**, plus a `is_original` flag, so it gets a game page and tag like
   any other game.
 
-Viewer interaction (for example, chat or reactions affecting the game) is a v2 stretch, not MVP.
+Viewer interaction and a 2-player mode are MVP for the original game ([decision 010](docs/decisions/010-game-multiplayer-and-viewers.md),
+Nov 16, 2026; this section first made them v2).
 
 Phase 1 deliverables for the game: concept chosen, a one-page game design doc
 (`docs/game/design.md`), a tech choice, and a greybox prototype of the core mechanic (§4F).
