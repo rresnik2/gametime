@@ -1590,7 +1590,7 @@ ol.notes a{font-weight:700}
       </div>
     </div>
     <ol class="notes">
-      <li>Proposal: in portrait, chat docks <b>under</b> the video instead of to the right; a right-docked chat at this width would leave the video about 450 pt wide with empty space below. Landscape tablets use the desktop layout (<a href="#X1">X1</a>) with the icon sidebar. <span class="q">Q15</span></li>
+      <li>Proposal: in portrait, chat docks <b>under</b> the video instead of to the right; a right-docked chat at this width would leave the video about 450 pt wide with empty space below. In the app, tablets keep the feed in portrait and rotate only when you join a landscape stream (decision 011); a tablet browser held landscape uses the desktop layout (<a href="#X1">X1</a>) with the icon sidebar. <span class="q">Q15</span></li>
       <li class="g">Icon-only sidebar (76 pt) between 768 and 1023 pt; labels appear as tooltips and screen-reader names.</li>
       <li class="g">Swipe up / down on the video moves between streams, as on phones.</li>
     </ol>
@@ -1618,7 +1618,7 @@ ol.notes a{font-weight:700}
   <h2>Open product questions</h2>
   <p class="lede">Raised while drawing these. Each needs an answer (or "go with the drawn default") at the design review; decisions go in <code>docs/decisions/</code>.</p>
   <ol class="notes" style="max-width:980px;font-size:14px" id="qlist">
-    <li><b>Landscape streams in a vertical feed.</b> <b>Answered by decision 011 (Nov 16, 2026):</b> every stream plays in its game's orientation, so landscape streams rotate to landscape full screen on phones; nothing is cropped. The fit-to-width drawing stays as the fallback when "Rotate to fit each stream" is off. Landscape variants of the feed card, overlay and Go Live picker still need drawing. Follow-ups: auto-rotate on by default? Swipe stays vertical in landscape? Tablets adapt the frame only?</li>
+    <li><b>Landscape streams in a vertical feed.</b> <b>Answered by decision 011 (Nov 16, 2026):</b> the feed stays vertical and the fit-to-width drawing stands. Joining a landscape stream (a "Full screen" button, or turning the device sideways) rotates it to landscape full screen on phones and tablets; auto-rotate is on by default. Still to draw: the "Full screen" button, the joined landscape view and the Go Live orientation picker. Follow-ups: can you swipe between streams in the joined view? Does turning the device sideways join?</li>
     <li><b>Onboarding: skip, and how many games?</b> Drawn: 3 minimum, no skip. Should Edit profile also enforce 3?</li>
     <li><b>Cold start.</b> Drawn: "Usually live" streamers + Go Live CTA, an end card instead of looping, and an optional hand-set team schedule card. Do we want the schedule card (needs a small config table)? Loop or end card?</li>
     <li><b>Under-13 retries.</b> Remember a failed age check on the device?</li>

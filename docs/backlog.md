@@ -114,7 +114,7 @@ The Live tab: a full-screen, vertically paging list of live streams. Start on th
 `get_live_feed` RPC and switch to the ranked feed when P2-DATA-02 lands.
 
 - [ ] Each card shows the stream full-bleed with a bottom gradient scrim, streamer avatar + name, game chip and a LIVE pill with viewer count
-- [ ] Cards lay out in the stream's orientation ([decision 011](decisions/011-stream-orientation.md)): portrait streams fill the portrait screen; landscape streams hand off to P2-APP-10. Nothing is cropped
+- [ ] The feed stays portrait while swiping ([decision 011](decisions/011-stream-orientation.md)): portrait streams fill the screen; landscape streams play fitted to width over a blurred fill, with a "Full screen" button that joins them (P2-APP-10). Nothing is cropped
 - [ ] Swipe up/down snaps to the next/previous stream in under 300 ms; haptic tick on native
 - [ ] Skeleton card while loading; pull to refresh; next page loads before the user reaches the end
 - [ ] Streams that end while in the list are removed or marked (see P2-VID-03)
@@ -163,23 +163,26 @@ offline followed streamers (design from Phase 1 wireframes).
 
 At 768 px and wider the tabs are already a left sidebar; the stream centers in a frame with the
 stream's own aspect ratio (16:9 or 9:16, [decision 011](decisions/011-stream-orientation.md)),
-with space reserved for docked chat (filled in P3-APP-05). Tablets and web don't rotate the screen.
+with space reserved for docked chat (filled in P3-APP-05). On web, "Full screen" uses the browser's
+full-screen mode; tablets in the native app rotate like phones (P2-APP-10).
 
 - [ ] Stream centered in a 16:9 or 9:16 frame matching the stream, letterboxed with the background color; no horizontal scroll at any width
 - [ ] Arrow keys and mouse wheel move between streams; focus is visible
 - [ ] Right column reserved for chat, showing a placeholder until P3-APP-05
 
-#### P2-APP-10 · Rotate to each stream's orientation
+#### P2-APP-10 · Join a landscape stream in landscape full screen
 - **Size:** L · **Owner:** TBD · **Depends on:** P2-APP-04, P2-VID-01, P2-DATA-07 · **Blocked on:** —
 
-[Decision 011](decisions/011-stream-orientation.md): every stream plays in its game's orientation.
-On phones, a landscape stream switches the screen to landscape full screen, and a portrait stream
-switches it back.
+[Decision 011](decisions/011-stream-orientation.md): the feed is always vertical; joining a
+landscape stream rotates the screen to landscape full screen, and leaving returns to the vertical
+feed. Phones and tablets both rotate.
 
 - [ ] `app.json` orientation unlocked and `expo-screen-orientation` added (`npx expo install`); needs a new development build, so ask before running EAS
-- [ ] When the visible card changes, the screen orientation follows the stream: `streams.orientation` first, corrected by the player's real aspect ratio once video plays
-- [ ] Landscape overlay: action rail on the right edge, chat lower-left, top bar reduced to the LIVE pill and viewer count; vertical swipe still moves between streams
-- [ ] Setting "Rotate to fit each stream" (on by default); when off, landscape streams play fitted to width in portrait with a rotate button on the card
+- [ ] The app stays portrait in the feed; swiping never changes orientation. A card is landscape by `streams.orientation`, corrected by the player's real aspect ratio once video plays
+- [ ] Tapping "Full screen" on a landscape card, or turning the device sideways on one, switches to landscape; the same player keeps playing without reloading
+- [ ] Joined view: action rail on the right edge, chat lower-left, top bar reduced to the LIVE pill, viewer count and a close button
+- [ ] Closing (button, system back, or turning the device upright) returns to portrait on the same feed card
+- [ ] Setting "Rotate landscape streams when I join" (on by default); when off, the joined stream stays portrait with the video as large as fits and chat below
 - [ ] No orientation animation when reduce motion is on; the screen reader announces the stream, not the rotation
 - [ ] Leaving the Live tab returns the app to portrait
 
@@ -274,7 +277,7 @@ Only the visible card plays; the next one is ready before the swipe lands.
 - [ ] Only the on-screen stream plays audio/video; the next card is preloaded; off-screen players are released
 - [ ] Playback pauses when the app is backgrounded or the tab is hidden, and resumes on return
 - [ ] Time to first frame after a swipe measured on a mid-range Android, an iPhone and Chrome, and recorded in the PR
-- [ ] Also measured for a swipe that changes orientation (portrait to landscape); still lands in under 300 ms
+- [ ] Joining a landscape stream (P2-APP-10) keeps the same player: no restart or rebuffer, time to landscape recorded in the PR
 - [ ] Memory stays flat after swiping through 30 streams
 
 #### P2-VID-03 · Stream ended while watching
@@ -317,11 +320,11 @@ Grow the greybox into the complete game loop from `docs/game/design.md`.
 #### P2-GAME-04 · Stream readability pass
 - **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-02 · **Blocked on:** ⛔ GAME
 
-Viewers see the game full screen on a phone, in the game's own orientation
-([decision 011](decisions/011-stream-orientation.md)).
+Viewers see the game on a phone: a landscape game fitted to width in the vertical feed, and full
+screen once they join it ([decision 011](decisions/011-stream-orientation.md)).
 
 - [ ] The design doc declares the game's primary orientation, and the game is streamed in it
-- [ ] Score, timer and the action stay readable at phone size in that orientation (a vertical-crop-safe area only matters if the game is portrait)
+- [ ] Score, timer and the action stay readable at phone size in that orientation, including fitted to width in the feed if it's landscape (a vertical-crop-safe area only matters if the game is portrait)
 - [ ] Streamed through OBS into the app on a phone; a screenshot and notes on what was hard to read go in the PR
 - [ ] Fixes for anything unreadable (size, contrast, clutter)
 
@@ -339,7 +342,7 @@ Viewers see the game full screen on a phone, in the game's own orientation
 Design stays one step ahead of the build. Phase 2 can start from approved low-fi wireframes.
 
 - [ ] Hi-fi screens for sign up, log in, age gate, onboarding, the feed card and overlay, profiles and edit profile, using `src/theme/tokens.ts`
-- [ ] Landscape variants of the feed card and overlay (rail, LIVE pill, chat), and the "Rotate to fit each stream" setting ([decision 011](decisions/011-stream-orientation.md))
+- [ ] The landscape card's "Full screen" button, the joined landscape view (rail, LIVE pill, chat, close) and the "Rotate landscape streams when I join" setting ([decision 011](decisions/011-stream-orientation.md))
 - [ ] Mobile and web/tablet layouts
 - [ ] Contrast checked to WCAG AA
 
@@ -446,7 +449,7 @@ Text chat + emoji (MVP column). `chat_messages` is in the Realtime publication.
 
 - [ ] Collapsed: semi-transparent, auto-fading recent messages over the lower third; tap to expand to a full panel
 - [ ] Docked to the right of the stream on web/tablet (fills P2-APP-09's column)
-- [ ] In landscape on phones, overlays the lower-left so it doesn't cover the action rail
+- [ ] In the joined landscape view (phones and tablets), overlays the lower-left so it doesn't cover the action rail
 - [ ] Send box with the system emoji keyboard; 300-char limit; signed-out users are prompted to sign in
 - [ ] Loads recent history, then live messages via Realtime; unsubscribes when the card leaves the screen
 - [ ] Hides messages from users the viewer has blocked; shows the server's rejection message when a filter blocks a send
