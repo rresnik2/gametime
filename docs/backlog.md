@@ -7,9 +7,9 @@ Drafted Nov 16, 2026, from the product plan's MVP column, [PHASE_1_PLAN.md](../P
 
 **Status:** filed as GitHub issues #9–#90 and #93–#94 on Nov 16, 2026 (milestones Phase 2–4).
 Owners are TBD until the team assigns them on the issues (Phase 1 exit criterion 7). The v2 items
-are not filed. Nine tickets gained orientation criteria for
-[decision 011](decisions/011-stream-orientation.md) after filing; their GitHub issues still show
-the old text.
+are not filed. Twelve issues were updated on Nov 16 to match this file: #12, #17, #24, #25, #30,
+#32, #39, #40 and #43 for [decision 011](decisions/011-stream-orientation.md), and #28, #31 and #65
+for [decision 012](decisions/012-game-session-length.md).
 
 ## How to read a ticket
 
