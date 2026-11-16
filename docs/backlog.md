@@ -5,11 +5,11 @@ Drafted Nov 16, 2026, from the product plan's MVP column, [PHASE_1_PLAN.md](../P
 (`supabase/migrations/`). Scope is frozen at the MVP column; v2 ideas go in
 [Stretch (v2)](#stretch-v2) at the end and are not scheduled.
 
-**Status:** filed as GitHub issues #9–#90 on Nov 16, 2026 (milestones Phase 2–4). Owners are TBD
-until the team assigns them on the issues (Phase 1 exit criterion 7). The v2 items are not filed.
-P2-APP-10 and P2-DATA-07 were added later on Nov 16 for
-[decision 011](decisions/011-stream-orientation.md) and aren't filed yet; nine existing tickets
-gained orientation criteria that their GitHub issues don't show yet.
+**Status:** filed as GitHub issues #9–#90 and #93–#94 on Nov 16, 2026 (milestones Phase 2–4).
+Owners are TBD until the team assigns them on the issues (Phase 1 exit criterion 7). The v2 items
+are not filed. Nine tickets gained orientation criteria for
+[decision 011](decisions/011-stream-orientation.md) after filing; their GitHub issues still show
+the old text.
 
 ## How to read a ticket
 

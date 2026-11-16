@@ -42,10 +42,9 @@ Update this list in the same PR as the work.
 - [ ] Production games list (production has none; the seed list is local-only)
 - [ ] `docs/obs-setup.md`
 - [ ] Phases 2–4 backlog (exit criterion 7): **ticketed, owners not assigned.** 84 tickets in
-  [docs/backlog.md](docs/backlog.md): 82 filed Nov 16, 2026 as GitHub issues #9–#90 under milestones
-  Phase 2, 3 and 4; 15 v2 items stay unfiled. Left to do: assign owners, and file the two
-  orientation tickets (P2-APP-10, P2-DATA-07) with the script (ask the project lead first); the
-  issues for the nine tickets that gained orientation criteria need their text updated
+  [docs/backlog.md](docs/backlog.md), all filed Nov 16, 2026 as GitHub issues #9–#90 and #93–#94
+  under milestones Phase 2, 3 and 4; 15 v2 items stay unfiled. Left to do: assign owners, and
+  update the issues for the nine tickets that gained orientation criteria (decision 011)
 - [ ] Wireframes: draw the landscape card's "Full screen" button, the joined landscape view and the Go Live orientation picker (decision 011)
 - [ ] Teammates added to GitHub, the `rresniks-team` Expo account and the GameTime Supabase org; raise required PR approvals to 1
 
