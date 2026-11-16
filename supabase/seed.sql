@@ -20,7 +20,9 @@ insert into public.games (id, slug, name, color, is_original) values
   ('00000000-0000-4000-a000-000000000007', 'fighting',          'Fighting',                 '#E040FB', false),
   ('00000000-0000-4000-a000-000000000008', 'puzzle',            'Puzzle',                   '#FFD60A', false),
   ('00000000-0000-4000-a000-000000000009', 'mobile-strategy',   'Mobile Strategy',          '#00BCD4', false),
-  ('00000000-0000-4000-a000-00000000000a', 'just-chatting',     'Just Chatting',            '#A1A1B5', false);
+  ('00000000-0000-4000-a000-00000000000a', 'just-chatting',     'Just Chatting',            '#A1A1B5', false),
+  -- Candidate original game under test (games/the-biosphere-realm/).
+  ('00000000-0000-4000-a000-00000000000b', 'the-biosphere-realm', 'The Biosphere Realm',    '#2EF2C3', true);
 
 -- ---------------------------------------------------------------------------
 -- Test users. The on_auth_user_created trigger creates their profiles and account details

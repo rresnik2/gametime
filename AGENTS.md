@@ -84,6 +84,7 @@ the notes: open a small `docs/…` PR for them.
 | App IDs | iOS bundle ID and Android package `com.rresnik2.gametime` |
 | Design tokens | `src/theme/tokens.ts` (from the product plan's Theming section) |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
+| Original games | `games/<slug>/`, static web builds kept out of the Expo app; candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
 
 Environment variables: `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 Locally they come from `.env` (local Supabase); Vercel (production, preview) and EAS (preview,
@@ -116,6 +117,8 @@ production) hold the hosted project's values. Only public keys go in `EXPO_PUBLI
   `xcrun simctl openurl`, or run `npx expo start` and press `i`.
 - **Expo Router tab triggers:** custom tab buttons omit `ref` because expo-router's slot ref type
   doesn't match React Native 0.88's yet (see `src/components/navigation/app-tabs.tsx`).
+- **`expo lint` lints every JS file in the repo,** including the standalone games, which follow
+  their own style. `eslint.config.js` ignores `games/*`; keep it that way.
 - **`expo-doctor` rejects `eas-cli` as a project dependency;** scripts call `npx eas-cli@latest`.
 - **TypeScript 6** doesn't pick up global types automatically; `tsconfig.json` lists `"jest"`
   in `types`.
