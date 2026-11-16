@@ -35,7 +35,7 @@ Update this list in the same PR as the work.
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
 - [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
 - [ ] Wireframes for all MVP screens and flows, including the empty feed (exit criterion 3)
-- [ ] Game: three concepts, design doc, greybox prototype streamed through OBS (§4F, exit criterion 8)
+- [ ] Game: three concepts, design doc, greybox prototype streamed through OBS (§4F, exit criterion 8). Candidate under test: **The Biosphere Realm** in `games/the-biosphere-realm/` (a god-simulation sandbox, copied from SudipKing/The-Biosphere-Realm), with a local seed row. Not chosen yet: it's open-ended rather than D2's 1–3 minute rounds
 - [ ] Production games list (production has none; the seed list is local-only)
 - [ ] `docs/obs-setup.md`
 - [ ] Phases 2–4 backlog ticketed with owners (exit criterion 7)

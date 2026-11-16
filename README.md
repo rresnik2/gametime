@@ -110,8 +110,14 @@ src/
 │  ├─ navigation/          # bottom tab bar / web sidebar
 │  └─ ui/                  # AppText, Button, LivePill, GameChip, Avatar
 ├─ hooks/
+├─ lib/                    # Supabase client and generated database types
 └─ theme/tokens.ts         # colors, spacing, radius, type scale
+games/
+└─ the-biosphere-realm/    # candidate original game (static page, separate from the app)
 ```
+
+To play a game locally, serve its folder with any static server, for example
+`npx serve games/the-biosphere-realm`, or open its `index.html` directly.
 
 The tab bar becomes a left sidebar at 768px and wider (web and tablet). Squads is a v2 feature,
 so its tab shows a placeholder for the MVP.
