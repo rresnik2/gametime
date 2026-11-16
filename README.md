@@ -61,6 +61,19 @@ project.
 
 In the app, use `getSupabase()` from `src/lib/supabase.ts`.
 
+### Hosted project
+
+Production runs on Supabase project `ptswfeemhjkbmhgrjdqj` (us-west-1) in the GameTime organization.
+Vercel and EAS (preview and production) already have its URL and publishable key.
+
+- **Schema changes:** merge the migration, then `npx supabase db push --remote`. The seed file
+  is never pushed.
+- **Auth settings:** edit `supabase/config.toml`; production values live under
+  `[remotes.production]`. Preview with `npx supabase config diff`, apply with
+  `npx supabase config push`.
+- **Database password:** needed for `link` and `db push`. It's in the maintainer's macOS
+  Keychain as "Supabase GameTime database password"; it's never stored in the repo.
+
 ## Native builds (EAS)
 
 The Expo project is `@rresniks-team/gametime`. To run builds you need to be a member of the
