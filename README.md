@@ -33,9 +33,11 @@ include (video playback, for example), switch to a development build with
 | `npm run build:web` | Static web export to `dist/` |
 | `npm run icons` | Regenerate the app icons, splash and favicon from `assets/brand/mark.svg` |
 | `scripts/create-backlog-issues.sh` | Validate `docs/backlog.md` and preview its GitHub issues; `--apply` files tickets that don't have an issue yet (public repo: ask the project lead first) |
+| `npm run game` | Install and run the original game, Ringward (separate from the app) |
 
 CI runs lint, typecheck, tests and the web build on every pull request
-([.github/workflows/ci.yml](.github/workflows/ci.yml)).
+([.github/workflows/ci.yml](.github/workflows/ci.yml)), plus a separate job that tests and
+builds the game.
 
 ## Database (Supabase)
 
@@ -121,7 +123,8 @@ assets/
 └─ images/                 # icon, Android adaptive layers, splash, favicon (generated)
 scripts/generate-icons.mjs # npm run icons
 games/
-└─ the-biosphere-realm/    # candidate original game (static page, separate from the app)
+├─ ringward/               # recommended original game: greybox (Vite + TypeScript, own package.json)
+└─ the-biosphere-realm/    # earlier candidate (static page, separate from the app)
 docs/
 ├─ decisions/              # one record per decision
 └─ wireframes/index.html   # low-fi wireframes for every MVP screen (self-contained)
@@ -132,8 +135,36 @@ To view the wireframes, open `docs/wireframes/index.html` in a browser, or serve
 Edit the HTML directly; it has no dependencies. Add `?real` to the URL to see phones at 100%.
 After editing, follow the review steps in [docs/wireframes/REVIEW.md](docs/wireframes/REVIEW.md).
 
-To play a game locally, serve its folder with any static server, for example
-`npx serve games/the-biosphere-realm`, or open its `index.html` directly.
+To play a game locally, see "Original game" below.
 
 The tab bar becomes a left sidebar at 768px and wider (web and tablet). Squads is a v2 feature,
 so its tab shows a placeholder for the MVP.
+
+## Original game (`games/`)
+
+Games are standalone web builds, kept out of the Expo app's build, lint, typecheck and Jest.
+
+- **Ringward:** `npm run game` from the repo root (or `npm install` and `npm run dev` in
+  `games/ringward/`). Details and controls: [games/ringward/README.md](games/ringward/README.md).
+- **The Biosphere Realm:** serve its folder with any static server, for example
+  `npx serve games/the-biosphere-realm`, or open its `index.html` directly.
+
+### Deploying the game to Vercel (not set up yet)
+
+The game gets its own Vercel project so a game bug can't break the app's deploys. When the
+concept is picked, create it once in the Vercel dashboard (Add New → Project → import
+`rresnik2/gametime` again) with:
+
+| Setting | Value |
+|---|---|
+| Project name | `ringward` (or the final game's slug) |
+| Root Directory | `games/ringward` |
+| Framework Preset | Vite (detected); build `npm run build`, output `dist`, install `npm ci` |
+| Node.js version | 24.x |
+| Ignored Build Step | custom command `git diff --quiet HEAD^ HEAD -- .` (skips builds when the game didn't change) |
+| Environment variables | none for the greybox; `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` once raids and duo are networked (decision 010) |
+
+Every PR that touches the game then gets its own preview URL next to the app's. The Hobby plan's
+deployment protection applies to it as well (previews need the owner's Vercel login). The build
+uses relative asset paths (`base: './'` in `vite.config.ts`), so it also works as an OBS browser
+source or from any static host. Record the production URL in `AGENTS.md` → "Where things live".
