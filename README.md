@@ -34,6 +34,33 @@ include (video playback, for example), switch to a development build with
 CI runs lint, typecheck, tests and the web build on every pull request
 ([.github/workflows/ci.yml](.github/workflows/ci.yml)).
 
+## Database (Supabase)
+
+Local development runs the whole Supabase stack in Docker, so start Docker Desktop first.
+
+```bash
+npm run db:start   # first run downloads images; applies migrations + seed
+npx supabase status  # copy API_URL and PUBLISHABLE_KEY into .env
+```
+
+| Command | What it does |
+|---|---|
+| `npm run db:reset` | Rebuild the local database from migrations and `supabase/seed.sql` |
+| `npm run db:test` | Run the row-level security tests in `supabase/tests/` |
+| `npm run db:lint` | Lint the schema |
+| `npm run db:types` | Regenerate `src/lib/database.types.ts` (CI fails if it's stale) |
+| `npm run db:stop` | Stop the local stack |
+
+Schema changes go in a new migration: `npx supabase migration new <name>`, then `db:reset`,
+`db:test` and `db:types`. Never edit a migration that has already been pushed to the hosted
+project.
+
+**Seed accounts (local only):** `pixelpilot`, `nova`, `kartqueen`, `blockhead`, `combo_king`,
+`scroller`, `squadseeker` and `minor13` (aged 14, so can't stream). Each signs in with
+`<username>@gametime.test` and the password in `supabase/seed.sql`.
+
+In the app, use `getSupabase()` from `src/lib/supabase.ts`.
+
 ## Adding packages
 
 Use `npx expo install <package>` rather than `npm install`, so you get versions that match the

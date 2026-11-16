@@ -10,11 +10,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
+  app:
+    name: App (lint, typecheck, test, web build)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
@@ -27,3 +28,24 @@ jobs:
         run: npm test -- --ci
       - name: Build web
         run: npm run build:web
+
+  database:
+    name: Database (migrations, seed, RLS tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Start Supabase (applies migrations and seed)
+        run: npx supabase start -x storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor,mailpit,realtime
+      - name: Lint schema
+        run: npx supabase db lint --fail-on error
+      - name: RLS tests
+        run: npx supabase test db
+      - name: Generated types are up to date
+        run: |
+          npx supabase gen types typescript --local > src/lib/database.types.ts
+          git diff --exit-code src/lib/database.types.ts
