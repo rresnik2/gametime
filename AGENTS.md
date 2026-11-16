@@ -67,11 +67,12 @@ the notes: open a small `docs/…` PR for them.
   `src/lib/database.types.ts` is stale).
 - **Scope is frozen at the MVP column** of the product plan. v2 work (Play with me, clips, squads,
   push, mobile capture, a second game) goes in the "Stretch (v2)" list in `docs/backlog.md`, not in a PR.
-- **Backlog:** tickets live in `docs/backlog.md` until `scripts/create-backlog-issues.sh --apply` files
-  them as GitHub issues (milestones Phase 2–4, labels `ws:*`, `size:*`, `blocked:*`). After that,
-  the issues are the source of truth for owner and progress; edit the file only to add, cut or
-  re-scope tickets, and keep the ticket format (the script validates it; its default dry run
-  touches nothing).
+- **Backlog:** the tickets in `docs/backlog.md` are filed as GitHub issues #9–#90 (milestones
+  "Phase 2/3/4: …", labels `ws:*`, `size:*`, `blocked:*`). **The issues are the source of truth**
+  for owner and progress. To add a ticket, add it to the file in the same format, then run
+  `scripts/create-backlog-issues.sh` (dry run, validates) and `--apply`, which files only the new
+  IDs. Re-scoping or cutting a ticket: edit the file and the issue by hand; the script never edits.
+  When a `blocked:*` decision is made, remove that label from its issues.
 - **Never start an EAS build** unless a person asks; the free plan has limited build credits.
 - **Never push seed data to production.** `supabase/seed.sql` is local-only test data.
 - **Schema changes are new migrations** (`npx supabase migration new <name>`). Never edit a

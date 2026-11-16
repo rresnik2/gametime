@@ -5,8 +5,8 @@ Drafted Nov 16, 2026, from the product plan's MVP column, [PHASE_1_PLAN.md](../P
 (`supabase/migrations/`). Scope is frozen at the MVP column; v2 ideas go in
 [Stretch (v2)](#stretch-v2) at the end and are not scheduled.
 
-**Status:** draft. GitHub issues have **not** been created yet. Owners are TBD until the team
-assigns them (Phase 1 exit criterion 7).
+**Status:** filed as GitHub issues #9–#90 on Nov 16, 2026 (milestones Phase 2–4). Owners are TBD
+until the team assigns them on the issues (Phase 1 exit criterion 7). The v2 items are not filed.
 
 ## How to read a ticket
 
@@ -38,9 +38,9 @@ One to three lines of description.
   policy; `db:types` regenerated if `supabase/` changed; touch targets ≥ 44 px and screen-reader
   labels on new controls; and the handover notes updated (see `AGENTS.md`).
 
-Once the issues exist on GitHub (`scripts/create-backlog-issues.sh`), **the issues are the source
-of truth** for owner and progress. Edit this file only to add, cut or re-scope tickets, and
-mirror the change on the issue.
+**The GitHub issues are the source of truth** for owner and progress. Edit this file only to
+add, cut or re-scope tickets: new IDs are filed by `scripts/create-backlog-issues.sh --apply`;
+changes to existing tickets must be mirrored on the issue by hand.
 
 ## Summary
 
