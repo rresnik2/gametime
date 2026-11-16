@@ -5,6 +5,7 @@ iOS, Android and web.
 
 - Product plan: `GameTime — Product Plan.pdf`
 - Current phase: [PHASE_1_PLAN.md](PHASE_1_PLAN.md)
+- Wireframes: [docs/wireframes/index.html](docs/wireframes/index.html) (open in a browser; no build step)
 
 ## Quickstart
 
@@ -114,7 +115,14 @@ src/
 └─ theme/tokens.ts         # colors, spacing, radius, type scale
 games/
 └─ the-biosphere-realm/    # candidate original game (static page, separate from the app)
+docs/
+├─ decisions/              # one record per decision
+└─ wireframes/index.html   # low-fi wireframes for every MVP screen (self-contained)
 ```
+
+To view the wireframes, open `docs/wireframes/index.html` in a browser, or serve the folder:
+`python3 -m http.server 8090 --directory docs/wireframes`, then visit http://localhost:8090.
+Edit the HTML directly; it has no dependencies.
 
 To play a game locally, serve its folder with any static server, for example
 `npx serve games/the-biosphere-realm`, or open its `index.html` directly.

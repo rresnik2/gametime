@@ -83,6 +83,7 @@ the notes: open a small `docs/…` PR for them.
 | Database | Supabase project `ptswfeemhjkbmhgrjdqj` (us-west-1), GameTime org |
 | App IDs | iOS bundle ID and Android package `com.rresnik2.gametime` |
 | Design tokens | `src/theme/tokens.ts` (from the product plan's Theming section) |
+| Wireframes | `docs/wireframes/index.html`: one self-contained page, every MVP screen by flow, plus open product questions. Preview with the `wireframes` config in `.claude/launch.json` |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
 | Original games | `games/<slug>/`, static web builds kept out of the Expo app; candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
 
@@ -117,6 +118,7 @@ production) hold the hosted project's values. Only public keys go in `EXPO_PUBLI
   `xcrun simctl openurl`, or run `npx expo start` and press `i`.
 - **Expo Router tab triggers:** custom tab buttons omit `ref` because expo-router's slot ref type
   doesn't match React Native 0.88's yet (see `src/components/navigation/app-tabs.tsx`).
+- **Wireframes in the in-app browser:** opening `docs/wireframes/index.html` as a `file://` URL renders a static snapshot that won't scroll. Serve it instead (`python3 -m http.server 8090 --directory docs/wireframes`, or the `wireframes` launch config).
 - **`expo lint` lints every JS file in the repo,** including the standalone games, which follow
   their own style. `eslint.config.js` ignores `games/*`; keep it that way.
 - **`expo-doctor` rejects `eas-cli` as a project dependency;** scripts call `npx eas-cli@latest`.

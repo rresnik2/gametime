@@ -1,0 +1,1669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GameTime MVP Wireframes</title>
+<!--
+  GameTime — Phase 1 low-fidelity wireframes (draft, needs team review).
+  Self-contained: no external fonts, images or scripts. Open this file in any browser.
+  Phone frames are authored at 375×812 pt and shown at 72% with CSS zoom, so sizes inside a
+  frame (44 pt targets, 16 pt gutters) are real points. Desktop frames are 1280×800 at 56%.
+  Colors come from src/theme/tokens.ts; everything else is greyscale on purpose.
+-->
+<style>
+:root{
+  --bg:#0B0B12;--surface:#16161F;--raised:#20202C;--border:#2A2A38;
+  --primary:#7C5CFF;--live:#FF3B5C;--mint:#2EF2C3;--text:#FFFFFF;--muted:#A1A1B5;
+  --ph:#34343F;--ph2:#4A4A58;--ph3:#5E5E6E;
+  --anno:#F5B700;--paper:#ECECF1;--card:#F7F7FA;--ink:#1C1C26;--inkm:#5A5A6B;--rule:#D3D3DC;
+  --display:"Space Grotesk",ui-rounded,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ui:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{font-variant-emoji:text;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:inherit}
+.wrap{max-width:1500px;margin:0 auto;padding:0 32px 80px}
+
+/* ---------- page chrome ---------- */
+.top{background:var(--ink);color:#fff;padding:40px 0 32px}
+.top h1{font:700 34px/1.15 var(--display);margin:0 0 8px}
+.top p{max-width:900px;margin:6px 0;color:#C9C9D6}
+.badge{display:inline-block;background:var(--anno);color:#111;font-weight:800;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-right:8px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.toc a{color:#fff;text-decoration:none;border:1px solid #44445a;border-radius:999px;padding:6px 12px;font-size:13px}
+.toc a:hover,.toc a:focus-visible{background:#2a2a3a}
+section{padding-top:36px;margin-top:20px;border-top:1px solid var(--rule)}
+section>h2{font:700 26px/1.2 var(--display);margin:0 0 4px}
+section>.lede{color:var(--inkm);max-width:980px;margin:0 0 20px}
+h3.sub{font:700 16px/1.3 var(--ui);margin:28px 0 12px;color:var(--inkm);text-transform:uppercase;letter-spacing:.06em}
+
+/* legend */
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:8px}
+.lg{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center;font-size:13px}
+.sw{width:36px;height:36px;border-radius:8px;flex-shrink:0;border:1px solid rgba(0,0,0,.15)}
+.lg code{font-size:12px}
+
+/* flow map */
+.map{display:flex;flex-direction:column;gap:10px}
+.maprow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:10px 14px}
+.maprow>b{width:150px;flex-shrink:0;font-size:14px}
+.node{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600}
+.node.alt{background:#fff;color:var(--ink);border:1.5px dashed var(--inkm)}
+.node small{opacity:.7;font-weight:500;margin-left:4px}
+.to{color:var(--inkm);font-size:12px;white-space:nowrap}
+.to::after{content:" →";font-weight:800;color:var(--ink)}
+
+/* rows of frames */
+.row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:28px 0;margin-bottom:12px}
+.frame{width:296px;flex-shrink:0;margin-right:20px}
+.frame.wide{width:100%;display:flex;flex-wrap:wrap;gap:12px 28px;align-items:flex-start;margin-right:0}
+.frame.wide>div{max-width:100%;overflow-x:auto}
+.frame.wide .notes{flex:1;min-width:280px;max-width:520px;margin-top:30px}
+.fh{font-weight:700;font-size:14px;line-height:1.3;margin-bottom:6px;min-height:36px}
+.fh .id{display:inline-block;background:var(--ink);color:#fff;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:4px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.fh .route{display:block;font:500 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--inkm)}
+.from{font-size:12px;color:var(--inkm);margin:-2px 0 6px}
+.from a{font-weight:700}
+.arrow{width:92px;flex-shrink:0;margin:300px 20px 0 -8px;display:flex;flex-direction:column;align-items:stretch;text-align:center;font-size:12px;line-height:1.3;color:var(--inkm)}
+.arrow span{margin-bottom:6px}
+.arrow i{display:block;height:2px;background:var(--ink);position:relative}
+.arrow i::after{content:"";position:absolute;right:-2px;top:-6px;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent var(--ink)}
+.arrow.back i{background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 10px)}
+
+ol.notes{list-style:none;padding:0;margin:10px 0 0;counter-reset:n;font-size:12.5px;line-height:1.45}
+ol.notes li{counter-increment:n;position:relative;padding-left:26px;margin-bottom:7px}
+ol.notes li::before{content:counter(n);position:absolute;left:0;top:1px;width:19px;height:19px;border-radius:50%;background:var(--anno);font:800 11px/19px var(--ui);text-align:center;color:#111}
+ol.notes li.g{counter-increment:none}
+ol.notes li.g::before{content:"";width:7px;height:7px;top:6px;left:6px;background:var(--inkm)}
+ol.notes a{font-weight:700}
+#qlist li{padding-left:40px}
+#qlist li::before{content:"Q" counter(n);width:32px;border-radius:5px}
+.q{display:inline-block;background:#fff;border:1px solid var(--anno);color:#7a5a00;font-size:10.5px;font-weight:800;border-radius:4px;padding:0 4px;margin-right:2px;vertical-align:1px}
+
+/* ---------- device frames ---------- */
+.phone,.desk,.tabl{position:relative;background:var(--bg);color:var(--text);overflow:hidden;font:15px/1.35 var(--ui)}
+.phone{width:375px;height:812px;zoom:.72;border-radius:48px;box-shadow:0 0 0 10px #101016,0 0 0 12px #3a3a46;margin:12px}
+.desk{width:1280px;height:800px;zoom:.56;border-radius:14px;box-shadow:0 0 0 12px #101016,0 0 0 14px #3a3a46;margin:14px}
+.tabl{width:820px;height:1180px;zoom:.42;border-radius:40px;box-shadow:0 0 0 18px #101016,0 0 0 21px #3a3a46;margin:22px}
+.sb{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;font-weight:600;font-size:14px;z-index:50;pointer-events:none}
+.sbi{letter-spacing:2px;font-size:11px}
+.hi{position:absolute;bottom:8px;left:50%;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:rgba(255,255,255,.55);z-index:80}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:83px;padding:6px 4px 30px;background:var(--bg);border-top:1px solid var(--border);display:flex;z-index:30}
+.tabs .t{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px;font-weight:600;color:var(--muted)}
+.tabs .t i{font-style:normal;font-size:19px;line-height:24px;height:24px}
+.tabs .t.on{color:var(--primary)}
+.tabs .t.go i{width:50px;height:34px;line-height:30px;border-radius:12px;font-size:24px;color:#fff;text-align:center;border:2.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--live),var(--primary)) border-box}
+.tabs .t.go.pulse i{box-shadow:0 0 0 5px rgba(255,59,92,.35)}
+
+.scr{position:absolute;top:44px;left:0;right:0;bottom:83px;padding:8px 16px 12px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.phone[data-tab="none"] .scr{bottom:34px}
+.hdr{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin:0 -10px;flex-shrink:0}
+.hdr b{font:700 17px/1.2 var(--display)}
+.ib{width:44px;height:44px;display:grid;place-items:center;font-size:21px;color:var(--text);flex-shrink:0}
+.ib.txt{width:auto;padding:0 10px;font-size:15px;font-weight:600;color:var(--primary)}
+.h1{font:700 27px/1.15 var(--display);margin:0}
+.h2{font:700 21px/1.2 var(--display);margin:0}
+.h3{font:600 16px/1.25 var(--display);margin:0}
+.muted{color:var(--muted)}
+.sm{font-size:13px}.xs{font-size:11.5px}
+.b{font-weight:700}
+.ln{height:9px;border-radius:5px;background:var(--ph);flex-shrink:0}
+.lns{display:flex;flex-direction:column;gap:7px}
+.hr{height:1px;background:var(--border);flex-shrink:0}
+.sec{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.flex{display:flex;align-items:center;gap:10px}
+.col{display:flex;flex-direction:column;gap:8px}
+.grow{flex:1}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px}
+
+.btn{height:48px;border-radius:12px;background:var(--primary);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;padding:0 16px}
+.btn.alt{background:var(--raised)}
+.btn.danger{background:var(--live)}
+.btn.off{background:var(--border);color:var(--muted)}
+.btn.line{background:none;box-shadow:inset 0 0 0 1.5px var(--ph2)}
+.btn.line.red{box-shadow:inset 0 0 0 1.5px var(--live);color:var(--live)}
+.btn.small{height:32px;border-radius:999px;font-size:13px;padding:0 14px}
+.btn.textonly{background:none;color:var(--muted);font-weight:600;height:44px}
+.field{min-height:48px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--muted);font-size:15px;flex-shrink:0}
+.field.on{border-color:var(--primary);color:var(--text)}
+.field.err{border-color:var(--live)}
+.field .r{margin-left:auto;font-size:13px;font-weight:600}
+.lab{font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:-6px}
+.help{font-size:12px;color:var(--muted);margin-top:-6px}
+.err-t{font-size:12px;color:var(--live);margin-top:-6px;font-weight:600}
+.ok-t{font-size:12px;color:var(--mint);margin-top:-6px;font-weight:600}
+.banner{border-radius:12px;padding:10px 12px;font-size:13px;background:var(--raised);display:flex;gap:10px;align-items:flex-start;flex-shrink:0}
+.banner.err{background:rgba(255,59,92,.14);color:#FFB3C0}
+.banner.info{background:rgba(124,92,255,.16)}
+.banner.ok{background:rgba(46,242,195,.12)}
+.check{width:22px;height:22px;border-radius:6px;border:2px solid var(--ph3);flex-shrink:0}
+.check.on{background:var(--primary);border-color:var(--primary);position:relative}
+.check.on::after{content:"✓";position:absolute;inset:0;font-size:14px;line-height:18px;text-align:center;font-weight:800}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--ph3);flex-shrink:0}
+.radio.on{border:7px solid var(--primary)}
+.sw2{width:51px;height:31px;border-radius:16px;background:var(--border);position:relative;flex-shrink:0}
+.sw2::after{content:"";position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;background:var(--ph3)}
+.sw2.on{background:var(--primary)}
+.sw2.on::after{left:23px;background:#fff}
+
+.live{display:inline-flex;align-items:center;gap:5px;background:var(--live);color:#fff;font:800 11px/1 var(--ui);letter-spacing:.07em;padding:5px 8px;border-radius:6px;flex-shrink:0}
+.live::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.vc{display:inline-flex;align-items:center;gap:4px;font:800 13px/1 var(--ui);background:rgba(11,11,18,.6);padding:4px 8px;border-radius:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border-radius:999px;background:var(--raised);font-size:12.5px;font-weight:600;color:var(--text);flex-shrink:0;white-space:nowrap}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--ph3))}
+.chip.sel{background:var(--primary)}
+.chip.sel::before{background:#fff}
+.chip.nodot::before{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.av{display:block;width:36px;height:36px;border-radius:50%;background:var(--ph2);flex-shrink:0;position:relative}
+.av.s{width:28px;height:28px}
+.av.l{width:56px;height:56px}
+.av.xl{width:88px;height:88px}
+.av.ring{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--live)}
+
+.img,.video{background:linear-gradient(to top right,transparent calc(50% - .8px),#454556 calc(50% - .8px),#454556 calc(50% + .8px),transparent calc(50% + .8px)),linear-gradient(to top left,transparent calc(50% - .8px),#454556 calc(50% - .8px),#454556 calc(50% + .8px),transparent calc(50% + .8px)),#2A2A36;display:grid;place-items:center;color:#9a9aac;font-size:12px;font-weight:600;flex-shrink:0;position:relative}
+.img>span,.video>span{background:#2A2A36;padding:2px 6px;border-radius:4px}
+.video{position:absolute;left:0;right:0}
+.backdrop{position:absolute;top:0;left:0;right:0;bottom:83px;background:repeating-linear-gradient(135deg,#14141d 0 12px,#191923 12px 24px)}
+.phone[data-tab="none"] .backdrop{bottom:0}
+.bdlabel{position:absolute;left:0;right:0;text-align:center;font-size:11px;color:#6d6d80}
+.scrim{position:absolute;left:0;right:0;bottom:83px;height:420px;background:linear-gradient(rgba(11,11,18,0),rgba(11,11,18,.9))}
+.abs{position:absolute}
+.toggle{position:absolute;top:50px;left:0;right:0;display:flex;justify-content:center;gap:22px;font:600 16px/44px var(--ui);color:var(--muted);z-index:20}
+.toggle b{color:#fff;position:relative}
+.toggle b::after{content:"";position:absolute;left:20%;right:20%;bottom:6px;height:3px;border-radius:2px;background:#fff}
+.rail{position:absolute;right:8px;width:60px;display:flex;flex-direction:column;align-items:center;gap:16px;z-index:20}
+.rail .rb{position:relative;width:48px;display:flex;flex-direction:column;align-items:center;font-size:11.5px;font-weight:700;gap:2px}
+.rail .rb i{font-style:normal;width:48px;height:48px;border-radius:50%;background:rgba(32,32,44,.7);display:grid;place-items:center;font-size:22px}
+.rail .follow{position:absolute;bottom:-8px;left:50%;margin-left:-11px;width:22px;height:22px;border-radius:50%;background:var(--primary);font:800 16px/22px var(--ui);text-align:center}
+.tgt{outline:2px dashed var(--anno);outline-offset:-2px}
+.chatov{position:absolute;left:12px;width:270px;display:flex;flex-direction:column;gap:6px;z-index:20}
+.msg{font-size:13.5px;line-height:1.3;background:rgba(11,11,18,.45);border-radius:10px;padding:5px 9px;align-self:flex-start}
+.msg b{color:var(--muted);font-weight:700;margin-right:4px}
+.meta{position:absolute;left:12px;right:84px;z-index:20;display:flex;flex-direction:column;gap:8px}
+.chatin{position:absolute;left:12px;right:84px;height:44px;border-radius:22px;background:rgba(32,32,44,.85);display:flex;align-items:center;padding:0 16px;color:var(--muted);font-size:14px;z-index:20}
+.top-left{position:absolute;left:12px;display:flex;gap:6px;align-items:center;z-index:20}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.62);z-index:35}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:22px 22px 0 0;padding:10px 16px 42px;display:flex;flex-direction:column;gap:10px;z-index:40}
+.sheet::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--ph2);align-self:center;margin-bottom:4px}
+.item{min-height:52px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);font-size:15px;flex-shrink:0}
+.item:last-child{border-bottom:0}
+.item .r{margin-left:auto;color:var(--muted);font-size:14px}
+.item.red{color:var(--live)}
+.item .ic{width:28px;text-align:center;font-size:18px;color:var(--muted)}
+.card{background:var(--surface);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
+.dash{border:1.5px dashed var(--ph2);background:none}
+.tile{border-radius:14px;background:var(--surface);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.tile .art{height:74px;background:var(--ph);position:relative}
+.tile .nm{padding:7px 9px 8px;font-size:12.5px;font-weight:700;line-height:1.2}
+.tile .nm small{display:block;font-weight:600;color:var(--muted);font-size:11px;margin-top:2px}
+.tile.sel{box-shadow:inset 0 0 0 3px var(--primary)}
+.tile.sel .art::after{content:"✓";position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--primary);font:800 14px/24px var(--ui);text-align:center}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{display:flex;flex-direction:column;align-items:center;gap:0}
+.stat b{font:800 20px/1.1 var(--ui)}
+.stat span{font-size:11.5px;color:var(--muted)}
+.statbox{background:var(--surface);border-radius:14px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.statbox b{font:800 24px/1.1 var(--ui)}
+.statbox span{font-size:11.5px;color:var(--muted)}
+.seg{display:flex;background:var(--surface);border-radius:12px;padding:3px;flex-shrink:0}
+.seg div{flex:1;height:38px;display:grid;place-items:center;font-size:13.5px;font-weight:600;color:var(--muted);border-radius:9px}
+.seg div.on{background:var(--raised);color:#fff}
+.kbd{position:absolute;left:0;right:0;bottom:0;height:290px;background:#1d1d27;border-top:1px solid var(--border);display:grid;place-items:center;color:#6d6d80;font-size:12px;z-index:45}
+.logo{display:inline-flex;align-items:center;gap:10px}
+.logo .mk{position:relative;width:0;height:0;border-style:solid;border-width:22px 0 22px 36px;border-color:transparent transparent transparent var(--primary)}
+.logo .mk::after{content:"";position:absolute;left:-26px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--live)}
+.logo .wm{font:700 30px/1 var(--display);letter-spacing:-.01em}
+.spinner{width:28px;height:28px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--muted)}
+.streamrow{display:flex;gap:10px;align-items:center;flex-shrink:0}
+.streamrow .img{width:120px;height:68px;border-radius:10px}
+.streamrow .img .live{position:absolute;top:5px;left:5px;font-size:9px;padding:3px 5px}
+.streamrow .img .vc{position:absolute;bottom:5px;left:5px;font-size:10px;padding:2px 5px}
+
+/* annotation markers (not UI) */
+.m{position:absolute;z-index:90;width:30px;height:30px;border-radius:50%;background:var(--anno);color:#111;font:800 16px/30px var(--ui);text-align:center;box-shadow:0 0 0 2.5px #111}
+.m.in{position:relative;display:inline-block;flex-shrink:0;vertical-align:middle}
+
+/* desktop + tablet */
+.bar{position:absolute;top:0;left:0;right:0;height:40px;background:#1b1b24;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 14px;z-index:50}
+.bar .dot{width:12px;height:12px;border-radius:50%;background:#3a3a46}
+.bar .url{margin-left:16px;height:26px;flex:0 1 520px;border-radius:7px;background:#101016;color:#8a8a9c;font-size:13px;display:flex;align-items:center;padding:0 12px}
+.side{position:absolute;top:40px;bottom:0;left:0;width:240px;background:var(--surface);border-right:1px solid var(--border);padding:18px 12px;display:flex;flex-direction:column;gap:4px;z-index:20}
+.side .logo{margin:0 8px 18px}
+.side .logo .mk{border-width:13px 0 13px 21px}
+.side .logo .mk::after{left:-16px;top:-4px;width:8px;height:8px}
+.side .logo .wm{font-size:20px}
+.side .nv{height:44px;border-radius:10px;display:flex;align-items:center;gap:12px;padding:0 12px;color:var(--muted);font-weight:600}
+.side .nv i{font-style:normal;width:22px;text-align:center;font-size:18px}
+.side .nv.on{background:var(--raised);color:#fff}
+.side .nv.on i{color:var(--primary)}
+.side .nv.go{color:#fff}
+.side .nv.go i{color:var(--live)}
+.side .sideh{margin:18px 12px 6px;font-size:11.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.side .fl{display:flex;align-items:center;gap:10px;padding:6px 12px;font-size:13.5px;font-weight:600}
+.side .fl small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.side .fl .vc2{margin-left:auto;font-size:12px;color:var(--live);font-weight:800}
+.side.compact{width:76px;padding:18px 10px}
+.side.compact .logo .wm,.side.compact .nv span,.side.compact .sideh,.side.compact .fl{display:none}
+.side.compact .nv{justify-content:center;padding:0}
+.side.compact .logo{margin:0 auto 18px}
+.dmain{position:absolute;top:40px;bottom:0;padding:24px 28px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.dchat{position:absolute;top:40px;right:0;bottom:0;width:340px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;z-index:20}
+.dchat .hd{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--border);font-weight:700}
+.dchat .ms{flex:1;padding:12px 16px;display:flex;flex-direction:column;gap:10px;justify-content:flex-end;font-size:14px}
+.dchat .ms b{color:var(--muted);margin-right:4px}
+.dchat .in{margin:12px 16px 16px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap" style="padding-bottom:0">
+    <h1>GameTime — MVP wireframes</h1>
+    <p><span class="badge">Draft · needs team review</span>Nov 16, 2026 · Phase 1 exit criterion 3 · screens from <code>PHASE_1_PLAN.md</code> §4A, flows from the product plan's "Key user flows".</p>
+    <p>Low fidelity on purpose: layout, content and behaviour, not visual design. Greyscale plus the brand accents from <code>src/theme/tokens.ts</code>. Phone frames are drawn at 375 × 812 pt (our smallest common phone) and shown at 72%; desktop frames are 1280 × 800. Yellow numbered dots are annotations, not UI. Nothing here is built in <code>src/</code>.</p>
+    <nav class="toc" aria-label="Sections">
+      <a href="#legend">Legend</a><a href="#map">Flow map</a><a href="#flow1">1 · First open</a><a href="#auth">Auth</a><a href="#flow2">2 · Watch</a><a href="#cold">Cold start</a><a href="#flow3">3 · Go live</a><a href="#flow4">4 · Find a game</a><a href="#profile">Profile &amp; safety</a><a href="#report">Report</a><a href="#squads">Squads (v2)</a><a href="#web">Web &amp; tablet</a><a href="#a11y">Accessibility &amp; motion</a><a href="#questions">Open questions</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================================================================== LEGEND -->
+<section id="legend" style="border-top:0">
+  <h2>Legend</h2>
+  <p class="lede">Accents are used only where the product plan's Theming table says so. Game chips use each game's own <code>games.color</code> in the real app; here their dots are grey.</p>
+  <div class="legend">
+    <div class="lg"><span class="sw" style="background:#0B0B12"></span><div><b>background</b> <code>#0B0B12</code><br>app background, letterbox</div></div>
+    <div class="lg"><span class="sw" style="background:#16161F"></span><div><b>surface</b> <code>#16161F</code> / raised <code>#20202C</code><br>cards, sheets, chat panel</div></div>
+    <div class="lg"><span class="sw" style="background:#7C5CFF"></span><div><b>primary</b> <code>#7C5CFF</code><br>buttons, active tab, follow</div></div>
+    <div class="lg"><span class="sw" style="background:#FF3B5C"></span><div><b>live</b> <code>#FF3B5C</code><br>LIVE pill, Go Live, end stream, errors</div></div>
+    <div class="lg"><span class="sw" style="background:#2EF2C3"></span><div><b>mint</b> <code>#2EF2C3</code><br>success, "signal good"</div></div>
+    <div class="lg"><span class="sw" style="background:#2A2A36;background-image:linear-gradient(to top right,transparent 48%,#555 48%,#555 52%,transparent 52%),linear-gradient(to top left,transparent 48%,#555 48%,#555 52%,transparent 52%)"></span><div><b>Video or image</b> placeholder</div></div>
+    <div class="lg"><span class="sw" style="background:#F5B700;border-radius:50%;display:grid;place-items:center;font-weight:800">1</span><div><b>Annotation</b>, explained in the numbered notes under the frame</div></div>
+    <div class="lg"><span class="sw" style="background:#fff;outline:2px dashed #F5B700;outline-offset:-6px"></span><div><b>44 pt touch target</b> shown where it's tight</div></div>
+    <div class="lg"><span class="sw" style="background:none;border:0;display:grid;place-items:center;font-weight:800;font-size:22px">→</span><div><b>Navigation</b>: solid = forward, dashed = back. "From X" tags mark branches.</div></div>
+    <div class="lg"><span class="sw" style="background:#fff;display:grid;place-items:center;font-weight:800;color:#7a5a00;border-color:#F5B700">?</span><div><span class="q">Q</span> = open product question, listed in <a href="#questions">Open questions</a></div></div>
+  </div>
+</section>
+
+<!-- ================================================================== MAP -->
+<section id="map">
+  <h2>Flow map</h2>
+  <p class="lede">The four MVP flows from the product plan (flow 5, Play with me, is v2). Click a screen to jump to it.</p>
+  <div class="map">
+    <div class="maprow"><b>1 · First open</b>
+      <a class="node" href="#O1">Splash <small>O1</small></a><span class="to">first launch</span>
+      <a class="node" href="#O2">Pick 3+ games <small>O2</small></a><span class="to">Start watching</span>
+      <a class="node" href="#O3">Live stream <small>O3</small></a><span class="to">chat / follow / heart</span>
+      <a class="node alt" href="#A1">Sign-up prompt <small>A1</small></a><span class="to">Sign up</span>
+      <a class="node alt" href="#A2">Sign up <small>A2</small></a><span class="to">done</span>
+      <a class="node" href="#W1">back to the same stream <small>W1</small></a>
+    </div>
+    <div class="maprow"><b>2 · Watch</b>
+      <a class="node" href="#W1">Feed <small>W1</small></a><span class="to">swipe up</span>
+      <a class="node" href="#W1">next stream</a><span class="to">tap chat</span>
+      <a class="node" href="#W2">Chat expanded <small>W2</small></a><span class="to">double-tap video</span>
+      <a class="node" href="#W1">heart</a><span class="to">tap avatar</span>
+      <a class="node" href="#W4">Mini-profile <small>W4</small></a><span class="to">Follow</span>
+      <a class="node" href="#W1">following</a>
+    </div>
+    <div class="maprow"><b>3 · Go live</b>
+      <a class="node" href="#G1">+ tab: Setup <small>G1</small></a><span class="to">Next</span>
+      <a class="node" href="#G2">Stream key + OBS <small>G2</small></a><span class="to">OBS connects</span>
+      <a class="node" href="#G3">Live dashboard <small>G3</small></a><span class="to">End stream</span>
+      <a class="node" href="#G4">Confirm <small>G4</small></a><span class="to">End</span>
+      <a class="node" href="#G5">Summary <small>G5</small></a>
+      <span class="to" style="margin-left:12px">gates</span><a class="node alt" href="#G0">16+ gate <small>G0</small></a>
+    </div>
+    <div class="maprow"><b>4 · Find a game</b>
+      <a class="node" href="#D1">Discover <small>D1</small></a><span class="to">search</span>
+      <a class="node" href="#D2">Results <small>D2</small></a><span class="to">or tap a game tile</span>
+      <a class="node" href="#D3">Game page <small>D3</small></a><span class="to">tap a stream</span>
+      <a class="node" href="#D4">Feed filtered to the game <small>D4</small></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== FLOW 1 -->
+<section id="flow1">
+  <h2>Flow 1 · First open</h2>
+  <p class="lede">Splash → pick 3+ favorite games → land directly in a live stream. No account needed to watch; sign-up is asked for only when the viewer chats, follows, reacts, reports or goes live (<a href="#auth">Auth</a>). How picks are stored before sign-up depends on D4 (anonymous viewing, still open).</p>
+  <div class="row">
+
+    <div class="frame" id="O1">
+      <div class="fh"><span class="id">O1</span>Splash<span class="route">launch screen</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr center" style="gap:18px">
+          <div class="logo"><span class="mk"></span><span class="wm">GameTime</span></div>
+          <div class="muted">Live games. One swipe.</div>
+        </div>
+        <span class="m" style="top:360px;left:70px">1</span>
+        <div class="abs center" style="left:0;right:0;bottom:90px"><div class="spinner"></div></div>
+        <span class="m" style="bottom:84px;left:200px">2</span>
+      </div>
+      <ol class="notes">
+        <li>Logo: the play triangle doubles as a live dot that pulses about once a second. Reduced motion: the dot stays still.</li>
+        <li>Shows only while fonts and the session load; target under 1 s. A spinner appears only after 1 s.</li>
+        <li class="g">First launch → <a href="#O2">O2</a>. Later launches skip straight to the feed (<a href="#W1">W1</a>).</li>
+        <li class="g">Offline at launch: "You're offline. GameTime needs a connection to show live streams." + Retry.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>first launch</span><i></i></div>
+
+    <div class="frame" id="O2">
+      <div class="fh"><span class="id">O2</span>Pick 3+ games<span class="route">/onboarding</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr">
+          <div class="hdr"><span class="ib"></span><span class="ib txt">Log in <span class="m in" style="margin-left:4px">3</span></span></div>
+          <div class="h1">What do you play?</div>
+          <div class="muted" style="margin-top:-6px">Pick 3 or more. We'll find live streams for them.</div>
+          <div class="field">⌕ <span>Search games</span></div>
+          <div class="grid3">
+            <div class="tile sel"><div class="art"></div><div class="nm">Kart Racing</div></div>
+            <div class="tile"><div class="art"></div><div class="nm">Arena Shooter</div></div>
+            <div class="tile sel"><div class="art"><span class="m" style="left:8px;top:22px">1</span></div><div class="nm">Block Builder</div></div>
+            <div class="tile"><div class="art" style="background:var(--primary)"></div><div class="nm">GameTime Original<small>Made for GameTime</small></div></div>
+            <div class="tile"><div class="art"></div><div class="nm">Battle Royale</div></div>
+            <div class="tile"><div class="art"></div><div class="nm">MOBA</div></div>
+            <div class="tile"><div class="art"></div><div class="nm">Fighting</div></div>
+            <div class="tile"><div class="art"></div><div class="nm">Puzzle</div></div>
+            <div class="tile"><div class="art"></div><div class="nm">Just Chatting</div></div>
+          </div>
+        </div>
+        <div class="abs" style="left:0;right:0;bottom:0;padding:14px 16px 40px;background:linear-gradient(rgba(11,11,18,0),var(--bg) 30%);z-index:20">
+          <div class="flex" style="justify-content:center;margin-bottom:8px" ><span class="sm muted">2 picked</span></div>
+          <div class="btn off">Pick 1 more <span class="m in">2</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Tap toggles a game; picked = violet outline and a check. Tiles are about 104 pt square. Screen readers hear "Block Builder, selected". The original game is pinned in the first row with a "Made for GameTime" tag.</li>
+        <li>Disabled with a count until 3 are picked, then reads <b>Start watching</b> → <a href="#O3">O3</a>.</li>
+        <li>Returning user on a new device → <a href="#A4">A4</a> Log in, then straight to the feed.</li>
+        <li class="g">Loading: grey tile skeletons. Error: "Couldn't load games" + Retry.</li>
+        <li class="g"><span class="q">Q2</span> No "Skip" in the plan. If we add one, the feed falls back to most-watched.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>Start watching</span><i></i></div>
+
+    <div class="frame" id="O3">
+      <div class="fh"><span class="id">O3</span>First stream, with one-time hint<span class="route">/(tabs)/ · first visit</span></div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="video" style="top:140px;height:211px"><span>16:9 stream</span></div>
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ 38</span></div>
+        <div class="scrim"></div>
+        <div class="dim" style="z-index:25"></div>
+        <div class="abs center" style="left:0;right:0;top:400px;z-index:26">
+          <div style="font-size:54px;line-height:1">↑</div>
+          <div class="h2">Swipe up for the next<br>live stream</div>
+          <div class="btn alt small" style="margin-top:6px">Got it</div>
+        </div>
+        <span class="m" style="top:400px;left:96px;z-index:90">1</span>
+      </div>
+      <ol class="notes">
+        <li>Shown once, on the first feed visit. Hides on the first swipe or on "Got it". Reduced motion: the arrow doesn't bounce.</li>
+        <li class="g">"Land in a stream within one second": the first stream's video starts loading while the user picks games on O2.</li>
+        <li class="g">The first stream is the best match for the picked games. If nobody is live → <a href="#C0">C0</a>.</li>
+        <li class="g">Everything after this is the normal feed, <a href="#W1">W1</a>.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== AUTH -->
+<section id="auth">
+  <h2>Auth · sign up, age gate, log in</h2>
+  <p class="lede">Reached from the sign-up prompt (chat, follow, heart, report or Go Live while signed out), from "Log in" on O2, and from Profile when signed out. Email confirmation is off in Supabase, so sign-up signs the user straight in. Birth date is collected at sign-up for the 13+ / 16+ rules (decision 005).</p>
+  <div class="row">
+
+    <div class="frame" id="A1">
+      <div class="fh"><span class="id">A1</span>Sign-up prompt (sheet)<span class="route">modal over any screen</span></div>
+      <div class="from">From <a href="#W1">W1</a>/<a href="#W2">W2</a>: chat, follow, heart, report · <a href="#G1">Go Live</a> tab</div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="video" style="top:140px;height:211px"><span>stream keeps playing</span></div>
+        <div class="dim"></div>
+        <div class="sheet" style="gap:12px">
+          <div class="h2" style="margin-top:6px">Sign up to chat <span class="m in">1</span></div>
+          <div class="muted sm">Chat, follow and send hearts with a free account. You can keep watching without one.</div>
+          <div class="btn" style="margin-top:6px">Sign up</div>
+          <div class="btn alt">Log in</div>
+          <div class="btn textonly">Not now</div>
+          <span class="m" style="right:20px;bottom:160px">2</span>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>The title names what was tapped: "Sign up to chat", "…to follow @nova", "…to send hearts", "…to report", "…to go live".</li>
+        <li>After sign-up or log-in the user returns to the same stream and the action completes (the follow happens, the keyboard opens for chat).</li>
+        <li class="g">Swipe down or "Not now" closes it; the stream keeps playing.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>Sign up</span><i></i></div>
+
+    <div class="frame" id="A2">
+      <div class="fh"><span class="id">A2</span>Sign up, with birth date<span class="route">/auth/sign-up</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr" style="gap:13px">
+          <div class="hdr"><span class="ib">‹</span><b>Create account</b><span class="ib"></span></div>
+          <div class="lab">Email</div><div class="field on">nova.fan@example.com</div>
+          <div class="lab">Password</div><div class="field">•••••••••<span class="r" style="color:var(--primary)">Show</span></div>
+          <div class="help">At least 8 characters</div>
+          <div class="lab">Username <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></div><div class="field on">@ nova_fan</div>
+          <div class="ok-t">✓ Available</div>
+          <div class="lab">Birth date <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">2</span></div>
+          <div class="flex" style="gap:8px"><div class="field grow">Month ▾</div><div class="field" style="width:76px">Day ▾</div><div class="field" style="width:90px">Year ▾</div></div>
+          <div class="help">We ask so GameTime stays 13+ and streaming 16+. It's never shown on your profile.</div>
+          <div class="flex" style="min-height:44px"><span class="check on"></span><span class="sm">I agree to the <u>Terms</u> and <u>Community Guidelines</u></span><span class="m in">3</span></div>
+          <div class="btn">Create account <span class="m in">4</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Rules match the schema: 3–20 characters, a–z, 0–9 and _. Availability is checked as you type (after a short pause); errors appear under the field.</li>
+        <li>Native date wheel on iOS/Android, three selects on web. No default year, so nobody passes by accident. Stored in owner-only <code>account_details</code> (decision 005).</li>
+        <li>The whole row is the tap target (≥ 44 pt). Links open in an in-app browser.</li>
+        <li>Disabled until every field is valid. Under 13 → <a href="#A3">A3</a>. Success → back to where the user came from (<a href="#A1">A1</a>'s action), or to <a href="#W1">W1</a>.</li>
+        <li class="g">Errors are inline under each field, never alerts; focus moves to the first invalid field. Keyboard "Next" moves field to field.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>birth date under 13</span><i></i></div>
+
+    <div class="frame" id="A3">
+      <div class="fh"><span class="id">A3</span>Age gate: under 13<span class="route">/auth/sign-up · blocked</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr center" style="gap:16px;padding:0 32px">
+          <div style="width:88px;height:88px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font:800 26px var(--display)">13+</div>
+          <div class="h2">You can't use GameTime yet</div>
+          <div class="muted">You need to be 13 or older to have an account. You can still come back when you're 13.</div>
+          <div class="btn alt" style="width:100%;margin-top:10px">OK <span class="m in">1</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>OK → back to the feed, signed out. No account is created: the database trigger rejects under-13 birth dates (decision 005).</li>
+        <li class="g"><span class="q">Q4</span> Should the device remember this, so the form can't simply be retried with a different year? Common practice for age gates.</li>
+        <li class="g">The 16+ streaming gate is a separate screen in Go Live: <a href="#G0">G0</a>.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="A4">
+      <div class="fh"><span class="id">A4</span>Log in<span class="route">/auth/log-in</span></div>
+      <div class="from">From <a href="#A1">A1</a>, <a href="#O2">O2</a> "Log in", or signed-out Profile</div>
+      <div class="phone" data-tab="none">
+        <div class="scr" style="gap:14px">
+          <div class="hdr"><span class="ib">‹</span><b>Log in</b><span class="ib"></span></div>
+          <div class="h1" style="margin:8px 0 4px">Welcome back</div>
+          <div class="banner err">Email or password is wrong. <span class="m in" style="margin-left:auto">1</span></div>
+          <div class="lab">Email</div><div class="field err" style="color:#fff">nova.fan@example.com</div>
+          <div class="lab">Password</div><div class="field err">•••••••<span class="r" style="color:var(--primary)">Show</span></div>
+          <div class="flex" style="justify-content:flex-end;min-height:44px"><span class="sm b" style="color:var(--primary)">Forgot password?</span><span class="m in">2</span></div>
+          <div class="btn">Log in</div>
+          <div class="grow"></div>
+          <div class="center sm muted" style="min-height:44px;gap:0">New here?&nbsp;<b style="color:var(--primary)">Sign up</b></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>One message for a wrong email or a wrong password, so the form doesn't reveal which accounts exist.</li>
+        <li>Opens a one-field "Send reset link" screen (not drawn); Supabase emails the link.</li>
+        <li class="g">Success → back to the action that asked for it, or to the feed. Button shows a spinner while waiting; double taps are ignored.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== FLOW 2 -->
+<section id="flow2">
+  <h2>Flow 2 · Watch</h2>
+  <p class="lede">Swipe up for the next stream → tap to show chat → double-tap to react → tap avatar to follow. Landscape OBS streams (16:9) sit inside the vertical feed, fitted to width, with a blurred copy of the stream filling the space <span class="q">Q1</span>.</p>
+  <div class="row">
+
+    <div class="frame" id="W1">
+      <div class="fh"><span class="id">W1</span>Live feed · For You (chat collapsed)<span class="route">/(tabs)/index</span></div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="bdlabel" style="top:372px">blurred, dimmed copy of the stream</div>
+        <div class="video" style="top:140px;height:211px"><span>16:9 stream</span></div>
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <span class="m" style="top:56px;left:300px">1</span>
+        <div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ 1.2K</span></div>
+        <span class="m" style="top:96px;left:140px">2</span>
+        <span class="m" style="top:160px;left:24px">3</span>
+        <div class="scrim"></div>
+        <div class="rail" style="top:430px">
+          <div class="rb tgt"><i class="av" style="width:48px;height:48px;background:var(--ph3)"></i><span class="follow">+</span></div>
+          <div class="rb"><i>♥</i>3.4K</div>
+          <div class="rb"><i>↗</i>Share</div>
+          <div class="rb"><i>⋯</i></div>
+        </div>
+        <span class="m" style="top:400px;left:330px">4</span>
+        <div class="chatov" style="top:436px">
+          <div class="msg" style="opacity:.35"><b>kartqueen</b>gg that was close</div>
+          <div class="msg" style="opacity:.6"><b>blockhead</b>what seed is this?</div>
+          <div class="msg" style="opacity:.85"><b>scroller</b>first time here 👋</div>
+          <div class="msg"><b>combo_king</b>CLUTCH</div>
+        </div>
+        <span class="m" style="top:430px;left:236px">5</span>
+        <div class="meta" style="top:590px">
+          <div class="flex"><span class="av"></span><b>nova</b><span class="chip">Kart Racing</span></div>
+          <div class="sm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ranked grind to diamond, then viewer races</div>
+        </div>
+        <span class="m" style="top:586px;left:256px">6</span>
+        <div class="chatin" style="top:670px">Say something…</div>
+      </div>
+      <ol class="notes">
+        <li><b>Following / For You</b>. For You is the default. Following needs an account (<a href="#A1">A1</a>); with nobody live → <a href="#W3">W3</a>.</li>
+        <li><b>LIVE pill</b> pulses (static with reduced motion). Viewer count from Realtime Presence (decision 003), heavy numerals, abbreviated over 999.</li>
+        <li><b>Video.</b> Only the visible card plays; the next one preloads. Single tap shows or hides all overlays (clean view); it waits ~250 ms to rule out a double-tap. <b>Double-tap = heart</b>: a heart floats from the tap point (reduced motion: no float, the rail count ticks). Sound on by default in the apps; on web it starts muted with a "Tap for sound" chip (browser autoplay rules).</li>
+        <li><b>Action rail</b>, thumb side. Avatar → mini-profile <a href="#W4">W4</a>; the + badge follows in one tap (haptic tick, badge becomes ✓). ♥ sends a heart. Share opens the system share sheet with the stream's web link. ⋯ → <a href="#W5">W5</a>. Every button ≥ 44 pt with a label ("Follow nova", "Send a heart, 3.4 thousand"). Gift and Play with me are v2: not drawn.</li>
+        <li><b>Chat overlay, collapsed.</b> The last 4 messages over the lower third; each fades after ~6 s. Tap the messages or the input → <a href="#W2">W2</a>. Long-press a message → <a href="#R0">R0</a>.</li>
+        <li><b>Streamer info.</b> Name → mini-profile. Game chip → game page <a href="#D3">D3</a>. Title is one line, truncated.</li>
+        <li class="g"><b>Swipe up / down</b> = next / previous stream, snapping in under 300 ms with a haptic tick. Screen readers get custom actions instead: "Next stream", "Previous stream", "Send heart".</li>
+        <li class="g">States: loading <a href="#W6">W6</a>; stream ends or fails <a href="#W7">W7</a>; 0–2 streams live <a href="#cold">C0–C2</a>.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>tap chat</span><i></i></div>
+
+    <div class="frame" id="W2">
+      <div class="fh"><span class="id">W2</span>Chat expanded<span class="route">/(tabs)/index · chat panel</span></div>
+      <div class="phone" data-tab="none">
+        <div class="video" style="top:44px;height:211px"><span>stream keeps playing</span></div>
+        <div class="top-left" style="top:54px"><span class="live">LIVE</span><span class="vc">◉ 1.2K</span></div>
+        <div class="abs" style="top:255px;left:0;right:0;bottom:0;background:var(--surface);display:flex;flex-direction:column">
+          <div class="flex" style="padding:4px 6px 4px 16px;border-bottom:1px solid var(--border)">
+            <span class="av s"></span><b class="sm">nova</b><span class="chip" style="height:26px">Kart Racing</span><span class="grow"></span><span class="ib">⌄</span>
+          </div>
+          <span class="m" style="top:6px;right:52px">1</span>
+          <div class="col" style="flex:1;justify-content:flex-end;padding:12px 16px;gap:10px;font-size:14px">
+            <div class="xs muted" style="text-align:center">Chat filters are on · Be kind</div>
+            <div><b class="muted">kartqueen</b> gg that was close</div>
+            <div><b class="muted">blockhead</b> what seed is this?</div>
+            <div><b class="muted">scroller</b> first time here 👋</div>
+            <div><b class="muted">combo_king</b> CLUTCH</div>
+            <div><b class="muted">pixelpilot</b> how do you drift like that</div>
+            <div><b style="color:var(--primary)">nova</b> hold drift + tap boost twice</div>
+            <div style="align-self:center" class="chip nodot">↓ 12 new messages <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">2</span></div>
+          </div>
+          <div class="flex" style="padding:8px 12px 40px;border-top:1px solid var(--border)">
+            <div class="field grow" style="border-radius:22px;min-height:44px">Say something…</div>
+            <span class="ib">☺</span><span class="ib" style="color:var(--primary)">➤</span>
+            <span class="m in">3</span>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Collapse with ⌄, a swipe down on the panel, or the back gesture → <a href="#W1">W1</a>. Feed swiping is paused while chat is open. Streamer's own messages are violet.</li>
+        <li>Auto-scrolls to new messages unless the viewer has scrolled up; then a "↓ 12 new" pill appears.</li>
+        <li>Messages are 1–300 characters (schema). ☺ opens a small emoji picker. Signed out: tapping the field → <a href="#A1">A1</a>. The keyboard pushes the input up; the video stays visible.</li>
+        <li class="g">A message caught by the streamer's chat filters isn't shown to anyone; the sender sees "Not sent: blocked by the streamer's chat filters" <span class="q">Q6</span>.</li>
+        <li class="g">Messages from users you've blocked are hidden. Long-press any message → <a href="#R0">R0</a>.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="W3">
+      <div class="fh"><span class="id">W3</span>Following · nobody you follow is live<span class="route">/(tabs)/index?tab=following</span></div>
+      <div class="from">From <a href="#W1">W1</a>: tap "Following"</div>
+      <div class="phone" data-tab="live">
+        <div class="toggle"><b>Following</b><span>For You</span></div>
+        <div class="scr" style="top:100px;gap:14px">
+          <div class="center" style="gap:8px;padding:10px 0 4px">
+            <div class="h2">Nobody you follow is live</div>
+            <div class="muted sm">We'll show them here the moment they go live.</div>
+            <div class="btn" style="margin-top:6px">Watch For You <span class="m in">1</span></div>
+          </div>
+          <div class="sec">You follow · 6</div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">pixelpilot</b><div class="xs muted">Live 2 h ago · Arena Shooter</div></div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">kartqueen</b><div class="xs muted">Live yesterday · Kart Racing</div></div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">blockhead</b><div class="xs muted">Live 3 days ago · Block Builder</div></div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">combo_king</b><div class="xs muted">Hasn't streamed yet</div></div><span class="m in">2</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Switches the toggle back to For You.</li>
+        <li>Rows open the streamer's profile (<a href="#P2">P2</a>). Sorted by most recently live. "Live 2 h ago" comes from their last stream's <code>ended_at</code>.</li>
+        <li class="g">When some are live, Following is the same full-screen feed as W1, limited to followed streamers.</li>
+        <li class="g">Signed out: "Follow streamers to see them here" + Sign up (<a href="#A1">A1</a>). Following nobody yet: "Follow streamers you like" + Watch For You.</li>
+        <li class="g">No push notifications in the MVP (v2), so this list is the only "who's live" signal.</li>
+      </ol>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="frame" id="W4">
+      <div class="fh"><span class="id">W4</span>Streamer mini-profile (sheet)<span class="route">sheet over the feed</span></div>
+      <div class="from">From <a href="#W1">W1</a>: tap avatar or name</div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="video" style="top:140px;height:211px"><span>stream keeps playing</span></div>
+        <div class="dim"></div>
+        <div class="sheet" style="gap:12px">
+          <div class="flex" style="justify-content:space-between;margin-top:4px"><span class="av l ring"></span><span class="ib">⋯ <span class="m in" style="margin-left:2px">3</span></span></div>
+          <div><div class="h2">nova</div><div class="sm muted">Kart racing every weeknight. Be nice in chat.</div></div>
+          <div class="flex" style="gap:22px"><div class="stat" style="align-items:flex-start"><b>1,204</b><span>followers</span></div><div class="stat" style="align-items:flex-start"><b>38</b><span>following</span></div></div>
+          <div class="chips"><span class="chip">Kart Racing</span><span class="chip">Puzzle</span><span class="chip">Just Chatting</span></div>
+          <div class="flex"><div class="btn grow">Follow <span class="m in">1</span></div><div class="btn alt grow">View profile <span class="m in">2</span></div></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Follow / Following (tap again to unfollow, no confirm). Signed out → <a href="#A1">A1</a>. Counts update optimistically.</li>
+        <li>Opens the full profile <a href="#P2">P2</a>; back returns to the same stream.</li>
+        <li>⋯ → Report @nova (<a href="#R1">R1</a>), Block @nova. Blocking closes the sheet and skips to the next stream.</li>
+        <li class="g">Half height, swipe down to close. The stream keeps playing above.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="W5">
+      <div class="fh"><span class="id">W5</span>More menu (⋯ on the rail)<span class="route">action sheet</span></div>
+      <div class="from">From <a href="#W1">W1</a>: tap ⋯</div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="video" style="top:140px;height:211px"><span>stream</span></div>
+        <div class="dim"></div>
+        <div class="sheet" style="gap:0">
+          <div class="item"><span class="ic">↗</span>Share stream</div>
+          <div class="item"><span class="ic">♪</span>Mute sound</div>
+          <div class="item muted"><span class="ic">CC</span>Captions<span class="r">v2</span></div>
+          <div class="item red"><span class="ic" style="color:var(--live)">⚑</span>Report stream <span class="m in">1</span></div>
+          <div class="item red"><span class="ic" style="color:var(--live)">⦸</span>Block nova <span class="m in">2</span></div>
+          <div class="btn alt" style="margin-top:12px">Cancel</div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>→ <a href="#R1">R1</a> with target = stream. Signed out → <a href="#A1">A1</a>.</li>
+        <li>Confirm dialog: "Block nova? They won't be able to see your chat messages and you won't see their streams." Then skip to the next stream.</li>
+        <li class="g">Captions are a v2 item; shown disabled so the slot exists. <span class="q">Q12</span> drop it until v2?</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="W6">
+      <div class="fh"><span class="id">W6</span>Loading (skeleton)<span class="route">feed while the next card loads</span></div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop" style="background:#12121a"></div>
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="abs" style="top:140px;left:0;right:0;height:211px;background:var(--surface)"></div>
+        <div class="top-left" style="top:100px"><span class="ln" style="width:52px;height:22px;border-radius:6px"></span><span class="ln" style="width:44px;height:22px;border-radius:6px"></span></div>
+        <div class="rail" style="top:430px">
+          <div class="rb"><i style="background:var(--surface)"></i></div><div class="rb"><i style="background:var(--surface)"></i></div><div class="rb"><i style="background:var(--surface)"></i></div>
+        </div>
+        <div class="meta" style="top:590px"><div class="flex"><span class="av" style="background:var(--surface)"></span><span class="ln" style="width:80px;background:var(--surface)"></span><span class="ln" style="width:90px;height:26px;border-radius:13px;background:var(--surface)"></span></div><span class="ln" style="width:230px;background:var(--surface)"></span></div>
+        <span class="m" style="top:160px;left:24px">1</span>
+      </div>
+      <ol class="notes">
+        <li>The skeleton matches the stream card's layout, so the swap is calm. A soft shimmer runs left to right; reduced motion: no shimmer.</li>
+        <li class="g">Shown only if the first frame takes longer than ~300 ms. If the card's info has loaded, show it over a grey video area instead.</li>
+        <li class="g">Feed request fails: full-screen "Can't load streams" + Retry. Offline: a top banner "You're offline" and the current stream keeps whatever has buffered.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="W7">
+      <div class="fh"><span class="id">W7</span>Stream ended while watching<span class="route">feed card state</span></div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="abs" style="top:140px;left:0;right:0;height:211px;background:#1b1b25"></div>
+        <div class="abs center" style="top:150px;left:0;right:0;height:190px;gap:6px"><span class="av l"></span><b>nova ended the stream</b><span class="sm muted">1 h 12 min · thanks for watching</span></div>
+        <div class="abs col" style="top:390px;left:16px;right:16px;gap:10px;z-index:20">
+          <div class="btn">Next stream in 5… <span class="m in">1</span></div>
+          <div class="btn alt">Follow nova</div>
+        </div>
+        <div class="abs card" style="top:540px;left:16px;right:16px;z-index:20">
+          <div class="flex"><span class="sm b">Error variant</span><span class="m in" style="margin-left:auto">2</span></div>
+          <div class="sm muted">"This stream isn't loading." <b style="color:#fff">Retry</b> · <b style="color:#fff">Next stream</b></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Auto-advances after 5 s, counting down. Any touch cancels the countdown. Reduced motion: no countdown; the button just says "Next stream". Chat goes read-only.</li>
+        <li>Playback fails (bad network, provider error): same card with Retry and Next stream; auto-retries once first.</li>
+        <li class="g">The video webhook flips <code>streams.status</code> to <code>ended</code>; the app learns it by Realtime and by the player stopping.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== COLD START -->
+<section id="cold">
+  <h2>Cold start · 0, 1 or 2 streams live</h2>
+  <p class="lede">The #1 risk in the plan. Clips are v2, so the fallback can't be "recent clips". These frames use what schema v1 already has (who streamed recently, follows, games) plus a Go Live call to action. Seeded team streams during the demo week also help. <span class="q">Q3</span> "Next scheduled stream" cards would need a schedule field we don't have.</p>
+  <div class="row">
+
+    <div class="frame" id="C0">
+      <div class="fh"><span class="id">C0</span>0 live: nobody's live<span class="route">/(tabs)/index · empty</span></div>
+      <div class="phone" data-tab="live">
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="scr" style="top:100px;gap:12px">
+          <div class="center" style="gap:6px;padding:4px 0">
+            <div class="logo" style="transform:scale(.7)"><span class="mk" style="opacity:.5"></span></div>
+            <div class="h2">Nobody's live right now</div>
+            <div class="muted sm">Most streams start in the evening. <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></div>
+          </div>
+          <div class="card dash" style="padding:12px">
+            <div class="flex"><div class="grow"><b class="sm">Team stream · Thu 7 pm</b><div class="xs muted">GameTime Original · scheduled</div></div><span class="m in">2</span></div>
+          </div>
+          <div class="sec">Usually live <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px;vertical-align:-5px">3</span></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">kartqueen</b><div class="xs muted">Live 2 h ago · Kart Racing</div></div><div class="btn small">Follow</div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">pixelpilot</b><div class="xs muted">Live yesterday · Arena Shooter</div></div><div class="btn small">Follow</div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">blockhead</b><div class="xs muted">Live 2 days ago · Block Builder</div></div><div class="btn small alt">Following</div></div>
+          <div class="card" style="padding:12px;margin-top:2px">
+            <div class="flex"><div class="grow"><b class="sm">Be the first one live</b><div class="xs muted">Your stream goes to the top of everyone's feed.</div></div><span class="m in">4</span></div>
+            <div class="btn danger" style="height:44px">Go live</div>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Only if we have the data (from past <code>streams.started_at</code>); otherwise omit the line.</li>
+        <li><span class="q">Q3</span> Optional: a hand-set team schedule (a config row, not a feature). Dashed = only if we decide to.</li>
+        <li>Streamers who streamed in the last 7 days, favorite games first. Follow buttons are 32 pt pills with a 44 pt hit area.</li>
+        <li>→ Go Live (<a href="#G1">G1</a>, or <a href="#G0">G0</a> if under 16 / <a href="#A1">A1</a> if signed out).</li>
+        <li class="g">The screen refreshes itself (Realtime) when someone goes live, sliding the stream in with a "nova just went live" toast.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="C1">
+      <div class="fh"><span class="id">C1</span>1–2 live: feed with a low-supply hint<span class="route">/(tabs)/index</span></div>
+      <div class="phone" data-tab="live">
+        <div class="backdrop"></div>
+        <div class="video" style="top:140px;height:211px"><span>the only live stream</span></div>
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ 9</span></div>
+        <div class="abs" style="top:100px;right:12px;z-index:20"><span class="chip nodot" style="background:rgba(32,32,44,.85)">1 of 1 live <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></span></div>
+        <div class="scrim"></div>
+        <div class="rail" style="top:430px">
+          <div class="rb"><i class="av" style="width:48px;height:48px;background:var(--ph3)"></i><span class="follow">+</span></div>
+          <div class="rb"><i>♥</i>41</div><div class="rb"><i>↗</i>Share</div><div class="rb"><i>⋯</i></div>
+        </div>
+        <div class="chatov" style="top:470px">
+          <div class="msg"><b>scroller</b>hi from the feed</div>
+        </div>
+        <div class="meta" style="top:590px">
+          <div class="flex"><span class="av"></span><b>kartqueen</b><span class="chip">Kart Racing</span></div>
+          <div class="sm">Chill races, come say hi</div>
+        </div>
+        <div class="chatin" style="top:670px">Say something…</div>
+        <span class="m" style="top:686px;left:150px">2</span>
+      </div>
+      <ol class="notes">
+        <li>With 1 or 2 streams live, a small counter replaces the "endless feed" feeling: "1 of 1 live", "2 of 2 live". Hidden at 3+.</li>
+        <li>Swiping up past the last live stream → the end card <a href="#C2">C2</a>, not a loop back to the start (looping would make a small feed look broken) <span class="q">Q3</span>.</li>
+        <li class="g">Small streamers get the boost the plan describes; with so few live, everyone is in the feed anyway.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>swipe up past the last stream</span><i></i></div>
+
+    <div class="frame" id="C2">
+      <div class="fh"><span class="id">C2</span>End of feed (after 1–2 live)<span class="route">/(tabs)/index · end card</span></div>
+      <div class="phone" data-tab="live">
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="scr" style="top:100px;gap:12px">
+          <div class="center" style="gap:4px;padding:4px 0 2px"><div class="h2">You've seen everyone live</div><div class="muted sm">2 streams live right now</div></div>
+          <div class="grid2">
+            <div class="col" style="gap:6px"><div class="img" style="height:92px;border-radius:12px"><span class="live" style="position:absolute;top:6px;left:6px;font-size:9px;padding:3px 5px">LIVE</span></div><b class="xs">kartqueen · Kart Racing</b></div>
+            <div class="col" style="gap:6px"><div class="img" style="height:92px;border-radius:12px"><span class="live" style="position:absolute;top:6px;left:6px;font-size:9px;padding:3px 5px">LIVE</span></div><b class="xs">nova · Puzzle</b></div>
+          </div>
+          <span class="m" style="top:140px;left:20px">1</span>
+          <div class="sec">Usually live</div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">pixelpilot</b><div class="xs muted">Live yesterday · Arena Shooter</div></div><div class="btn small">Follow</div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">combo_king</b><div class="xs muted">Live 3 days ago · Fighting</div></div><div class="btn small">Follow</div></div>
+          <div class="card" style="padding:12px">
+            <div class="flex"><div class="grow"><b class="sm">Go live and fill the feed</b></div><span class="m in">2</span></div>
+            <div class="btn danger" style="height:44px">Go live</div>
+          </div>
+          <div class="btn textonly" style="margin-top:-6px">↓ Back to the first stream</div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Thumbnails of the live streams; tap one to jump back to it in the feed.</li>
+        <li>Same Go Live card as <a href="#C0">C0</a>.</li>
+        <li class="g">This is a normal page in the snap feed: swipe down returns to the last stream. With 3+ live the feed never ends (it refreshes with newly live streams).</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== FLOW 3 -->
+<section id="flow3">
+  <h2>Flow 3 · Go live</h2>
+  <p class="lede">Tap + → name the stream and pick a game → copy the stream key into OBS → live dashboard → end stream → summary. MVP streaming is from a computer with OBS, so the desktop web version of these screens (<a href="#X3">X3</a>, <a href="#X4">X4</a>) is the main one; the phone versions below let a streamer set up, watch their dashboard and chat from their phone <span class="q">Q5</span>.</p>
+  <div class="row">
+
+    <div class="frame" id="G0">
+      <div class="fh"><span class="id">G0</span>16+ gate<span class="route">/(tabs)/go-live · blocked</span></div>
+      <div class="from">From the + tab when under 16 (signed out → <a href="#A1">A1</a>)</div>
+      <div class="phone" data-tab="golive">
+        <div class="scr center" style="gap:14px;padding:0 32px">
+          <div style="width:88px;height:88px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font:800 26px var(--display)">16+</div>
+          <div class="h2">Streaming is for 16+</div>
+          <div class="muted">You can watch, chat and follow now. Going live unlocks when you turn 16. <span class="m in">1</span></div>
+          <div class="btn alt" style="width:100%;margin-top:6px">Back to watching</div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Uses the stored birth date (<code>public.can_stream()</code>, decision 005). No date shown, no way to edit it here.</li>
+        <li class="g">The + tab stays visible for everyone so the layout doesn't change by age.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="G1">
+      <div class="fh"><span class="id">G1</span>Stream setup<span class="route">/(tabs)/go-live</span></div>
+      <div class="phone" data-tab="golive">
+        <div class="scr" style="gap:12px">
+          <div class="hdr"><span class="ib"></span><b>Go live</b><span class="ib"></span></div>
+          <div class="banner info sm"><span>⌨</span><span>You'll stream from a computer with OBS. You can set up here or at <b>gametime-gold.vercel.app/go-live</b>.</span><span class="m in">1</span></div>
+          <div class="lab">Stream title</div>
+          <div class="field on">Ranked grind to diamond</div>
+          <div class="help" style="text-align:right">23 / 140</div>
+          <div class="lab">Game <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">2</span></div>
+          <div class="field">⌕ <span>Search games</span></div>
+          <div class="chips"><span class="chip sel">Kart Racing</span><span class="chip">Puzzle</span><span class="chip">Just Chatting</span><span class="chip">GameTime Original</span><span class="chip">Block Builder</span></div>
+          <div class="lab">Stream from</div>
+          <div class="item" style="border:0;min-height:44px"><span class="radio on"></span><div><b class="sm">OBS on a computer</b><div class="xs muted">Any game, any PC or Mac</div></div></div>
+          <div class="item muted" style="border:0;min-height:44px"><span class="radio"></span><div><b class="sm">Phone screen</b><div class="xs">Coming in v2</div></div></div>
+          <div class="grow"></div>
+          <div class="btn">Next: connect OBS <span class="m in">3</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Shown on phones only. Long-press copies the link.</li>
+        <li>Favorite games first, then search. Exactly one game per stream.</li>
+        <li>Disabled until there's a title and a game. Creates the stream as <code>pending</code> → <a href="#G2">G2</a>.</li>
+        <li class="g">Title and game can be edited later from the dashboard (clients may update <code>title, game_id</code>).</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>Next</span><i></i></div>
+
+    <div class="frame" id="G2">
+      <div class="fh"><span class="id">G2</span>Stream key + OBS guide<span class="route">/(tabs)/go-live/connect</span></div>
+      <div class="phone" data-tab="golive">
+        <div class="scr" style="gap:11px">
+          <div class="hdr"><span class="ib">‹</span><b>Connect OBS</b><span class="ib"></span></div>
+          <div class="lab">Server</div>
+          <div class="field" style="color:#fff;font-size:13px">rtmps://live.provider.example/app<span class="r" style="color:var(--primary)">Copy</span></div>
+          <div class="lab">Stream key <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></div>
+          <div class="field" style="color:#fff">••••••••••••••••<span class="r" style="color:var(--primary)">Show · Copy</span></div>
+          <div class="help">Never share your key. Anyone with it can stream as you. <u>Reset key</u></div>
+          <div class="card" style="gap:8px;padding:12px">
+            <b class="sm">In OBS <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">2</span></b>
+            <div class="sm"><b>1</b>&nbsp; Settings → Stream → Service: <b>Custom</b></div>
+            <div class="sm"><b>2</b>&nbsp; Paste the server and stream key</div>
+            <div class="sm"><b>3</b>&nbsp; Output: 720p, 30 fps, 2,500 kbps</div>
+            <div class="sm"><b>4</b>&nbsp; Click <b>Start Streaming</b></div>
+            <div class="sm b" style="color:var(--primary)">Full OBS guide ›</div>
+          </div>
+          <div class="card" style="flex-direction:row;align-items:center;gap:12px;padding:12px">
+            <div class="spinner"></div><div class="grow"><b class="sm">Waiting for OBS…</b><div class="xs muted">You'll go live as soon as we get your video.</div></div><span class="m in">3</span>
+          </div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>The key comes from the owner-only <code>stream_keys</code> table (decision 006), hidden by default. "Copied" toast on copy. Reset asks for confirmation; whether reset exists depends on the provider (D1).</li>
+        <li>Short version of <code>docs/obs-setup.md</code> (not written yet; numbers are placeholders until D1). "Full guide" opens it with screenshots.</li>
+        <li>When the provider's webhook marks the stream <code>live</code>, the app moves to <a href="#G3">G3</a> by itself with a "You're live!" toast and haptic. No separate "Go live" button <span class="q">Q7</span>.</li>
+        <li class="g">Leaving this screen keeps the stream <code>pending</code>; returning to the + tab resumes here. Nothing after 15 min: "No video yet. Check the server and key." + Troubleshooting link.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>OBS starts sending video</span><i></i></div>
+
+    <div class="frame" id="G3">
+      <div class="fh"><span class="id">G3</span>Live dashboard<span class="route">/(tabs)/go-live/dashboard</span></div>
+      <div class="phone" data-tab="golive" data-live="1">
+        <div class="scr" style="gap:10px">
+          <div class="hdr" style="padding:0 10px"><span class="flex" style="gap:8px"><span class="live">LIVE</span><b style="font:800 16px var(--ui)">00:42:13</b></span><div class="btn line red small" style="height:36px">End stream <span class="m in">1</span></div></div>
+          <div class="img" style="height:190px;border-radius:12px;margin:0 -4px"><span>your stream (as viewers see it)</span><span class="abs xs" style="bottom:8px;left:8px;background:rgba(11,11,18,.7);padding:3px 7px;border-radius:6px;color:var(--mint)">● Signal good</span></div>
+          <span class="m" style="top:130px;left:300px">2</span>
+          <div class="grid3" style="gap:8px">
+            <div class="statbox"><b>23</b><span>watching</span></div>
+            <div class="statbox"><b>210</b><span>hearts</span></div>
+            <div class="statbox"><b>+4</b><span>followers</span></div>
+          </div>
+          <span class="m" style="top:262px;left:330px">3</span>
+          <div class="flex" style="justify-content:space-between"><b class="sm">Ranked grind to diamond · <span class="muted">Kart Racing</span></b><span class="sm b" style="color:var(--primary);padding:12px 0">Edit</span></div>
+          <div class="card" style="flex:1;gap:8px;padding:12px;font-size:13.5px;justify-content:flex-end">
+            <div><b class="muted">kartqueen</b> gg that was close</div>
+            <div><b class="muted">scroller</b> first time here 👋</div>
+            <div><b class="muted">combo_king</b> CLUTCH</div>
+            <div class="field" style="min-height:44px;border-radius:22px;margin-top:4px">Chat as nova…</div>
+          </div>
+          <span class="m" style="bottom:70px;right:24px">4</span>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>→ <a href="#G4">G4</a> confirm. Stopping in OBS also ends the stream (webhook) and goes straight to <a href="#G5">G5</a>.</li>
+        <li>Preview is the real playback (a few seconds behind), muted. Signal lost: red banner "OBS disconnected. Reconnect within 60 s or the stream ends." (exact window depends on D1).</li>
+        <li>Live counts: viewers (Presence), hearts and new followers this stream. The Go Live tab ring pulses while live (static with reduced motion).</li>
+        <li>Streamer chats in their own chat; long-press a message → Report / Block the sender (no delete or timeout in the MVP).</li>
+        <li class="g">Leaving the tab doesn't end the stream; the + tab shows the pulsing ring and returns here.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>End stream</span><i></i></div>
+
+    <div class="frame" id="G4">
+      <div class="fh"><span class="id">G4</span>End stream?<span class="route">confirm dialog</span></div>
+      <div class="phone" data-tab="golive" data-live="1">
+        <div class="scr" style="gap:10px;opacity:.5">
+          <div class="hdr"><span class="live">LIVE</span><span></span></div>
+          <div class="img" style="height:190px;border-radius:12px"></div>
+          <div class="grid3" style="gap:8px"><div class="statbox"><b>23</b></div><div class="statbox"><b>210</b></div><div class="statbox"><b>+4</b></div></div>
+        </div>
+        <div class="dim"></div>
+        <div class="abs card" style="left:28px;right:28px;top:290px;z-index:40;padding:20px;gap:12px;text-align:center">
+          <div class="h2">End your stream?</div>
+          <div class="sm muted">Your 23 viewers move on to the next stream. Stop OBS too, or it keeps sending video.</div>
+          <div class="btn danger">End stream <span class="m in">1</span></div>
+          <div class="btn alt">Keep streaming</div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Ends the stream through the server (the provider then closes the input) → <a href="#G5">G5</a>. "Keep streaming" is the default focus, so a stray tap doesn't end it.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>End stream</span><i></i></div>
+
+    <div class="frame" id="G5">
+      <div class="fh"><span class="id">G5</span>End-of-stream summary<span class="route">/(tabs)/go-live/summary</span></div>
+      <div class="phone" data-tab="golive">
+        <div class="scr" style="gap:14px">
+          <div class="hdr"><span class="ib"></span><span></span><span class="ib">✕</span></div>
+          <div class="center" style="gap:6px"><div class="h1">Nice stream!</div><div class="muted sm">Ranked grind to diamond · Kart Racing</div></div>
+          <div class="grid2">
+            <div class="statbox"><b>1 h 12 m</b><span>streamed</span></div>
+            <div class="statbox"><b>31</b><span>peak viewers <span class="m in" style="width:20px;height:20px;line-height:20px;font-size:11px">1</span></span></div>
+            <div class="statbox"><b>+4</b><span>new followers</span></div>
+            <div class="statbox"><b>210</b><span>hearts</span></div>
+            <div class="statbox"><b>186</b><span>chat messages</span></div>
+            <div class="statbox"><b>57</b><span>people dropped by</span></div>
+          </div>
+          <div class="sec">New followers</div>
+          <div class="flex"><span class="av s"></span><span class="av s" style="margin-left:-14px"></span><span class="av s" style="margin-left:-14px"></span><span class="sm">scroller, combo_king and 2 more</span></div>
+          <div class="grow"></div>
+          <div class="btn">Done <span class="m in">2</span></div>
+          <div class="btn alt">Share my profile</div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="q">Q8</span> Peak viewers and "dropped by" (unique viewers) need us to record them; schema v1 only keeps the current <code>viewer_count</code>. Followers, hearts and messages can be counted from existing tables.</li>
+        <li>Done → own profile <a href="#P1">P1</a>, where this stream now shows under "Recent streams".</li>
+        <li class="g">Voice from the plan: short and upbeat. Also reachable later from the profile's recent streams list.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== FLOW 4 -->
+<section id="flow4">
+  <h2>Flow 4 · Find a game</h2>
+  <p class="lede">Discover → search or tap a game tile → game page → tap a stream to enter the feed filtered to that game.</p>
+  <div class="row">
+
+    <div class="frame" id="D1">
+      <div class="fh"><span class="id">D1</span>Discover<span class="route">/(tabs)/discover</span></div>
+      <div class="phone" data-tab="discover">
+        <div class="scr" style="gap:12px">
+          <div class="h1" style="margin-top:6px">Discover</div>
+          <div class="field">⌕ <span>Games or streamers</span><span class="m in" style="margin-left:auto">1</span></div>
+          <div class="sec">Live now</div>
+          <div class="flex" style="gap:10px;margin-right:-16px;overflow:hidden">
+            <div class="col" style="gap:5px;width:150px;flex-shrink:0"><div class="img" style="height:84px;border-radius:12px"><span class="live" style="position:absolute;top:6px;left:6px;font-size:9px;padding:3px 5px">LIVE</span><span class="vc" style="position:absolute;bottom:6px;left:6px;font-size:10px">◉ 1.2K</span></div><b class="xs">nova · Kart Racing</b></div>
+            <div class="col" style="gap:5px;width:150px;flex-shrink:0"><div class="img" style="height:84px;border-radius:12px"><span class="live" style="position:absolute;top:6px;left:6px;font-size:9px;padding:3px 5px">LIVE</span><span class="vc" style="position:absolute;bottom:6px;left:6px;font-size:10px">◉ 240</span></div><b class="xs">pixelpilot · Arena Shooter</b></div>
+            <div class="col" style="gap:5px;width:150px;flex-shrink:0"><div class="img" style="height:84px;border-radius:12px"></div></div>
+          </div>
+          <span class="m" style="top:170px;left:120px">2</span>
+          <div class="sec">Games</div>
+          <div class="grid2">
+            <div class="tile"><div class="art" style="height:62px;background:var(--primary)"></div><div class="nm">GameTime Original<small><span style="color:var(--live)">●</span> 1 live</small></div></div>
+            <div class="tile"><div class="art" style="height:62px"></div><div class="nm">Kart Racing<small><span style="color:var(--live)">●</span> 4 live</small></div></div>
+            <div class="tile"><div class="art" style="height:62px"></div><div class="nm">Arena Shooter<small><span style="color:var(--live)">●</span> 2 live</small></div></div>
+            <div class="tile"><div class="art" style="height:62px"></div><div class="nm">Puzzle<small>No one live</small></div></div>
+          </div>
+          <span class="m" style="top:420px;left:6px">3</span>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Tap → <a href="#D2">D2</a> with the keyboard up and recent searches.</li>
+        <li><b>Live now</b> (the plan's "trending streams"): horizontal row, most viewers first. Tap → the feed starting at that stream. Hidden when nobody is live.</li>
+        <li><b>Game tiles</b> → <a href="#D3">D3</a>. Your favorite games first, then by live count; the original game is pinned first. Live counts update every ~30 s.</li>
+        <li class="g">Loading: tile skeletons. Error: inline "Couldn't load Discover" + Retry.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>tap a game tile</span><i></i></div>
+
+    <div class="frame" id="D3">
+      <div class="fh"><span class="id">D3</span>Game page<span class="route">/game/[slug]</span></div>
+      <div class="phone" data-tab="discover">
+        <div class="abs" style="top:0;left:0;right:0;height:210px;background:linear-gradient(var(--ph2),var(--bg))"></div>
+        <div class="scr" style="gap:12px">
+          <div class="hdr"><span class="ib">‹</span><span></span><span class="ib">↗</span></div>
+          <div class="flex" style="align-items:flex-end;gap:12px"><div class="img" style="width:72px;height:96px;border-radius:12px"></div><div class="grow"><div class="h1" style="font-size:24px">Kart Racing</div><div class="sm muted"><span style="color:var(--live)">●</span> 4 live · 1.6K watching</div></div></div>
+          <div class="btn alt" style="height:44px">☆ Add to my games <span class="m in">1</span></div>
+          <div class="sec">Live now</div>
+          <div class="streamrow"><div class="img"><span class="live">LIVE</span><span class="vc">◉ 1.2K</span></div><div class="grow"><b class="sm">Ranked grind to diamond</b><div class="xs muted">nova</div></div></div>
+          <div class="streamrow"><div class="img"><span class="live">LIVE</span><span class="vc">◉ 302</span></div><div class="grow"><b class="sm">Chill races, come say hi</b><div class="xs muted">kartqueen</div></div><span class="m in">2</span></div>
+          <div class="streamrow"><div class="img"><span class="live">LIVE</span><span class="vc">◉ 41</span></div><div class="grow"><b class="sm">First stream ever!</b><div class="xs muted">scroller · <span style="color:var(--mint)">new</span></div></div></div>
+          <div class="streamrow"><div class="img"><span class="live">LIVE</span><span class="vc">◉ 6</span></div><div class="grow"><b class="sm">Time trials</b><div class="xs muted">blockhead</div></div></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Adds or removes the game from favorite games (affects For You). Signed out: stored with the onboarding picks (D4).</li>
+        <li>Tap a stream → <a href="#D4">D4</a>, starting at that stream. Order uses the feed's ranking, including the small-streamer boost.</li>
+        <li class="g">Nobody live: "Nobody's playing Kart Racing right now" + who streamed it recently (like <a href="#C0">C0</a>) + "Go live with Kart Racing" (pre-fills <a href="#G1">G1</a>).</li>
+        <li class="g">The header uses the game's <code>color</code>; grey here.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>tap a stream</span><i></i></div>
+
+    <div class="frame" id="D4">
+      <div class="fh"><span class="id">D4</span>Feed filtered to a game<span class="route">/game/[slug]/watch</span></div>
+      <div class="phone" data-tab="discover">
+        <div class="backdrop"></div>
+        <div class="video" style="top:140px;height:211px"><span>16:9 stream</span></div>
+        <div class="abs flex" style="top:50px;left:4px;right:12px;z-index:20"><span class="ib">‹</span><span class="chip" style="height:34px;background:rgba(32,32,44,.85)">Kart Racing · 2 of 4</span><span class="m in">1</span></div>
+        <div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ 302</span></div>
+        <div class="scrim"></div>
+        <div class="rail" style="top:430px">
+          <div class="rb"><i class="av" style="width:48px;height:48px;background:var(--ph3)"></i><span class="follow">+</span></div>
+          <div class="rb"><i>♥</i>88</div><div class="rb"><i>↗</i>Share</div><div class="rb"><i>⋯</i></div>
+        </div>
+        <div class="chatov" style="top:470px"><div class="msg"><b>pixelpilot</b>nice line</div></div>
+        <div class="meta" style="top:590px">
+          <div class="flex"><span class="av"></span><b>kartqueen</b><span class="chip">Kart Racing</span></div>
+          <div class="sm">Chill races, come say hi</div>
+        </div>
+        <div class="chatin" style="top:670px">Say something…</div>
+      </div>
+      <ol class="notes">
+        <li>Same feed as <a href="#W1">W1</a>, limited to one game; the Following/For You toggle is replaced by the game chip. ‹ (or swipe from the left edge) → back to <a href="#D3">D3</a>.</li>
+        <li class="g">Discover tab stays selected, so the Live tab's own feed position isn't lost.</li>
+        <li class="g">Swiping past the last stream for this game → an end card: "That's everyone playing Kart Racing" + "Back to Kart Racing" + "Watch For You".</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="D2">
+      <div class="fh"><span class="id">D2</span>Search results<span class="route">/(tabs)/discover?q=</span></div>
+      <div class="from">From <a href="#D1">D1</a>: tap the search bar</div>
+      <div class="phone" data-tab="discover">
+        <div class="scr" style="gap:12px">
+          <div class="flex" style="margin-top:6px"><div class="field on grow">⌕ kart<span class="r muted">✕</span></div><span class="sm b" style="color:var(--primary);padding:12px 0">Cancel</span></div>
+          <div class="seg"><div class="on">All</div><div>Games</div><div>Streamers</div></div>
+          <span class="m" style="top:66px;right:10px">1</span>
+          <div class="sec">Games</div>
+          <div class="flex"><div class="img" style="width:44px;height:44px;border-radius:10px"></div><div class="grow"><b class="sm">Kart Racing</b><div class="xs muted"><span style="color:var(--live)">●</span> 4 live</div></div></div>
+          <div class="sec">Live streams</div>
+          <div class="streamrow"><div class="img" style="width:96px;height:54px"><span class="live">LIVE</span></div><div class="grow"><b class="sm">Kart time trials</b><div class="xs muted">blockhead · Kart Racing</div></div></div>
+          <div class="sec">Streamers</div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">kartqueen</b><div class="xs muted">302 followers · <span style="color:var(--live)">live</span></div></div><div class="btn small">Follow</div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">kart_kid</b><div class="xs muted">12 followers</div></div><div class="btn small">Follow</div></div>
+          <div class="card dash" style="padding:10px"><div class="sm muted">No-results state: “Nothing for ‘kartt’. Check the spelling or browse games.” <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">2</span></div></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Results update as you type (after a short pause), at least 2 characters. Matches game names, usernames and live stream titles.</li>
+        <li>Empty input shows recent searches (stored on the device) with "Clear".</li>
+        <li class="g">Game → <a href="#D3">D3</a>. Live stream → the feed at that stream. Streamer → <a href="#P2">P2</a>. Blocked users never appear.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== PROFILE -->
+<section id="profile">
+  <h2>Profile, settings and safety</h2>
+  <p class="lede">Own profile, someone else's profile, edit profile, settings, and the safety controls (block list and chat filters). Clips are v2, so profiles show recent streams instead (no replays: the MVP doesn't record video) <span class="q">Q9</span>.</p>
+  <div class="row">
+
+    <div class="frame" id="P1">
+      <div class="fh"><span class="id">P1</span>Own profile<span class="route">/(tabs)/profile</span></div>
+      <div class="phone" data-tab="profile">
+        <div class="scr" style="gap:12px">
+          <div class="hdr"><span class="ib"></span><b>@nova</b><span class="ib">⚙ <span class="m in" style="margin-left:2px">3</span></span></div>
+          <div class="center" style="gap:8px"><span class="av xl"></span><div class="h2">nova</div><div class="sm muted" style="max-width:280px">Kart racing every weeknight. Be nice in chat.</div></div>
+          <div class="flex" style="justify-content:center;gap:36px"><div class="stat"><b>1,204</b><span>followers</span></div><div class="stat"><b>38</b><span>following</span></div><div class="stat"><b>18</b><span>streams</span></div></div>
+          <div class="btn alt" style="height:44px">Edit profile <span class="m in">1</span></div>
+          <div class="sec">My games</div>
+          <div class="chips"><span class="chip">Kart Racing</span><span class="chip">Puzzle</span><span class="chip">Just Chatting</span></div>
+          <div class="sec">Recent streams <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px;vertical-align:-5px">2</span></div>
+          <div class="item" style="min-height:48px"><div><b class="sm">Ranked grind to diamond</b><div class="xs muted">Kart Racing · today · 1 h 12 m · 31 peak</div></div><span class="r">›</span></div>
+          <div class="item" style="min-height:48px"><div><b class="sm">Puzzle speedruns</b><div class="xs muted">Puzzle · Nov 13 · 48 m · 12 peak</div></div><span class="r">›</span></div>
+          <div class="card dash" style="padding:10px;text-align:center"><span class="xs muted">Clips — coming in v2</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>→ <a href="#P3">P3</a>.</li>
+        <li>Opens that stream's summary (<a href="#G5">G5</a>). Only the owner sees stats.</li>
+        <li>→ <a href="#P4">P4</a> Settings.</li>
+        <li class="g">While live, a red "You're live · Open dashboard" bar sits at the top.</li>
+        <li class="g">Signed out: Profile tab shows "Sign up to follow streamers and go live" with Sign up / Log in (<a href="#A2">A2</a>/<a href="#A4">A4</a>), plus Settings for reduced motion and Terms.</li>
+        <li class="g">Followers / following counts open simple lists (not drawn).</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="P2">
+      <div class="fh"><span class="id">P2</span>Another user's profile<span class="route">/u/[username]</span></div>
+      <div class="from">From <a href="#W4">W4</a>, <a href="#D2">D2</a>, <a href="#W3">W3</a></div>
+      <div class="phone" data-tab="live">
+        <div class="scr" style="gap:12px">
+          <div class="hdr"><span class="ib">‹</span><b>@kartqueen</b><span class="ib">⋯ <span class="m in" style="margin-left:2px">3</span></span></div>
+          <div class="center" style="gap:8px"><div style="position:relative"><span class="av xl ring"></span><span class="live" style="position:absolute;bottom:-8px;left:50%;transform:translateX(-50%)">LIVE</span></div><div class="h2" style="margin-top:6px">kartqueen</div><div class="sm muted">Chill races and bad jokes.</div></div>
+          <div class="flex" style="justify-content:center;gap:36px"><div class="stat"><b>302</b><span>followers</span></div><div class="stat"><b>51</b><span>following</span></div><div class="stat"><b>44</b><span>streams</span></div></div>
+          <div class="flex"><div class="btn danger grow" style="height:44px">▶ Watch live <span class="m in">1</span></div><div class="btn grow" style="height:44px">Follow <span class="m in">2</span></div></div>
+          <div class="sec">Plays</div>
+          <div class="chips"><span class="chip">Kart Racing</span><span class="chip">Fighting</span></div>
+          <div class="sec">Recent streams</div>
+          <div class="item" style="min-height:48px"><div><b class="sm">Chill races, come say hi</b><div class="xs muted">Kart Racing · live now</div></div></div>
+          <div class="item" style="min-height:48px"><div><b class="sm">Late night lobbies</b><div class="xs muted">Kart Racing · Nov 14 · 2 h 5 m</div></div></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Only while they're live → the feed at their stream. Offline: hidden, and the stream list shows "Last live 2 days ago".</li>
+        <li>Follow / Following. Signed out → <a href="#A1">A1</a>.</li>
+        <li>⋯ → Share profile, Report @kartqueen (<a href="#R1">R1</a>), Block @kartqueen.</li>
+        <li class="g">If you've blocked them: avatar and name only, "You blocked @kartqueen" + Unblock. Their streams don't appear in your feed.</li>
+        <li class="g">Recent streams show title, game, date and length only; no viewer stats for other people.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="P3">
+      <div class="fh"><span class="id">P3</span>Edit profile<span class="route">/profile/edit</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr" style="gap:13px">
+          <div class="hdr"><span class="ib txt" style="color:var(--muted)">Cancel</span><b>Edit profile</b><span class="ib txt">Save <span class="m in" style="margin-left:2px">1</span></span></div>
+          <div class="center" style="gap:6px"><span class="av xl"></span><span class="sm b" style="color:var(--primary);padding:10px">Change photo</span></div>
+          <div class="lab">Username</div><div class="field on">@ nova</div>
+          <div class="help">3–20 characters: a–z, 0–9 and _</div>
+          <div class="lab">Bio</div>
+          <div class="field" style="min-height:84px;align-items:flex-start;padding-top:12px;color:#fff">Kart racing every weeknight. Be nice in chat.</div>
+          <div class="help" style="text-align:right">46 / 160</div>
+          <div class="lab">My games <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">2</span></div>
+          <div class="chips"><span class="chip sel">Kart Racing ✕</span><span class="chip sel">Puzzle ✕</span><span class="chip sel">Just Chatting ✕</span><span class="chip nodot">＋ Add</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Save is enabled once something changed. Leaving with unsaved changes asks "Discard changes?".</li>
+        <li>Same picker as onboarding. At least 3? <span class="q">Q2</span></li>
+        <li class="g">Photo: pick from library, crop square, upload to Supabase Storage. Upload progress shows on the avatar.</li>
+        <li class="g">Birth date and email aren't here; they're in Settings → Account (birth date can't be changed by the user).</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="P4">
+      <div class="fh"><span class="id">P4</span>Settings<span class="route">/settings</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr" style="gap:0">
+          <div class="hdr"><span class="ib">‹</span><b>Settings</b><span class="ib"></span></div>
+          <div class="sec" style="margin:8px 0 2px">Account</div>
+          <div class="item">Email<span class="r">nova.fan@example.com</span></div>
+          <div class="item">Password<span class="r">›</span></div>
+          <div class="item">Birth date<span class="r">Set at sign-up</span></div>
+          <div class="sec" style="margin:14px 0 2px">Safety</div>
+          <div class="item">Blocked accounts<span class="r">3 ›</span><span class="m in">1</span></div>
+          <div class="item">Chat filters for my streams<span class="r">On ›</span></div>
+          <div class="sec" style="margin:14px 0 2px">App</div>
+          <div class="item">Reduce motion<span class="r">Use system ›</span><span class="m in">2</span></div>
+          <div class="item">Sound on when a stream starts<span class="sw2 on" style="margin-left:auto"></span></div>
+          <div class="item muted">Notifications<span class="r">v2</span></div>
+          <div class="sec" style="margin:14px 0 2px">About</div>
+          <div class="item">Terms · Privacy · Community guidelines<span class="r">›</span></div>
+          <div class="item" style="color:var(--primary)">Log out</div>
+          <div class="item red">Delete account <span class="m in" style="margin-left:auto">3</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>→ <a href="#P5">P5</a>. Chat filters → <a href="#P6">P6</a>.</li>
+        <li>Use system / On / Off. On: no LIVE pulse, no floating hearts, no countdowns, no shimmer; the feed still snaps but without spring overshoot.</li>
+        <li>Two-step confirm (type your username). Ends any live stream first.</li>
+        <li class="g">Each row is ≥ 52 pt. Settings is a stack screen over the Profile tab.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="P5">
+      <div class="fh"><span class="id">P5</span>Blocked accounts<span class="route">/settings/blocked</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr" style="gap:12px">
+          <div class="hdr"><span class="ib">‹</span><b>Blocked accounts</b><span class="ib"></span></div>
+          <div class="sm muted">Blocked people can't chat in your streams, and you won't see their streams, chat or profile. They aren't told. <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">troll_42</b><div class="xs muted">Blocked Nov 12</div></div><div class="btn small alt">Unblock <span class="m in" style="width:20px;height:20px;line-height:20px;font-size:11px">2</span></div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">spambot9000</b><div class="xs muted">Blocked Nov 3</div></div><div class="btn small alt">Unblock</div></div>
+          <div class="flex"><span class="av"></span><div class="grow"><b class="sm">rude_dude</b><div class="xs muted">Blocked Oct 30</div></div><div class="btn small alt">Unblock</div></div>
+          <div class="card dash" style="padding:12px;margin-top:8px;text-align:center"><span class="sm muted">Empty state: “You haven't blocked anyone.”</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Plain-language summary of what blocking does, matching the RLS rules in schema v1 (<code>public.is_blocked_by()</code>).</li>
+        <li>Unblock is immediate, with an "Undo" toast for 5 s.</li>
+        <li class="g">You block people from a stream (<a href="#W5">W5</a>), a profile (<a href="#P2">P2</a>), a chat message (<a href="#R0">R0</a>) or the report flow (<a href="#R2">R2</a>); this list is only for undoing.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="P6">
+      <div class="fh"><span class="id">P6</span>Chat filters (streamer)<span class="route">/settings/chat-filters</span></div>
+      <div class="phone" data-tab="none">
+        <div class="scr" style="gap:12px">
+          <div class="hdr"><span class="ib">‹</span><b>Chat filters</b><span class="ib"></span></div>
+          <div class="sm muted">These apply to chat on your streams. <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></div>
+          <div class="item"><div><b class="sm">Hide common slurs and insults</b><div class="xs muted">Our built-in list</div></div><span class="sw2 on" style="margin-left:auto"></span></div>
+          <div class="item"><div><b class="sm">Hide messages with links</b></div><span class="sw2 on" style="margin-left:auto"></span></div>
+          <div class="item"><div><b class="sm">Only followers can chat</b><div class="xs muted">Followed you at least 10 min ago</div></div><span class="sw2" style="margin-left:auto"></span><span class="m in">2</span></div>
+          <div class="sec">My blocked words</div>
+          <div class="flex"><div class="field grow">Add a word or phrase</div><div class="btn" style="width:64px">Add</div></div>
+          <div class="chips"><span class="chip nodot">ez ✕</span><span class="chip nodot">noob ✕</span><span class="chip nodot">spoilers ✕</span></div>
+          <div class="help" style="margin-top:0">Matches whole words, any capitalization. Up to 50 words. <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">3</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li><span class="q">Q6</span> Schema v1 has no table for filters; this needs a migration. Filters should run server-side so a modified client can't bypass them.</li>
+        <li>Followers-only chat is drawn as a proposal; drop it if the MVP is words + links only.</li>
+        <li>A filtered message isn't shown to anyone; the sender sees "Not sent" (see <a href="#W2">W2</a>).</li>
+        <li class="g">Also reachable from the live dashboard (<a href="#G3">G3</a>) → ⋯ → Chat filters.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== REPORT -->
+<section id="report">
+  <h2>Report flow</h2>
+  <p class="lede">One flow for three targets (<code>report_target</code>: user, stream, chat message). Entry points: ⋯ on the rail (<a href="#W5">W5</a>), ⋯ on a profile or mini-profile (<a href="#P2">P2</a>, <a href="#W4">W4</a>), long-press a chat message (<a href="#R0">R0</a>). Requires an account (<a href="#A1">A1</a>). Reports are insert-only for clients.</p>
+  <div class="row">
+
+    <div class="frame" id="R0">
+      <div class="fh"><span class="id">R0</span>Long-press a chat message<span class="route">action sheet</span></div>
+      <div class="phone" data-tab="none">
+        <div class="video" style="top:44px;height:211px"><span>stream</span></div>
+        <div class="abs col" style="top:255px;left:0;right:0;bottom:0;background:var(--surface);padding:16px;justify-content:flex-start;gap:10px;font-size:14px">
+          <div><b class="muted">kartqueen</b> gg that was close</div>
+          <div style="background:var(--raised);border-radius:10px;padding:8px 10px;position:relative;z-index:41"><b class="muted">troll_42</b> [rude message]</div>
+          <div><b class="muted">scroller</b> first time here 👋</div>
+        </div>
+        <div class="dim" style="top:300px"></div>
+        <div class="sheet" style="gap:0">
+          <div class="xs muted" style="padding:2px 0 8px">Message from troll_42</div>
+          <div class="item red"><span class="ic" style="color:var(--live)">⚑</span>Report message <span class="m in">1</span></div>
+          <div class="item red"><span class="ic" style="color:var(--live)">⦸</span>Block troll_42</div>
+          <div class="item"><span class="ic">◯</span>View profile</div>
+          <div class="btn alt" style="margin-top:12px">Cancel</div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>→ <a href="#R1">R1</a> with target = chat message. Screen readers get these as actions on each message (no long-press needed).</li>
+        <li class="g">Your own message: just "Copy" (no delete in MVP).</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>Report</span><i></i></div>
+
+    <div class="frame" id="R1">
+      <div class="fh"><span class="id">R1</span>Pick a reason<span class="route">/report (sheet, step 1 of 2)</span></div>
+      <div class="phone" data-tab="none">
+        <div class="backdrop" style="bottom:0"></div>
+        <div class="dim"></div>
+        <div class="sheet" style="top:120px;gap:0;padding-bottom:40px">
+          <div class="hdr" style="margin:0 -10px"><span class="ib">✕</span><b>Report message</b><span class="ib"></span></div>
+          <div class="sm muted" style="margin:2px 0 8px">Why are you reporting this? <span class="m in" style="width:22px;height:22px;line-height:22px;font-size:12px">1</span></div>
+          <div class="item"><span class="radio"></span>Spam or scam</div>
+          <div class="item"><span class="radio on"></span>Harassment or hate</div>
+          <div class="item"><span class="radio"></span>Sexual content</div>
+          <div class="item"><span class="radio"></span>Violence or threats</div>
+          <div class="item"><span class="radio"></span>Self-harm</div>
+          <div class="item"><span class="radio"></span>Someone under 13</div>
+          <div class="item"><span class="radio"></span>Something else</div>
+          <div class="grow"></div>
+          <div class="btn">Next <span class="m in">2</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Title names the target: "Report stream", "Report @nova", "Report message". <span class="q">Q10</span> Reason list to agree; the schema stores free text, so the app writes the category plus any details.</li>
+        <li>Disabled until a reason is picked → <a href="#R2">R2</a>.</li>
+        <li class="g">Self-harm shows a short "If someone is in danger, contact local emergency services" line with a help link before Next.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>Next</span><i></i></div>
+
+    <div class="frame" id="R2">
+      <div class="fh"><span class="id">R2</span>Details + block<span class="route">/report (step 2 of 2)</span></div>
+      <div class="phone" data-tab="none">
+        <div class="backdrop" style="bottom:0"></div>
+        <div class="dim"></div>
+        <div class="sheet" style="top:120px;gap:12px;padding-bottom:40px">
+          <div class="hdr" style="margin:0 -10px"><span class="ib">‹</span><b>Report message</b><span class="ib"></span></div>
+          <div class="chip nodot" style="align-self:flex-start">Harassment or hate</div>
+          <div class="lab">Anything else we should know? (optional)</div>
+          <div class="field" style="min-height:120px;align-items:flex-start;padding-top:12px">Add details</div>
+          <div class="help" style="text-align:right">0 / 450</div>
+          <div class="item" style="border:0"><span class="check on"></span><div><b class="sm">Also block troll_42</b><div class="xs muted">They won't be able to chat in your streams or see you in chat.</div></div><span class="m in">1</span></div>
+          <div class="grow"></div>
+          <div class="btn danger">Submit report <span class="m in">2</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Ticked by default for user and message reports; unticked for stream reports. <span class="q">Q10</span></li>
+        <li>Sends the report; offline or error → "Couldn't send. Try again." and the text is kept.</li>
+        <li class="g">450 here + category label stays within the schema's 500-character <code>reason</code>.</li>
+      </ol>
+    </div>
+
+    <div class="arrow"><span>Submit</span><i></i></div>
+
+    <div class="frame" id="R3">
+      <div class="fh"><span class="id">R3</span>Report sent<span class="route">/report · done</span></div>
+      <div class="phone" data-tab="none">
+        <div class="backdrop" style="bottom:0"></div>
+        <div class="dim"></div>
+        <div class="sheet center" style="top:300px;gap:12px;padding:24px 24px 40px">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(46,242,195,.15);color:var(--mint);font:800 30px/64px var(--ui);text-align:center">✓</div>
+          <div class="h2">Thanks for telling us</div>
+          <div class="sm muted">We'll review it. troll_42 won't know who reported them. You've also blocked them.</div>
+          <div class="btn" style="width:100%;margin-top:8px">Done <span class="m in">1</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>Returns to where the report started. If the streamer was blocked, the feed moves to the next stream.</li>
+        <li class="g"><span class="q">Q11</span> Who reviews reports during the class, and where? The MVP has no admin screen; the Supabase dashboard is the likely answer.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================================== SQUADS -->
+<section id="squads">
+  <h2>Squads · v2 placeholder</h2>
+  <p class="lede">The tab exists so the five-tab layout matches the plan, but Squads (friends online, parties, Play with me) is v2.</p>
+  <div class="row">
+    <div class="frame" id="S1">
+      <div class="fh"><span class="id">S1</span>Squads placeholder<span class="route">/(tabs)/squads</span></div>
+      <div class="phone" data-tab="squads">
+        <div class="scr center" style="gap:14px;padding:0 36px">
+          <div style="width:96px;height:96px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-size:40px;color:var(--muted)">⚇</div>
+          <div class="h2">Squads are coming</div>
+          <div class="muted">Find people to play with, join a streamer's party, and chat with your squad. Coming after the MVP.</div>
+          <div class="btn alt" style="width:100%;margin-top:6px">Find streams to watch <span class="m in">1</span></div>
+        </div>
+      </div>
+      <ol class="notes">
+        <li>→ Live tab. No sign-up for a waitlist in the MVP.</li>
+        <li class="g"><span class="q">Q12</span> Or hide the tab until v2 and use four tabs; keeping it shows the vision in the demo.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== WEB -->
+<section id="web">
+  <h2>Web &amp; tablet layouts</h2>
+  <p class="lede">At 768 pt and wider the tab bar becomes a left sidebar (already in <code>app-tabs.tsx</code>). On wide screens chat docks to the right of the stream instead of overlaying it, and the right action rail becomes a row under the video. Desktop web is where streamers run OBS, so the Go Live screens matter most here.</p>
+
+  <div class="frame wide" id="X1">
+    <div>
+      <div class="fh"><span class="id">X1</span>Desktop web · Live feed, chat docked right<span class="route">/ · ≥ 1024 pt wide</span></div>
+      <div class="desk" data-side="live" data-url="gametime-gold.vercel.app">
+        <div class="dmain" style="left:240px;right:340px;align-items:center">
+          <div class="toggle" style="position:static;margin-top:-6px"><span>Following</span><b>For You</b></div>
+          <div class="flex" style="gap:16px;align-items:center;width:100%;justify-content:center">
+            <div class="img" style="width:600px;height:338px;border-radius:14px"><span>16:9 stream</span><span class="live" style="position:absolute;top:12px;left:12px">LIVE</span><span class="vc" style="position:absolute;top:12px;left:72px">◉ 1.2K</span><span class="chip nodot" style="position:absolute;bottom:12px;right:12px;background:rgba(11,11,18,.75)">♪ Click for sound</span></div>
+            <div class="col" style="gap:12px"><span class="ib" style="background:var(--raised);border-radius:50%">▲</span><span class="ib" style="background:var(--raised);border-radius:50%">▼</span></div>
+          </div>
+          <span class="m" style="top:180px;left:640px">2</span>
+          <div class="flex" style="width:648px;gap:12px">
+            <span class="av l"></span>
+            <div class="grow"><div class="flex" style="gap:8px"><b style="font-size:18px">nova</b><span class="chip">Kart Racing</span></div><div class="muted sm">Ranked grind to diamond, then viewer races</div></div>
+            <div class="btn" style="height:44px">Follow</div>
+            <span class="ib" style="background:var(--raised);border-radius:50%">♥</span><span class="ib" style="background:var(--raised);border-radius:50%">↗</span><span class="ib" style="background:var(--raised);border-radius:50%">⋯</span>
+          </div>
+          <span class="m" style="top:470px;left:610px">3</span>
+          <div class="flex" style="width:648px;gap:10px;opacity:.55">
+            <span class="xs muted">Up next</span><div class="img" style="width:120px;height:68px;border-radius:8px"></div><div class="img" style="width:120px;height:68px;border-radius:8px"></div><div class="img" style="width:120px;height:68px;border-radius:8px"></div>
+          </div>
+        </div>
+        <span class="m" style="top:58px;left:190px">1</span>
+        <div class="dchat">
+          <div class="hd">Live chat<span class="muted sm">⇥</span></div>
+          <div class="ms">
+            <div class="xs muted" style="text-align:center">Chat filters are on · Be kind</div>
+            <div><b>kartqueen</b>gg that was close</div><div><b>blockhead</b>what seed is this?</div><div><b>scroller</b>first time here 👋</div><div><b>combo_king</b>CLUTCH</div><div><b>pixelpilot</b>how do you drift like that</div><div><b style="color:var(--primary)">nova</b>hold drift + tap boost twice</div>
+          </div>
+          <div class="field in" style="border-radius:22px">Say something…  ☺</div>
+          <span class="m" style="top:60px;right:20px">4</span>
+        </div>
+      </div>
+    </div>
+    <ol class="notes">
+      <li>Sidebar: logo, the five tabs (Go Live in live-red), then "Followed · live" with viewer counts. 768–1023 pt: icon-only sidebar (<a href="#X5">X5</a>).</li>
+      <li>Next / previous: ▲ ▼ buttons, the ↑ ↓ keys, or a scroll-wheel / trackpad flick (one stream per gesture). Video starts muted (browser autoplay rules) with "Click for sound"; M toggles mute.</li>
+      <li>The phone's right rail becomes a row under the video. Double-click the video = heart. All controls reachable by Tab with a visible focus ring.</li>
+      <li>Chat is always open, docked at 340 pt; ⇥ collapses it to give the video more room. C focuses the chat input. Long-press becomes right-click / hover ⋯ on a message.</li>
+      <li class="g">"Up next" strip previews the next streams so the vertical-feed idea still reads on a wide screen.</li>
+      <li class="g">Shared links (<code>/s/[streamId]</code>, <code>/u/[username]</code>) open here without onboarding; the picker appears after the first stream <span class="q">Q13</span>.</li>
+    </ol>
+  </div>
+
+  <div class="frame wide" id="X2" style="margin-top:28px">
+    <div>
+      <div class="fh"><span class="id">X2</span>Desktop web · Discover<span class="route">/discover</span></div>
+      <div class="desk" data-side="discover" data-url="gametime-gold.vercel.app/discover">
+        <div class="dmain" style="left:240px;right:0;padding:28px 36px">
+          <div class="flex"><div class="h1">Discover</div><div class="field" style="margin-left:auto;width:420px">⌕ Games or streamers</div></div>
+          <div class="sec">Live now</div>
+          <div class="flex" style="gap:16px">
+            <div class="col" style="gap:6px;width:230px"><div class="img" style="height:130px;border-radius:12px"><span class="live" style="position:absolute;top:8px;left:8px">LIVE</span><span class="vc" style="position:absolute;bottom:8px;left:8px">◉ 1.2K</span></div><b class="sm">Ranked grind to diamond</b><span class="xs muted">nova · Kart Racing</span></div>
+            <div class="col" style="gap:6px;width:230px"><div class="img" style="height:130px;border-radius:12px"><span class="live" style="position:absolute;top:8px;left:8px">LIVE</span></div><b class="sm">Aim training then ranked</b><span class="xs muted">pixelpilot · Arena Shooter</span></div>
+            <div class="col" style="gap:6px;width:230px"><div class="img" style="height:130px;border-radius:12px"><span class="live" style="position:absolute;top:8px;left:8px">LIVE</span></div><b class="sm">Chill races, come say hi</b><span class="xs muted">kartqueen · Kart Racing</span></div>
+            <div class="col" style="gap:6px;width:230px"><div class="img" style="height:130px;border-radius:12px"><span class="live" style="position:absolute;top:8px;left:8px">LIVE</span></div><b class="sm">First stream ever!</b><span class="xs muted">scroller · Kart Racing</span></div>
+          </div>
+          <div class="sec">Games</div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px">
+            <div class="tile"><div class="art" style="height:110px;background:var(--primary)"></div><div class="nm">GameTime Original<small>1 live</small></div></div>
+            <div class="tile"><div class="art" style="height:110px"></div><div class="nm">Kart Racing<small>4 live</small></div></div>
+            <div class="tile"><div class="art" style="height:110px"></div><div class="nm">Arena Shooter<small>2 live</small></div></div>
+            <div class="tile"><div class="art" style="height:110px"></div><div class="nm">Battle Royale<small>1 live</small></div></div>
+            <div class="tile"><div class="art" style="height:110px"></div><div class="nm">Block Builder<small>No one live</small></div></div>
+            <div class="tile"><div class="art" style="height:110px"></div><div class="nm">Puzzle<small>No one live</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ol class="notes">
+      <li class="g">Same content as <a href="#D1">D1</a>, in wider grids (4 live cards, 6 game tiles per row). Game page and results reuse the phone layouts at a max width of 960 pt.</li>
+      <li class="g">Clicking a live card opens <a href="#X1">X1</a> at that stream; a game tile opens the game page.</li>
+    </ol>
+  </div>
+
+  <div class="frame wide" id="X3" style="margin-top:28px">
+    <div>
+      <div class="fh"><span class="id">X3</span>Desktop web · Go Live setup and connect<span class="route">/go-live</span></div>
+      <div class="desk" data-side="golive" data-url="gametime-gold.vercel.app/go-live">
+        <div class="dmain" style="left:240px;right:0;padding:28px 36px;flex-direction:row;gap:28px">
+          <div class="col" style="width:440px;gap:14px">
+            <div class="h1">Go live</div>
+            <div class="sec">1 · Your stream</div>
+            <div class="lab">Stream title</div><div class="field on">Ranked grind to diamond</div>
+            <div class="lab">Game</div><div class="field">⌕ Kart Racing</div>
+            <div class="chips"><span class="chip sel">Kart Racing</span><span class="chip">Puzzle</span><span class="chip">Just Chatting</span><span class="chip">GameTime Original</span></div>
+            <div class="sec" style="margin-top:8px">2 · Connect OBS</div>
+            <div class="lab">Server</div><div class="field" style="color:#fff">rtmps://live.provider.example/app<span class="r" style="color:var(--primary)">Copy</span></div>
+            <div class="lab">Stream key</div><div class="field" style="color:#fff">••••••••••••••••<span class="r" style="color:var(--primary)">Show · Copy</span></div>
+            <div class="help">Never share your key. <u>Reset key</u></div>
+          </div>
+          <span class="m" style="top:110px;left:470px">1</span>
+          <div class="col" style="flex:1;gap:14px">
+            <div class="card" style="gap:10px">
+              <b>Set up OBS (once)</b>
+              <div class="flex" style="gap:14px;align-items:flex-start"><div class="img" style="width:220px;height:124px;border-radius:8px"><span>OBS screenshot</span></div><div class="col sm" style="gap:6px"><div><b>1</b> Settings → Stream → Service: <b>Custom</b></div><div><b>2</b> Paste the server and stream key</div><div><b>3</b> Output: 720p, 30 fps, 2,500 kbps</div><div><b>4</b> Click <b>Start Streaming</b></div><div style="color:var(--primary)" class="b">Full guide ›</div></div></div>
+            </div>
+            <span class="m" style="top:150px;right:30px">2</span>
+            <div class="card" style="flex-direction:row;align-items:center;gap:14px">
+              <div class="spinner"></div><div class="grow"><b>Waiting for OBS…</b><div class="sm muted">You'll go live as soon as we get your video. This page turns into your dashboard.</div></div>
+            </div>
+            <div class="banner info sm">The original game runs in a browser tab: add it to OBS as a Window Capture. <u>Open the game</u></div>
+            <span class="m" style="top:400px;right:30px">3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ol class="notes">
+      <li>Phone steps <a href="#G1">G1</a> + <a href="#G2">G2</a> on one page, because on a computer everything fits and the streamer copies the key straight into OBS on the same machine.</li>
+      <li>The guide uses screenshots from <code>docs/obs-setup.md</code> (to be written after D1).</li>
+      <li>Shown only when the original game is the selected game (decision 002: it's captured with OBS like any other game).</li>
+      <li class="g">Under 16 or signed out: the same gates as <a href="#G0">G0</a> / <a href="#A1">A1</a>, as centered cards.</li>
+    </ol>
+  </div>
+
+  <div class="frame wide" id="X4" style="margin-top:28px">
+    <div>
+      <div class="fh"><span class="id">X4</span>Desktop web · Live dashboard<span class="route">/go-live/dashboard</span></div>
+      <div class="desk" data-side="golive" data-url="gametime-gold.vercel.app/go-live/dashboard">
+        <div class="dmain" style="left:240px;right:340px;padding:24px 28px">
+          <div class="flex"><span class="live" style="font-size:13px;padding:7px 10px">LIVE</span><b style="font:800 22px var(--ui)">00:42:13</b><span class="sm" style="color:var(--mint)">● Signal good · 720p30</span><div class="btn line red" style="margin-left:auto;height:44px">End stream</div></div>
+          <div class="flex" style="gap:20px;align-items:flex-start">
+            <div class="img" style="width:480px;height:270px;border-radius:12px"><span>your stream, muted preview</span></div>
+            <div class="col" style="flex:1;gap:12px">
+              <div class="statbox"><b>23</b><span>watching now · peak 31</span></div>
+              <div class="statbox"><b>210</b><span>hearts</span></div>
+              <div class="statbox"><b>+4</b><span>new followers</span></div>
+            </div>
+          </div>
+          <div class="card" style="flex-direction:row;align-items:center"><div class="grow"><b class="sm">Ranked grind to diamond</b><div class="xs muted">Kart Racing</div></div><span class="sm b" style="color:var(--primary)">Edit</span><span class="sm b" style="color:var(--primary);margin-left:16px">Chat filters</span></div>
+          <span class="m" style="top:20px;left:520px">1</span>
+        </div>
+        <div class="dchat">
+          <div class="hd">Your chat<span class="muted sm">23 here</span></div>
+          <div class="ms"><div><b>kartqueen</b>gg that was close</div><div><b>scroller</b>first time here 👋</div><div><b>combo_king</b>CLUTCH</div><div><b>pixelpilot</b>how do you drift like that</div><div><b style="color:var(--primary)">nova</b>hold drift + tap boost twice</div></div>
+          <div class="field in" style="border-radius:22px">Chat as nova…</div>
+          <span class="m" style="top:60px;right:20px">2</span>
+        </div>
+      </div>
+    </div>
+    <ol class="notes">
+      <li>Same content as <a href="#G3">G3</a>. End stream → the same confirm (<a href="#G4">G4</a>) and summary (<a href="#G5">G5</a>) as centered cards.</li>
+      <li>Chat docked right, like viewers see it. Streamers can pop it out into its own window to place next to OBS <span class="q">Q14</span>.</li>
+      <li class="g">The tab title shows "● LIVE · GameTime" so the streamer can find it among OBS windows.</li>
+    </ol>
+  </div>
+
+  <div class="frame wide" id="X5" style="margin-top:28px">
+    <div>
+      <div class="fh"><span class="id">X5</span>Tablet portrait · Live feed<span class="route">/ · 768–1023 pt</span></div>
+      <div class="tabl" data-side="live" data-compact="1">
+        <div class="sb" style="padding:0 40px"><span>9:41</span><span class="sbi">▂▄▆ ◠ ▭</span></div>
+        <div class="dmain" style="left:76px;right:0;top:40px;padding:20px 24px;gap:14px">
+          <div class="toggle" style="position:static;justify-content:flex-start"><span>Following</span><b>For You</b></div>
+          <div class="img" style="height:418px;border-radius:14px"><span>16:9 stream</span><span class="live" style="position:absolute;top:12px;left:12px">LIVE</span><span class="vc" style="position:absolute;top:12px;left:72px">◉ 1.2K</span></div>
+          <div class="flex" style="gap:12px"><span class="av l"></span><div class="grow"><div class="flex" style="gap:8px"><b style="font-size:18px">nova</b><span class="chip">Kart Racing</span></div><div class="muted sm">Ranked grind to diamond</div></div><div class="btn" style="height:44px">Follow</div><span class="ib" style="background:var(--raised);border-radius:50%">♥</span><span class="ib" style="background:var(--raised);border-radius:50%">↗</span><span class="ib" style="background:var(--raised);border-radius:50%">⋯</span></div>
+          <div class="card" style="flex:1;font-size:14px;justify-content:flex-end;gap:10px">
+            <div class="flex"><b>Live chat</b><span class="m in" style="margin-left:auto">1</span></div>
+            <div><b class="muted">kartqueen</b> gg that was close</div><div><b class="muted">scroller</b> first time here 👋</div><div><b class="muted">combo_king</b> CLUTCH</div><div><b class="muted">pixelpilot</b> how do you drift like that</div>
+            <div class="field" style="border-radius:22px">Say something…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ol class="notes">
+      <li>Proposal: in portrait, chat docks <b>under</b> the video instead of to the right; a right-docked chat at this width would leave the video about 450 pt wide with empty space below. Landscape tablets use the desktop layout (<a href="#X1">X1</a>) with the icon sidebar. <span class="q">Q15</span></li>
+      <li class="g">Icon-only sidebar (76 pt) between 768 and 1023 pt; labels appear as tooltips and screen-reader names.</li>
+      <li class="g">Swipe up / down on the video moves between streams, as on phones.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================================================================== A11Y -->
+<section id="a11y">
+  <h2>Accessibility &amp; motion (applies everywhere)</h2>
+  <p class="lede">From the product plan's Accessibility line and PHASE_1_PLAN §4B.</p>
+  <ol class="notes" style="max-width:980px;font-size:14px">
+    <li class="g"><b>Touch targets ≥ 44 pt</b> (<code>minTouchTarget</code>). Visually smaller controls (32 pt Follow pills, chips) get a hit area that extends to 44 pt.</li>
+    <li class="g"><b>Screen readers.</b> Every rail and icon button has a label that includes its count ("Send a heart, 3.4 thousand"). The feed card is one element announcing "nova, live, Kart Racing, 1.2 thousand watching, Ranked grind to diamond", with custom actions Next stream / Previous stream / Send heart / Open chat, because swipe and double-tap gestures are taken by the screen reader.</li>
+    <li class="g"><b>Reduced motion</b> (system setting, or Settings → Reduce motion): no LIVE pulse, no Go Live ring pulse, no floating hearts, no skeleton shimmer, no countdowns, no bouncing hint arrow. The feed still snaps (it's navigation) but without overshoot. Chat messages still fade, just without sliding.</li>
+    <li class="g"><b>Contrast.</b> Text over video always sits on the bottom scrim or a 45–60% dark chip so it meets WCAG AA on any stream. Muted text <code>#A1A1B5</code> on <code>#0B0B12</code> passes AA; don't use it on <code>surface</code> at sizes under 12 pt.</li>
+    <li class="g"><b>Haptics</b>: one tick on swipe snap, follow and heart; never repeated. Respect the system haptics setting.</li>
+    <li class="g"><b>Keyboard (web)</b>: ↑/↓ next and previous, M mute, C focus chat, Esc closes sheets. Visible focus ring in primary violet.</li>
+    <li class="g"><b>Captions</b> are v2 (auto-captions); the slot exists in the ⋯ menu.</li>
+    <li class="g"><b>Text size</b>: layouts must survive the largest Dynamic Type / font scale; stream titles truncate, chat wraps.</li>
+  </ol>
+</section>
+
+<!-- ================================================================== QUESTIONS -->
+<section id="questions">
+  <h2>Open product questions</h2>
+  <p class="lede">Raised while drawing these. Each needs an answer (or "go with the drawn default") at the design review; decisions go in <code>docs/decisions/</code>.</p>
+  <ol class="notes" style="max-width:980px;font-size:14px" id="qlist">
+    <li><b>Landscape streams in a vertical feed.</b> OBS sends 16:9. Drawn: fit to width, blurred copy fills the rest, chat sits below the video. Alternative: crop to fill the screen (more immersive, but cuts off game HUDs). Also: rotate to landscape full screen on phones?</li>
+    <li><b>Onboarding: skip, and how many games?</b> Drawn: 3 minimum, no skip. Should Edit profile also enforce 3?</li>
+    <li><b>Cold start.</b> Drawn: "Usually live" streamers + Go Live CTA, an end card instead of looping, and an optional hand-set team schedule card. Do we want the schedule card (needs a small config table)? Loop or end card?</li>
+    <li><b>Under-13 retries.</b> Remember a failed age check on the device?</li>
+    <li><b>Go Live on phones.</b> Streaming needs OBS on a computer. Drawn: phones can set up, see the key and run the dashboard, with a banner pointing to the web. Or should phones only show "Go to your computer" plus the dashboard?</li>
+    <li><b>Chat filters scope.</b> Drawn: built-in list + hide links + your own words, and a "followers only" proposal. Needs a migration (no table in schema v1) and server-side enforcement. What does the sender see?</li>
+    <li><b>Preview before going public?</b> Drawn: the stream goes public the moment OBS connects (webhook → <code>live</code>). A "preview, then press Go live" step would need the app to set <code>live</code>, which clients can't do today.</li>
+    <li><b>Summary stats.</b> Peak viewers and unique viewers aren't stored in schema v1. Add them, or drop them from the summary?</li>
+    <li><b>Profile content.</b> Clips are v2 and the MVP doesn't record video. Drawn: "Recent streams" (title, game, date, length). OK?</li>
+    <li><b>Report reasons and auto-block.</b> Agree the reason list. Should "Also block" be ticked by default?</li>
+    <li><b>Who reviews reports</b> during the class, and where (Supabase dashboard)?</li>
+    <li><b>v2 placeholders.</b> Keep a disabled Captions item and the Squads tab, or hide v2 features entirely?</li>
+    <li><b>Share links.</b> Drawn: web URLs <code>/s/[streamId]</code> and <code>/u/[username]</code>, opening without onboarding. Needs routes and app links.</li>
+    <li><b>Pop-out chat</b> for streamers on desktop: MVP or later?</li>
+    <li><b>Tablet portrait.</b> The plan says chat docks right on tablet; drawn: chat under the video in portrait, right-docked in landscape. OK?</li>
+    <li><b>Anonymous viewing (D4, decision 004).</b> These frames assume signed-out viewers can watch but must sign up to chat, follow, heart or report, and that onboarding picks survive sign-up. D4 decides how.</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+// Draws the repeated chrome (status bar, tab bar, home indicator, desktop sidebar and browser bar)
+// so the frames above only describe their own content.
+(function () {
+  var TABS = [['live', '▶', 'Live'], ['discover', '⌕', 'Discover'], ['golive', '+', 'Go Live'], ['squads', '⚇', 'Squads'], ['profile', '◯', 'Profile']];
+  document.querySelectorAll('.phone').forEach(function (p) {
+    p.insertAdjacentHTML('afterbegin', '<div class="sb"><span>9:41</span><span class="sbi">▂▄▆ ◠ ▭</span></div>');
+    var t = p.getAttribute('data-tab');
+    if (t && t !== 'none') {
+      var html = '<nav class="tabs">';
+      TABS.forEach(function (tab) {
+        var cls = 't' + (tab[0] === 'golive' ? ' go' : '') + (tab[0] === t ? ' on' : '') + (tab[0] === 'golive' && p.hasAttribute('data-live') ? ' pulse' : '');
+        html += '<div class="' + cls + '"><i>' + tab[1] + '</i>' + tab[2] + '</div>';
+      });
+      p.insertAdjacentHTML('beforeend', html + '</nav>');
+    }
+    p.insertAdjacentHTML('beforeend', '<div class="hi"></div>');
+  });
+  document.querySelectorAll('[data-side]').forEach(function (d) {
+    var active = d.getAttribute('data-side');
+    var compact = d.hasAttribute('data-compact');
+    var url = d.getAttribute('data-url');
+    if (url) {
+      d.insertAdjacentHTML('afterbegin', '<div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">' + url + '</span></div>');
+    }
+    var html = '<aside class="side' + (compact ? ' compact' : '') + '"><div class="logo"><span class="mk"></span><span class="wm">GameTime</span></div>';
+    TABS.forEach(function (tab) {
+      html += '<div class="nv' + (tab[0] === active ? ' on' : '') + (tab[0] === 'golive' ? ' go' : '') + '"><i>' + tab[1] + '</i><span>' + tab[2] + '</span></div>';
+    });
+    html += '<div class="sideh">FOLLOWED · LIVE</div>' +
+      '<div class="fl"><span class="av s"></span><div>kartqueen<small>Kart Racing</small></div><span class="vc2">302</span></div>' +
+      '<div class="fl"><span class="av s"></span><div>pixelpilot<small>Arena Shooter</small></div><span class="vc2">240</span></div>' +
+      '<div class="fl" style="opacity:.5"><span class="av s"></span><div>blockhead<small>Offline</small></div></div></aside>';
+    d.insertAdjacentHTML('afterbegin', html);
+  });
+})();
+</script>
+</body>
+</html>
