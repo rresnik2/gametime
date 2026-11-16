@@ -72,6 +72,9 @@ the notes: open a small `docs/…` PR for them.
   migration that has been pushed to the hosted project. Add RLS tests in `supabase/tests/` for
   any new table or policy.
 - **Add packages with `npx expo install`**, not `npm install`.
+- **Every change to the wireframes gets a review pass** before it is committed: screenshot the
+  frames you touched, check them against the brief, fix, repeat until a pass finds nothing, and
+  log it in `docs/wireframes/REVIEW.md` (the steps are at the top of that file).
 
 ## Where things live
 
@@ -83,7 +86,7 @@ the notes: open a small `docs/…` PR for them.
 | Database | Supabase project `ptswfeemhjkbmhgrjdqj` (us-west-1), GameTime org |
 | App IDs | iOS bundle ID and Android package `com.rresnik2.gametime` |
 | Design tokens | `src/theme/tokens.ts` (from the product plan's Theming section) |
-| Wireframes | `docs/wireframes/index.html`: one self-contained page, every MVP screen by flow, plus open product questions. Preview with the `wireframes` config in `.claude/launch.json` |
+| Wireframes | `docs/wireframes/index.html`: one self-contained page, every MVP screen by flow, plus open product questions. Preview with the `wireframes` config in `.claude/launch.json`; add `?real` to see phones at 100%. Review log: `docs/wireframes/REVIEW.md` |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
 | Original games | `games/<slug>/`, static web builds kept out of the Expo app; candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
 

@@ -122,7 +122,8 @@ docs/
 
 To view the wireframes, open `docs/wireframes/index.html` in a browser, or serve the folder:
 `python3 -m http.server 8090 --directory docs/wireframes`, then visit http://localhost:8090.
-Edit the HTML directly; it has no dependencies.
+Edit the HTML directly; it has no dependencies. Add `?real` to the URL to see phones at 100%.
+After editing, follow the review steps in [docs/wireframes/REVIEW.md](docs/wireframes/REVIEW.md).
 
 To play a game locally, serve its folder with any static server, for example
 `npx serve games/the-biosphere-realm`, or open its `index.html` directly.
