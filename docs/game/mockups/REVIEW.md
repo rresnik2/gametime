@@ -16,10 +16,63 @@ Each time `index.html` changes, review it before committing:
 4. Fix what it finds and review again. Stop when a round finds only nits.
 5. Add an entry below.
 
-Screenshots of the final pass (the feed frames R1, R1b, H1, L1 and the signature moments R6, H5,
-L5) are in [`review/`](review/).
+Screenshots of the final pass are in [`review/`](review/): the re-themed Ringward frames (R1, R1b,
+R4, R6, R7, R8, R10) and, from the Nov 16 pass, H1, H5, L1 and L5.
 
 ---
+
+## Fish-in-a-barrel re-theme, round 1: Nov 17, 2026 (final)
+
+Decision 009 picked Ringward and re-themed it. Every Ringward frame was redrawn from
+`docs/game/design.md` on PR #108 (fish in a barrel), and two frames were added: R5b (DIZZY!) and
+R10 (injuries, bonk by bonk). Hot Core and Lumen Drop are unchanged and marked not picked. This
+pass ran at most 4 rounds and stopped at the first round with no major findings. #108 changed its
+injury stages, fish size and card position partway through; the reviewer checked the updated page.
+
+- **Reviewed:**
+  - all 12 Ringward frames at 100%, the table, header and not-picked marks, and the 375 px
+    default view (no horizontal scroll)
+  - checked against #108's design.md, decision 009, hosting-and-interaction.md, the greybox
+    (`render.ts`, `game.ts`) and its screenshots
+  - re-derived arithmetic: pops, wave timing, the 720 / 420°/s swing speeds, the bubble bonus
+    and block counts
+- **Found (0 major, 8 minor, 7 nits):**
+  - **Minor:**
+    - R7 gave the duo spawn rate as "30% more" and "0.7× interval" as if they agree (0.7× is
+      about 43% more).
+    - R6's in-barrel FRENZY! sign was an unflagged proposal.
+    - No frame or note covered a solo round (the greybox shows a status line only during a raid).
+    - R7's two fish overlapped, sat off the greybox's positions, and had unreadably small
+      injuries.
+    - R10 claimed feed scale but draws the fish at about 2/3.
+    - R9's strip text overflowed.
+    - The Raid icon read as a search magnifier.
+    - Bubbles looked like cannonballs under the scrim.
+  - **Nits:**
+    - R6 and R7 status-line additions weren't marked as proposals.
+    - The 140° turn figure wasn't explained.
+    - Markers on targets (R1b, R6, R9).
+    - Diary wording in notes.
+    - "Core breaker" left in a Lumen Drop note.
+    - Petal count at 3 bonks differs from the greybox.
+    - Keep Phase 3 art away from 1930s rubber-hose specifics.
+- **Changed:**
+  - R7's duo-rate note now gives both numbers and flags the mismatch.
+  - FRENZY! sign marked as a proposal and moved up. Added a solo-status proposal (R2 note 8 and
+    the shared section).
+  - Duo fish moved towards their shields at 0.78, with a note that per-fish injuries are a
+    monitor-scale detail. R10's route says "about 2/3 of feed scale".
+  - One-line strip, a bigger cannonball Raid icon with a lit fuse, and opaque sea-green bubbles
+    with a cream rim.
+  - Status-line proposals noted. Explained the 140° figure. Moved the markers. Fixed the wording.
+    Petals now follow the greybox. Added an originality line to the lede.
+- **Left open, flagged for #108's design.md:**
+  - The result cards sit low in the barrel (y 1090–1450), under chat in the feed (risk notes on
+    R4, R5 and R5b).
+  - The duo spawn rate (30% vs about 43%).
+  - Overdrive warning rings and the FRENZY! sign position.
+  - A solo status line.
+  - One bump in design.md vs one per bonk in the greybox.
 
 ## Round 13: Nov 16, 2026 (final)
 
