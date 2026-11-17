@@ -65,7 +65,8 @@ the notes: open a small `docs/…` PR for them.
 - **Before opening a PR:** `npm run lint`, `npm run typecheck`, `npm test`. If you touched
   `supabase/`, also `npm run db:reset`, `npm run db:test` and `npm run db:types` (CI fails if
   `src/lib/database.types.ts` is stale).
-- **Scope is frozen at the MVP column** of the product plan. v2 work (Play with me, clips, squads,
+- **Scope is frozen at the MVP column** of the product plan, plus decision 010 (viewer raids
+  and a duo mode in the original game). v2 work (Play with me, clips, squads,
   push, mobile capture, a second game) goes in the "Stretch (v2)" list in `docs/backlog.md`, not in a PR.
 - **Backlog:** the tickets in `docs/backlog.md` are filed as GitHub issues #9–#90 (milestones
   "Phase 2/3/4: …", labels `ws:*`, `size:*`, `blocked:*`). **The issues are the source of truth**
@@ -99,7 +100,8 @@ the notes: open a small `docs/…` PR for them.
 | Game mockups | `docs/game/mockups/index.html`: mid-fidelity mockups of the three top game concepts (feed with overlay, game canvas, start/end, signature moments). Preview with the `game-mockups` config in `.claude/launch.json` (serves `docs/`; open `/game/mockups/`); `?real` = phones at 100%, `?zones` = app overlay outlined on each canvas, `?only=R1` = one frame. Review log: `docs/game/mockups/REVIEW.md` |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
 | Backlog | `docs/backlog.md`; issue filer `scripts/create-backlog-issues.sh` (dry run unless `--apply`) |
-| Original games | `games/<slug>/`, static web builds kept out of the Expo app; candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
+| Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. Recommended: `games/ringward/` (greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Earlier candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
+| Game design | `docs/game/concepts.md` (shortlist), `docs/game/design.md` (one page), `docs/game/hosting-and-interaction.md` (raids, duo, Realtime channels `ringward:<stream_id>` and `ringward-duo:<stream_id>`); pick tracked in decision 009, multiplayer in 010 |
 
 Environment variables: `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 Locally they come from `.env` (local Supabase); Vercel (production, preview) and EAS (preview,
@@ -133,8 +135,16 @@ production) hold the hosted project's values. Only public keys go in `EXPO_PUBLI
 - **Expo Router tab triggers:** custom tab buttons omit `ref` because expo-router's slot ref type
   doesn't match React Native 0.88's yet (see `src/components/navigation/app-tabs.tsx`).
 - **Wireframes in the in-app browser:** opening `docs/wireframes/index.html` as a `file://` URL renders a static snapshot that won't scroll. Serve it instead (`python3 -m http.server 8090 --directory docs/wireframes`, or the `wireframes` launch config).
-- **`expo lint` lints every JS file in the repo,** including the standalone games, which follow
-  their own style. `eslint.config.js` ignores `games/*`; keep it that way.
+- **The root toolchain picks up everything under `games/` unless told not to:** `expo lint`
+  lints every JS file, `tsc` includes every `**/*.ts`, and Jest runs every `*.test.ts`. The
+  games have their own tooling, so `eslint.config.js` ignores `games/*`, `tsconfig.json`
+  excludes `games`, and `jest.config.js` ignores `<rootDir>/games/`. Keep all three.
+- **Ringward tests use `node --test`, not Jest:** `src/*.ts` imports use `.ts` extensions and
+  only erasable TypeScript (no enums), so Node 24 runs them with no build step.
+- **The Browser pane pauses animation when it's hidden,** so a canvas game looks frozen there.
+  Ringward exposes its state as `window.ringward` in dev; step it from the console by importing
+  `/src/game.ts` and calling `update()`. Vite's HMR adds `?t=` to module URLs, so that import
+  can be a second copy of the module; that's fine, since the state object is shared.
 - **`expo-doctor` rejects `eas-cli` as a project dependency;** scripts call `npx eas-cli@latest`.
 - **TypeScript 6** doesn't pick up global types automatically; `tsconfig.json` lists `"jest"`
   in `types`.

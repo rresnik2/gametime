@@ -35,8 +35,8 @@ partway through can tell what's happening within a few seconds.**
   (rresnik2/gametime#8); the pick is still decision 009.
 - **The design doc** states the session length (round length, or what a long session looks like)
   and what a viewer who swipes in mid-session sees in the first 5 seconds.
-- **Backlog:** P2-GAME-02, P2-GAME-04, P2-GAME-05 and P3-GAME-03 updated. Their GitHub issues
-  (#28, #30, #31, #65) still show the old text.
+- **Backlog:** P2-GAME-02, P2-GAME-04, P2-GAME-05 and P3-GAME-03 updated, and their GitHub
+  issues (#28, #30, #31, #65) match.
 - **"No saves of its own"** still holds, so a long session lasts as long as one sitting.
 
 ## Open question (design review)
