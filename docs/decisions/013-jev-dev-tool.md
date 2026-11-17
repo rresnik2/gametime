@@ -56,7 +56,8 @@ it never checks out PR code. Question wording and thresholds live in
 ## Consequences
 - `TYPESAFE_API_KEY` lives in the maintainer's shell profile and as a GitHub Actions repository
   secret (for CI triage); never in the repo, Vercel or EAS, and never with an `EXPO_PUBLIC_`
-  prefix (that would ship it in the app). Without the secret, CI triage skips quietly.
+  prefix (that would ship it in the app). The secret was set on Nov 17, 2026;
+  without it, CI triage skips quietly.
 - The vendor's Claude Code skill is a local copy in `.claude/skills/typesafe-ai/`, excluded from
   git, so teammates who want it copy it from the vendor's docs.
 - Using Jev in the product (for example chat moderation or stream tagging) is a Phase 4 safety or
