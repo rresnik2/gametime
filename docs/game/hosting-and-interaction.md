@@ -1,7 +1,7 @@
 # Ringward: hosting, multiplayer and viewer interaction
 
 - **Status:** design for the build in Phases 2–3 ([decision 010](../decisions/010-game-multiplayer-and-viewers.md))
-- **Updated:** Nov 16, 2026
+- **Updated:** Nov 17, 2026 (wording for the fish-in-a-barrel theme; message fields keep the rules' names)
 - **Rules:** already in the greybox (`games/ringward/src/game.ts`: `launch()`, duo shields).
   Networking is not built yet; `?viewers=N` and `?duo` simulate it locally.
 
@@ -11,7 +11,7 @@
 |---|---|---|
 | **Host** (the streamer) | The game page in their desktop browser, captured by OBS | Runs the only copy of the rules (authoritative), plays P1 |
 | **Partner** (duo, optional) | The game page in a friend's browser, joined by invite link | Sends their shield input, sees the host's state, plays P2 |
-| **Raiders** (viewers) | The GameTime app, watching the host's stream | Launch shards from a 12-slot ring; see the result in the stream |
+| **Raiders** (viewers) | The GameTime app, watching the host's stream | Fire cannonballs from a 12-slot ring; see the result in the stream |
 
 There is no game server. The host's browser is the server; Supabase carries messages.
 
@@ -21,7 +21,7 @@ There is no game server. The host's browser is the server; Supabase carries mess
 Viewer app ──launch {slot}──▶ Edge Function `ringward-launch` ──broadcast──▶ Host
                               (checks JWT, username, block list,
                                4 s cooldown; service role sends)
-Host ──raid events (round start/end, queued/full, core breaker)──▶ Viewer apps
+Host ──raid events (round start/end, queued/full, final bonk)──▶ Viewer apps
 Partner ──input {turn, targetAngle} 30 Hz──▶ Host ──state 20 Hz──▶ Partner
 ```
 
@@ -38,7 +38,7 @@ Partner ──input {turn, targetAngle} 30 Hz──▶ Host ──state 20 Hz─
   queue of at most 8. Refusals go back as raid events so the app can say "raid full".
 
 ## Why raids stay fair at any audience size
-A viewer's launch **replaces** the next shard the game would have spawned; it never adds one.
+A viewer's shot **replaces** the next cannonball the game would have fired; it never adds one.
 Timing comes from the wave table, so 0, 10 or 10,000 viewers make the same difficulty, and
 spam can't overwhelm the streamer. With no viewers (cold start), the game spawns everything
 itself. Unit tests cover this ("viewers launching constantly cannot make a round unwinnable").
@@ -48,23 +48,23 @@ Viewers watch the stream a few seconds behind the host (D1: about 2–5 s in low
 10 s or more in standard HLS). The design absorbs it:
 - Viewers pick **where** (a slot), never **when**, so being late can't make a launch "miss".
 - The app answers instantly ("queued, 3rd in line", slot lights up, cooldown ring), and the
-  stream shows the outcome a few seconds later with the viewer's name on the shard.
-- Crack credits and the core breaker appear on the result card in the stream.
+  stream shows the outcome a few seconds later with the viewer's name on the cannonball.
+- Bonk credits and the "final bonk by" viewer appear on the result card in the stream.
 - **Risk:** if D1 picks standard latency, raids feel sluggish. Prefer the low-latency mode.
 
 ## Duo partner
 - The host panel on the game page makes an invite link; the partner opens it signed in. (No app
   change needed: host and partner are both at a desktop.)
 - The partner sends input at 30 Hz; the host simulates and sends compact state at 20 Hz
-  (two shield angles, at most ~10 shards, score, cracks, timer: well under 1 KB).
-- The partner's own shield is predicted locally so it feels instant; shards are interpolated.
+  (two shield angles, at most ~10 cannonballs, score, bonks, timer: well under 1 KB).
+- The partner's own shield is predicted locally so it feels instant; cannonballs are interpolated.
   Shields are solid to each other, so players split the ring.
 - Without a partner, duo also works on one keyboard (P1 mouse/A-D, P2 arrows).
 
 ## In the GameTime app
 When the playing stream's game is Ringward, the action rail gets a **Raid** button that opens a
 bottom sheet: the 12-slot ring (same layout as the rim ticks in the game), a cooldown ring, and
-"your shard is Nth in line". Slots are 44 pt targets. The sheet only appears while a round is on.
+"your cannonball is Nth in line". Slots are 44 pt targets. The sheet only appears while a round is on.
 
 ## Hosting
 - The game is a static Vite build on its own Vercel project (README → "Deploying the game to
@@ -83,5 +83,5 @@ bottom sheet: the 12-slot ring (same layout as the rim ticks in the game), a coo
 | Art, sound, polish (reduced), stream tests with the team | F | Weeks 6–8 |
 
 **Cut to make room:** matchmaking (invite link only), leaderboards, persistent per-viewer stats,
-shard skins, and a mobile version of the game. "Play with me" (viewers joining the streamer's
+cannonball skins, and a mobile version of the game. "Play with me" (viewers joining the streamer's
 own games) stays v2.

@@ -12,7 +12,7 @@ One file per decision, numbered in order. 001–006 match D1–D6 in `PHASE_1_PL
 | [006](006-stream-key-security.md) | Stream keys in an owner-only table | Decided |
 | [007](007-accounts-and-hosting.md) | Accounts, regions and app IDs | Decided |
 | [008](008-brand-mark-and-app-icons.md) | Brand mark and app icons | Decided |
-| [009](009-game-concept.md) | Which original game to build (Ringward, Biosphere Realm or others; recommended: Ringward) | **Open** |
+| [009](009-game-concept.md) | The original game: Ringward, re-themed as fish in a barrel (name TBD) | Decided |
 | [010](010-game-multiplayer-and-viewers.md) | The MVP game has viewer interaction and a 2-player mode | Decided |
 | [011](011-stream-orientation.md) | Vertical feed; landscape streams rotate when you join them | Decided |
 | [012](012-game-session-length.md) | The original game may be quick or long-form (replaces 002's round limit) | Decided |

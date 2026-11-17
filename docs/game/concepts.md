@@ -1,6 +1,8 @@
 # Original game: candidate shortlist
 
-- **Status:** proposed, awaiting the team's pick ([decision 009](../decisions/009-game-concept.md))
+- **Status:** **picked Nov 17, 2026: Ringward, re-themed as "shooting fish in a barrel"**
+  ([decision 009](../decisions/009-game-concept.md); the theme is in [design.md](design.md)). The
+  other candidates were not picked. This page is the record of the shortlist.
 - **Updated:** Nov 16, 2026 (re-scored for the criteria below)
 - **Criteria:** [decision 002](../decisions/002-in-app-games.md) as amended by
   [decision 012](../decisions/012-game-session-length.md) (no round-length limit),
@@ -110,9 +112,9 @@ Biosphere as is 24.
   Its fixed 2-minute rounds are now a design choice rather than a rule, and they help swipe-in
   legibility: there is always a timer and a score.
 
-## Recommendation
+## Recommendation (picked)
 
-**Ringward.** It scores highest on every viewer-facing criterion: it fills the phone as a
+**Ringward**, picked by the project lead on Nov 17, 2026 with a new theme (fish in a barrel). It scores highest on every viewer-facing criterion: it fills the phone as a
 portrait stream, someone swiping in understands it within a second or two, and viewers have the
 most natural way to join in (they throw the shards). It is also the cheapest to host for duo play,
 and its greybox already runs with simulated viewers and a second shield. Its risks are wave
