@@ -31,15 +31,18 @@ Scored in [docs/game/concepts.md](../game/concepts.md), out of 40 (eight criteri
 with the ringward concept but change the theme to shooting fish in a barrel. there could be 1 or
 2 fishes in the center holding a shield." Further direction the same day: an orange goldfish with
 bright red lips, a wooden barrel, tropical with character details, cannonballs as the
-projectiles, a faster fish, damage that shows progressively, and an old-timey, nostalgic look.
+projectiles, a faster fish, damage that shows progressively (bruises, a black eye, band-aids),
+an old-timey, nostalgic look, and the game's own palette.
 
 - **Rules unchanged** except the shield's swing speed (720°/s mouse, 420°/s keys, up from 540 and
   300). Solo is one goldfish holding a shield; duo is two goldfish, each with a shield. Viewer
   raids fire the cannonballs, labelled with usernames.
 - **Theme**, recorded in [docs/game/design.md](../game/design.md): a top-down wooden barrel of
   lagoon water; cartoon cannonballs fired in over the rim; a ball that gets through is a "BONK!"
-  that adds visible cartoon damage (bump, band-aid, droopy eye, stars), and three make the fish
-  "DIZZY!". Non-violent: no blood, wounds or explosions. Old-film, carnival-postcard finish.
+  that adds visible injuries (bruises, band-aids, a black eye), and three make the fish
+  "DIZZY!". Slapstick injuries that build up (bruises, a black eye, band-aids; the lead: "i want
+  the bruising and wounds, like a black eye and bandaids"), but no blood or gore: the app is 13+
+  (decision 005) and streams are public. Old-film, carnival-postcard finish.
 
 ## Name (the team's call)
 "Ringward" stays the working title in code, paths and the seed row, so nothing breaks. Proposed
@@ -70,6 +73,8 @@ characters people can root for.
   `blocked:game-concept` label comes off their issues.
 - **Mockups:** `docs/game/mockups/` still shows the abstract Ringward; the mockups session
   re-themes it from the design doc.
-- The game has its own look, outside GameTime's flat palette, by the lead's direction; P1's
+- **Each game has its own theme and palette** (the lead: GameTime's palette "is not strict and
+  is still a work in progress … i expect all the games to have different themes and color
+  palettes"). GameTime's tokens are for the app. This game's palette is in the design doc; P1's
   shield keeps a faded GameTime purple. Fonts and art get finalised in Phase 3 (P3-GAME-01).
 - Exit criterion 8 still needs the greybox streamed through OBS into the app once.

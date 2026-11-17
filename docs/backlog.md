@@ -696,7 +696,7 @@ Risk #2 mitigation: cap resolution and stream length.
 #### P3-GAME-01 · Final art and title screen
 - **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-05 · **Blocked on:** —
 
-- [ ] Original art in GameTime's palette, replacing all greybox shapes, still readable on a phone stream
+- [ ] Original art in the game's own theme and palette (`docs/game/design.md`), replacing all greybox shapes, still readable on a phone stream
 - [ ] Title screen with the game's own name and logo
 - [ ] Cover art for its `games` row (used by game chips and tiles)
 

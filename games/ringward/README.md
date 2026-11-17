@@ -7,7 +7,8 @@ greybox stage: the full rules, with code-drawn placeholder art and no sound. Des
 [docs/game/concepts.md](../../docs/game/concepts.md).
 
 An orange goldfish in a wooden barrel swings a shield on a stick to bat away cartoon cannonballs
-for two minutes; three BONKs and it's dizzy. Old-timey, tropical and non-violent. Streamed
+for two minutes; each BONK leaves slapstick bruises, a black eye or a band-aid, and three make it
+dizzy. Old-timey and tropical, no blood or gore. Streamed
 **portrait** (9:16; see the design doc). On a stream, viewers fire the cannonballs from the
 GameTime app (*raids*), and a friend can join as a second goldfish with its own shield (*duo*); see [decision 010](../../docs/decisions/010-game-multiplayer-and-viewers.md)
 and [hosting-and-interaction.md](../../docs/game/hosting-and-interaction.md). The greybox has the

@@ -272,7 +272,9 @@ the game to the smallest concept on the shortlist.
   web build in `games/<slug>/`, deployed to its own Vercel URL. Keep it separate from the Expo app
   so a game bug can't break the app.
 - **Design doc** (`docs/game/design.md`, one page): core loop, controls, session length (quick
-  rounds or a long session), scoring, win/lose states, art direction using GameTime's palette, and
+  rounds or a long session), scoring, win/lose states, art direction with the game's own theme and
+  palette (each game has its own; GameTime's tokens in `src/theme/tokens.ts` are for the app and
+  still a work in progress), and
   what a viewer who swipes in mid-session sees in the first 5 seconds.
 - **Greybox prototype (week 2):** the core mechanic playable in a browser with placeholder shapes,
   streamed once through OBS into the app to check it reads on a phone screen.

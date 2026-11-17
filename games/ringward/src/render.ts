@@ -1,5 +1,5 @@
 /**
- * Draws a Game onto a canvas. Greybox: flat placeholder shapes in GameTime's palette, no assets.
+ * Draws a Game onto a canvas. Greybox: code-drawn placeholder art in the game's own palette, no assets.
  *
  * Theme (decision 009): fish in a barrel, seen from above, tropical. The arena is a wooden barrel
  * of lagoon water; the "core" is the goldfish (two in duo) in the middle, each holding a shield;
@@ -18,13 +18,14 @@ import {
   isDuo,
   isOverdrive,
   multiplier,
+  nearestShieldIndex,
   slotAngle,
   timeLeft,
   topRaiders,
   type Game,
 } from './game.ts';
 
-/** Mirrors src/theme/tokens.ts in the app. */
+/** The app's tokens (src/theme/tokens.ts), kept for reference; the game draws with VINTAGE and THEME. */
 export const palette = {
   background: '#0B0B12',
   surface: '#16161F',
@@ -61,7 +62,7 @@ const SHIELD_COLORS = [
 ];
 
 /**
- * Theme colours outside GameTime's palette, by the project lead's direction (Nov 17, 2026):
+ * The game's own theme colours (each game has its own palette; project lead, Nov 17, 2026):
  * an orange goldfish with bright red lips in a wooden barrel. The HUD and UI stay in the VINTAGE.
  */
 const THEME = {
@@ -75,6 +76,9 @@ const THEME = {
   blush: 'rgba(255,92,138,0.5)',
   lashes: '#0B0B12',
   bandAid: '#F2C79B',
+  bandAidPad: '#E7AE7E',
+  bruise: 'rgba(96,62,140,0.55)',
+  blackEye: '#3B2A4E',
   sweat: '#9FE3FF',
   /** P1 wears a pink hibiscus, P2 a white plumeria (matching the white P2 shield). */
   flowers: [
@@ -254,8 +258,12 @@ export function render(ctx: CanvasRenderingContext2D, l: Layout, game: Game, o: 
   });
 
   // The fish themselves, drawn last in the water so they sit on top of their sticks.
+  // Only the fish that took the hit flashes; each fish shows its own injuries.
   const flash = recentBonk ? 1 - recentBonk.age / 0.25 : 0;
-  fish.forEach((f, i) => drawFish(ctx, f, i, game.cracks, game.phase === 'lost', flash, o.now));
+  const flashed = recentBonk ? nearestShieldIndex(game, recentBonk.angle) : -1;
+  fish.forEach((f, i) =>
+    drawFish(ctx, f, i, game.hurt[i] ?? game.cracks, game.phase === 'lost', i === flashed ? flash : 0, o.now),
+  );
 
   // Popups: points for blocks, BONK! when a ball gets through.
   ctx.textAlign = 'center';
@@ -446,11 +454,12 @@ interface FishSpot {
 /** One big fish in the middle (solo), or two smaller ones nudged towards their shields (duo). */
 function fishPositions(l: Layout, game: Game): FishSpot[] {
   if (!isDuo(game)) {
-    return [{ x: l.cx, y: l.cy, size: CORE_R * l.r * 0.95, facing: game.shields[0] }];
+    // Drawn a bit larger than the rules' core radius so injuries read on a phone.
+    return [{ x: l.cx, y: l.cy, size: CORE_R * l.r * 1.2, facing: game.shields[0] }];
   }
   return game.shields.map((a) => {
     const [x, y] = polar(l, a, CORE_R * 0.8);
-    return { x, y, size: CORE_R * l.r * 0.5, facing: a };
+    return { x, y, size: CORE_R * l.r * 0.62, facing: a };
   });
 }
 
@@ -469,7 +478,7 @@ function drawFish(
   now: number,
 ): void {
   const { x, y, size } = f;
-  const hurt = dizzy ? MAX_CRACKS : Math.min(bonks, MAX_CRACKS);
+  const hurt = Math.min(bonks, MAX_CRACKS);
   const flower = THEME.flowers[player] ?? THEME.flowers[0];
   const wiggle = Math.sin(now * 6 + player) * 0.12;
   ctx.save();
@@ -536,21 +545,19 @@ function drawFish(
   ctx.fillStyle = THEME.fishShade;
   ctx.fill();
 
-  // Damage that builds up with each bonk (cartoon only).
+  // Injuries that build up with each bonk: slapstick bruises and band-aids, never blood.
   if (hurt >= 1) {
-    // A band-aid on the side.
-    ctx.save();
-    ctx.translate(-size * 0.3, size * 0.05);
-    for (const rot of [0.6, -0.6]) {
-      ctx.save();
-      ctx.rotate(rot);
-      ctx.beginPath();
-      ctx.roundRect(-size * 0.22, -size * 0.07, size * 0.44, size * 0.14, size * 0.07);
-      ctx.fillStyle = THEME.bandAid;
-      ctx.fill();
-      ctx.restore();
-    }
-    ctx.restore();
+    drawBruise(ctx, -size * 0.35, size * 0.18, size * 0.24);
+    drawBandAid(ctx, -size * 0.3, -size * 0.1, size * 0.5, 0.6);
+    drawBandAid(ctx, -size * 0.3, -size * 0.1, size * 0.5, -0.6);
+  }
+  if (hurt >= 2) {
+    drawBruise(ctx, size * 0.15, size * 0.42, size * 0.18);
+    drawBandAid(ctx, size * 0.1, -size * 0.58, size * 0.42, 0.15);
+  }
+  if (hurt >= 3) {
+    drawBruise(ctx, -size * 0.7, -size * 0.2, size * 0.2);
+    drawBandAid(ctx, size * 0.78, size * 0.32, size * 0.32, -0.9);
   }
 
   // Cheek blush.
@@ -568,9 +575,15 @@ function drawFish(
   ctx.ellipse(size * 0.98, size * 0.1, size * 0.17, size * 0.11, -0.35, 0, Math.PI * 2);
   ctx.fill();
 
-  // Eye with lashes, or a dizzy spiral.
+  // Eye with lashes, or a dizzy spiral. From the second bonk it's a black eye.
   const ex = size * 0.45;
   const ey = -size * 0.22;
+  if (hurt >= 2) {
+    ctx.beginPath();
+    ctx.ellipse(ex, ey + size * 0.02, size * 0.27, size * 0.24, 0, 0, Math.PI * 2);
+    ctx.fillStyle = THEME.blackEye;
+    ctx.fill();
+  }
   if (dizzy) {
     ctx.beginPath();
     for (let t = 0; t < 4 * Math.PI; t += 0.3) {
@@ -655,6 +668,35 @@ function drawFish(
       drawStar(ctx, x + Math.cos(a) * size * 1.2, y - size * 0.9 + Math.sin(a) * size * 0.35, size * 0.16);
     }
   }
+}
+
+/** A soft purple bruise. */
+function drawBruise(ctx: CanvasRenderingContext2D, x: number, y: number, s: number): void {
+  ctx.fillStyle = THEME.bruise;
+  for (const [dx, dy, k] of [[0, 0, 1], [s * 0.35, -s * 0.2, 0.7], [-s * 0.3, s * 0.15, 0.6]]) {
+    ctx.beginPath();
+    ctx.ellipse(x + dx, y + dy, s * k, s * k * 0.75, 0.4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+/** A band-aid strip of length len, rotated by rot, centred on (x, y). */
+function drawBandAid(ctx: CanvasRenderingContext2D, x: number, y: number, len: number, rot: number): void {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rot);
+  ctx.beginPath();
+  ctx.roundRect(-len / 2, -len * 0.16, len, len * 0.32, len * 0.16);
+  ctx.fillStyle = THEME.bandAid;
+  ctx.fill();
+  ctx.strokeStyle = VINTAGE.ink;
+  ctx.lineWidth = Math.max(1, len * 0.04);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.rect(-len * 0.14, -len * 0.12, len * 0.28, len * 0.24);
+  ctx.fillStyle = THEME.bandAidPad;
+  ctx.fill();
+  ctx.restore();
 }
 
 function drawFlower(
@@ -802,9 +844,11 @@ function drawHud(ctx: CanvasRenderingContext2D, l: Layout, game: Game, o: Render
     return;
   }
 
-  // Title and result cards, across the middle of the barrel.
+  // Title card across the middle of the barrel. Result cards sit in its lower part instead, so
+  // the fish (dizzy and bandaged, or still swimming) stays in view above them.
   ctx.fillStyle = 'rgba(23,17,13,0.85)';
-  ctx.fillRect(0, cy - r * 0.62, l.width, r * 1.24);
+  if (game.phase === 'ready') ctx.fillRect(0, cy - r * 0.62, l.width, r * 1.24);
+  else ctx.fillRect(0, cy + r * 0.3, l.width, r * 0.82);
   ctx.textBaseline = 'middle';
   if (game.phase === 'ready') {
     ctx.fillStyle = VINTAGE.text;
@@ -830,21 +874,21 @@ function drawHud(ctx: CanvasRenderingContext2D, l: Layout, game: Game, o: Render
     const won = game.phase === 'won';
     const viewersWon = !won && game.coreBreaker !== null;
     ctx.fillStyle = won ? VINTAGE.mint : VINTAGE.live;
-    ctx.font = font(unit * 11);
-    ctx.fillText(won ? 'STILL SWIMMING' : viewersWon ? 'VIEWERS WIN' : 'DIZZY!', cx, cy - r * 0.32, column * 0.92);
+    ctx.font = font(unit * 9.5);
+    ctx.fillText(won ? 'STILL SWIMMING' : viewersWon ? 'VIEWERS WIN' : 'DIZZY!', cx, cy + r * 0.44, column * 0.92);
     ctx.fillStyle = VINTAGE.text;
     ctx.font = font(unit * 5.2, 500);
     const detail = viewersWon
       ? `Final bonk by ${shortName(game.coreBreaker ?? '')}`
       : `Score ${game.score} · lasted ${formatTime(game.elapsed)}`;
-    ctx.fillText(detail, cx, cy - r * 0.02, column * 0.92);
+    ctx.fillText(detail, cx, cy + r * 0.64, column * 0.92);
     ctx.fillStyle = VINTAGE.textSecondary;
-    ctx.font = font(unit * 4.4, 500);
+    ctx.font = font(unit * 4.2, 500);
     const stats = raiderCount > 0
       ? `${game.blocks} blocked · ${raiderCount} throwers · score ${game.score}`
       : `${game.perfects} perfect · ${game.blocks} blocks · best ${o.best}`;
-    ctx.fillText(stats, cx, cy + r * 0.18, column * 0.92);
-    ctx.fillText('Click or Space to play again', cx, cy + r * 0.38, column * 0.92);
+    ctx.fillText(stats, cx, cy + r * 0.81, column * 0.92);
+    ctx.fillText('Click or Space to play again', cx, cy + r * 0.98, column * 0.92);
   }
   if (o.autopilot) {
     ctx.fillStyle = VINTAGE.textSecondary;

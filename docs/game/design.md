@@ -17,17 +17,23 @@ An **old-timey, nostalgic, tropical** top-down cartoon: a faded seaside-carnival
 arena: lagoon water, lily pads, leaves hanging over a rope-bound wooden rim, carnival-tent stripes
 behind it. In the middle swims a round **orange goldfish with bright red lips**, lashes, a blush
 and a flower behind its eye, inked like an old cartoon, holding a shield on a stick. Shots are
-**cartoon cannonballs** (dark iron balls trailing smoke puffs). Still playful and non-violent:
-no blood, wounds, explosions or fishing hooks.
+**cartoon cannonballs** (dark iron balls trailing smoke puffs). Slapstick, not gory: hits leave
+bruises, a black eye and band-aids that pile up, but never blood, gore, explosions or fishing
+hooks (the app is 13+, decision 005, and streams are public).
 
-**Damage builds up with each bonk** (cartoon only), so viewers can see how close the fish is:
+**Injuries build up with each bonk**, so viewers can see how close the fish is to going down. In
+duo, each fish shows the bonks that landed on its side of the barrel (they still share three
+bubbles):
 
-| Bonks | The fish shows |
+| Bonks on this fish | The fish shows |
 |---|---|
 | Any bonk | A white flash and a squash, "BONK!", a bubble pops |
-| 1 | A bump on the head, a band-aid, a sweat drop; the flower loses a petal |
-| 2 | Two bumps, a droopy eyelid, a star circling its head; another petal gone |
-| 3 (round lost) | Spiral "dizzy" eye, three circling stars |
+| 1 | A purple bruise on its side, a crossed band-aid over it, a bump, a sweat drop; its flower loses a petal |
+| 2 | A **black eye** (dark ring, droopy lid), a second bruise, a band-aid on its head, a star circling |
+| 3 | A third bruise, a band-aid on its cheek; when the round is lost, a spiral "dizzy" eye and three stars |
+
+The result card sits in the lower part of the barrel, so the battered (or still swimming) fish
+stays in view at the end of a round.
 
 ## Modes
 | Mode | Who | How |
@@ -100,17 +106,20 @@ The rules in `games/ringward/src/game.ts` keep neutral names; only the screen us
 | Code | On screen |
 |---|---|
 | core | the goldfish (two in duo) |
+| `hurt[i]` | the injuries on fish *i* |
 | shard, `launch()` | cannonball, a shot |
-| crack, `cracks` | BONK!, a popped bubble |
+| crack, `cracks` | BONK!, a popped bubble, a new injury |
 | `coreBreaker` | "Final bonk by" |
 | overdrive | FRENZY! |
 | raiders | throwers ("12 throwing") |
 | rim slots | stave joints on the barrel rim |
 
 ## Art direction
-By the project lead's direction (Nov 17, 2026) the game has its own look: tropical characters, a
-wooden barrel, and an old-timey finish. It deliberately departs from GameTime's flat palette; P1's
-shield keeps a faded GameTime purple as the link to the app. All colours live at the top of
+**Each game has its own theme and palette** (project lead, Nov 17, 2026); GameTime's tokens
+(`src/theme/tokens.ts`) are for the app and still a work in progress. This game's look: tropical
+characters, a wooden barrel, and an old-timey finish, with strong contrast so it reads on a phone
+and the HUD stays clear under the app's overlay. P1's shield keeps a faded GameTime purple as a
+small link to the app. All colours live at the top of
 `games/ringward/src/render.ts` (`THEME` for the scene, `VINTAGE` for the screen).
 
 | Element | Colour |
@@ -154,7 +163,7 @@ press **G** (or add `?guides`) to show it. Check it in the OBS stream test.
 A sepia-toned old postcard come to life: a round wooden barrel of lagoon water filling the phone,
 an orange goldfish with red lips in the middle swinging a purple shield on a stick, and
 cannonballs trailing smoke flying in from the rim. A huge cream score above, the time left beside
-it, three bubbles below; bumps and band-aids on the fish show how it's doing. Within a second or two a ball either
+it, three bubbles below; bruises, a black eye and band-aids on the fish show how it's doing. Within a second or two a ball either
 bounces off the shield with a "+25" or BONKs the fish: a viewer swiping in gets the whole game
 without sound or explanation. In a raid, the balls carry other viewers' names and "12 throwing"
 sits under the barrel, so the next thing the viewer wants is the Raid button.
