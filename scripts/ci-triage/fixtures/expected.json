@@ -1,0 +1,10 @@
+{
+  "lint-error.log":      { "job": "App (lint, typecheck, test, web build)", "step": "Lint", "ci_environment": "no", "lockfile_mismatch": "no", "rootContains": "pressed" },
+  "type-error.log":      { "job": "App (lint, typecheck, test, web build)", "step": "Typecheck", "ci_environment": "no", "lockfile_mismatch": "no", "rootContains": "TS2" },
+  "jest-fail.log":       { "job": "App (lint, typecheck, test, web build)", "step": "Test", "ci_environment": "no", "lockfile_mismatch": "no", "rootContains": "Avatar" },
+  "npm-network.log":     { "job": "App (lint, typecheck, test, web build)", "step": "Run npm ci", "ci_environment": "yes", "lockfile_mismatch": "no" },
+  "npm-lockfile.log":    { "job": "Database (migrations, seed, RLS tests)", "step": "Run npm ci", "ci_environment": "no", "lockfile_mismatch": "yes" },
+  "docker-ratelimit.log":{ "job": "Database (migrations, seed, RLS tests)", "step": "Start Supabase (applies migrations and seed)", "ci_environment": "yes", "lockfile_mismatch": "no" },
+  "rls-fail.log":        { "job": "Database (migrations, seed, RLS tests)", "step": "RLS tests", "ci_environment": "no", "lockfile_mismatch": "no", "rootContains": "blocked viewer" },
+  "migration-error.log": { "job": "Database (migrations, seed, RLS tests)", "step": "Start Supabase (applies migrations and seed)", "ci_environment": "no", "lockfile_mismatch": "no", "rootContains": "orientaton" }
+}
