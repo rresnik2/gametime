@@ -16,7 +16,7 @@ has a deployable skeleton app that CI builds on every pull request.
 
 ---
 
-## Status (updated Nov 16, 2026)
+## Status (updated Nov 17, 2026)
 
 Update this list in the same PR as the work.
 
@@ -37,6 +37,7 @@ Update this list in the same PR as the work.
 - [x] Game: three original concepts scored alongside The Biosphere Realm, re-scored Nov 16, 2026 without the round-length limit ([decision 012](docs/decisions/012-game-session-length.md)) and with decision 011's orientation rules ([docs/game/concepts.md](docs/game/concepts.md)), one-page design doc for the recommended one ([docs/game/design.md](docs/game/design.md)), and a greybox of its core mechanic in `games/ringward/` (Canvas + TypeScript, Vite; portrait 9:16 layout, also runs in a 16:9 window; own CI job). The greybox includes viewer raids (simulated with `?viewers=N`) and a local duo mode (`?duo`)
 - [x] Decided: the MVP game has viewer interaction and a 2-player mode, hosted by the streamer's browser over Supabase Realtime ([decision 010](docs/decisions/010-game-multiplayer-and-viewers.md); design in [docs/game/hosting-and-interaction.md](docs/game/hosting-and-interaction.md))
 - [x] Mockups of the three top game concepts (Ringward, Hot Core, Lumen Drop): each in the feed with the app overlay, its 1080×1920 game screen, start and end screens and its signature moment, plus Ringward's Raid sheet and a comparison of readability risks: [`docs/game/mockups/index.html`](docs/game/mockups/index.html) ([review log](docs/game/mockups/REVIEW.md)). Input to decision 009, which stays Open
+- [x] Jev (TypeSafe) adopted as a dev-time judgment tool only, not in the app or MVP scope; key in the maintainer's shell profile, ask before live calls ([decision 013](docs/decisions/013-jev-dev-tool.md))
 
 **Open**
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)

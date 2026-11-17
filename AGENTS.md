@@ -102,10 +102,13 @@ the notes: open a small `docs/…` PR for them.
 | Backlog | `docs/backlog.md`; issue filer `scripts/create-backlog-issues.sh` (dry run unless `--apply`) |
 | Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. Recommended: `games/ringward/` (greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Earlier candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
 | Game design | `docs/game/concepts.md` (shortlist), `docs/game/design.md` (one page), `docs/game/hosting-and-interaction.md` (raids, duo, Realtime channels `ringward:<stream_id>` and `ringward-duo:<stream_id>`); pick tracked in decision 009, multiplayer in 010 |
+| Jev (TypeSafe), dev tool only | `POST https://api.typesafe.ai/v1/systemone`, model `jev-latest`; docs https://docs.typesafe.ai/llms.txt; local skill copy in `.claude/skills/typesafe-ai/` (git-excluded). Ask before any live call; rules in [decision 013](docs/decisions/013-jev-dev-tool.md) |
 
 Environment variables: `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 Locally they come from `.env` (local Supabase); Vercel (production, preview) and EAS (preview,
 production) hold the hosted project's values. Only public keys go in `EXPO_PUBLIC_` variables.
+`TYPESAFE_API_KEY` (Jev, decision 013) lives in the maintainer's shell profile only: never in the
+repo, Vercel or EAS, and never with an `EXPO_PUBLIC_` prefix.
 
 ## Tooling pitfalls (each of these has cost time)
 
@@ -155,6 +158,9 @@ production) hold the hosted project's values. Only public keys go in `EXPO_PUBLI
   (writes flattened PNGs you can look at). The web export turns `favicon.png` into `favicon.ico`.
 - **npm cache permissions:** if `npm install` fails with `EACCES` on `~/.npm/_cacache`, use
   `--cache <some writable dir>` or fix ownership of `~/.npm`.
+- **The TypeSafe Claude Code plugin (`typesafe@typesafe-ai`) doesn't install:** its marketplace
+  isn't found and the source is unverified (Nov 17, 2026). Use the vendor's skill file copied to
+  `.claude/skills/typesafe-ai/` (git-excluded) and the docs at https://docs.typesafe.ai/llms.txt.
 
 ---
 
