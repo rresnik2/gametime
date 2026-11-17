@@ -169,6 +169,14 @@ a GitHub Actions repository secret: never in the repo, Vercel or EAS, and never 
 - **`node --test scripts/` fails with one "test failed":** Node treats the folder as a file. Use a
   glob, as `npm run test:scripts` does. Jest would also pick up `*.test.mjs` and fail to load it,
   so `jest.config.js` ignores `scripts/`.
+- **Local iOS builds (`npx expo run:ios`) need CocoaPods,** and if it's missing Expo's CLI installs
+  it with Homebrew on its own (it did on Nov 17, 2026: CocoaPods 1.17 and Ruby 4.0.9). In an
+  agent's shell `pod install` then fails twice: `unicode_normalize` errors because no locale is
+  set (export `LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8`), and "certificate verify failed" because
+  Homebrew Ruby's CA bundle can't verify cdn.cocoapods.org (export
+  `SSL_CERT_FILE=/etc/ssl/cert.pem`). Set all three for the build command only.
+- **Metro doesn't see file changes in a worktree under `/private/tmp`:** restart
+  `npx expo start --clear` after edits, or work in a worktree under the repo.
 
 ---
 
