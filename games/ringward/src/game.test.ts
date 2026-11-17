@@ -251,3 +251,12 @@ test('duo shields are solid: one stops where it would overlap the other', () => 
   const gap = Math.abs(wrapAngle(game.shields[0] - game.shields[1]));
   assert.ok(gap >= MIN_SHIELD_GAP - 1e-9, `shields ${gap} rad apart`);
 });
+
+test('each duo fish counts its own cracks; the round still ends on three in total', () => {
+  const game = quietGame({ duo: true });
+  // Just past P2's shield edge, so it lands on P2's side of the barrel.
+  game.shards.push({ ...flyingShard(game.shields[1] + 0.9), dist: CORE_R + 0.1 });
+  run(game, 0.5);
+  assert.deepEqual(game.hurt, [0, 1]);
+  assert.equal(game.cracks, 1);
+});

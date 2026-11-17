@@ -17,6 +17,10 @@ P2-DATA-08 (#102), P2-GAME-06 (#103), P2-GAME-07 (#104), P2-GAME-08 (#105), P3-A
 P3-DATA-07 (#107), filed Nov 17. Three filed tickets gained a criterion, and their issues were
 updated to match: #35 (P2-DES-04), #36 (P2-OPS-01) and #67 (P3-GAME-05). V2-12 "Viewer interaction in the game" is removed: decision 010 made it MVP.
 
+**Nov 17, 2026:** the game is picked ([decision 009](decisions/009-game-concept.md)), so the 20
+tickets that were ⛔ GAME are unblocked here. Their issues still carry the `blocked:game-concept`
+label until someone removes it (#27–#31, #36, #58, #63–#67, #80, #81, #102–#107).
+
 ## How to read a ticket
 
 ```
@@ -39,7 +43,7 @@ One to three lines of description.
   |---|---|---|
   | **⛔ D1** | Streaming provider (Mux or IVS) | [001](decisions/001-streaming-provider.md) |
   | **⛔ D4** | Anonymous viewing: Supabase anonymous sign-in or local storage | [004](decisions/004-anonymous-viewing.md) |
-  | **⛔ GAME** | Which game ships (Ringward recommended; the team picks) | [009](decisions/009-game-concept.md) |
+  | ~~⛔ GAME~~ | **Decided Nov 17, 2026:** Ringward, re-themed as fish in a barrel. No ticket is blocked on it any more | [009](decisions/009-game-concept.md) |
 
 - **Tags:** `safety` (report, block, chat filters, age gate, terms), `cold-start` (empty-feed
   mitigation), `accessibility`, `demo`.
@@ -63,7 +67,7 @@ changes to existing tickets must be mirrored on the issue by hand.
 Plus 14 [Stretch (v2)](#stretch-v2) items, unscheduled. `scripts/create-backlog-issues.sh`
 (dry run by default) prints these counts from the tickets below; rerun it after editing.
 
-Blocked tickets: ⛔ D1 × 7, ⛔ D4 × 3, ⛔ GAME × 20.
+Blocked tickets: ⛔ D1 × 7, ⛔ D4 × 3.
 
 ---
 
@@ -262,7 +266,7 @@ before its first frame.
 - [ ] Seed streams include both orientations; RLS tests cover the new column; `db:types` regenerated
 
 #### P2-DATA-08 · Game sessions and Realtime channel policies
-- **Size:** M · **Owner:** TBD · **Depends on:** — · **Blocked on:** ⛔ GAME · **Tags:** safety
+- **Size:** M · **Owner:** TBD · **Depends on:** — · **Blocked on:** — · **Tags:** safety
 
 [Decision 010](decisions/010-game-multiplayer-and-viewers.md): the streamer's browser hosts the
 game and Supabase Realtime carries its messages, so the database decides who may send on each
@@ -310,7 +314,7 @@ Only the visible card plays; the next one is ready before the swipe lands.
 ### Game
 
 #### P2-GAME-01 · Game project setup and deploy
-- **Size:** S · **Owner:** TBD · **Depends on:** Phase 1: game concept and design doc · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** Phase 1: game concept and design doc · **Blocked on:** —
 
 Per decision 002: a browser game in `games/<slug>/`, separate from the Expo app, deployed to its
 own URL.
@@ -320,7 +324,7 @@ own URL.
 - [ ] Still ignored by the app's ESLint (`games/*`)
 
 #### P2-GAME-02 · Full playable core loop
-- **Size:** L · **Owner:** TBD · **Depends on:** P2-GAME-01 · **Blocked on:** ⛔ GAME
+- **Size:** L · **Owner:** TBD · **Depends on:** P2-GAME-01 · **Blocked on:** —
 
 Grow the greybox into the complete game loop from `docs/game/design.md`.
 
@@ -330,14 +334,14 @@ Grow the greybox into the complete game loop from `docs/game/design.md`.
 - [ ] Original name, rules and placeholder art: nothing copied from an existing game
 
 #### P2-GAME-03 · Round flow: start, end, restart
-- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-02 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-02 · **Blocked on:** —
 
 - [ ] Title/start screen, end screen with score and best score this session, one-key instant restart
 - [ ] No accounts or saves of its own (decision 002)
 - [ ] Keyboard and mouse controls documented on the start screen
 
 #### P2-GAME-04 · Stream readability pass
-- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-02 · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-02 · **Blocked on:** —
 
 Viewers see the game on a phone: a landscape game fitted to width in the vertical feed, and full
 screen once they join it ([decision 011](decisions/011-stream-orientation.md)).
@@ -349,13 +353,13 @@ screen once they join it ([decision 011](decisions/011-stream-orientation.md)).
 - [ ] Fixes for anything unreadable (size, contrast, clutter)
 
 #### P2-GAME-05 · Playtest #1
-- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-03 · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-03 · **Blocked on:** —
 
 - [ ] 3–5 classmates play two or more rounds each (or one long session); at least one watches it as a stream on a phone, joining partway through
 - [ ] Findings and the changes they lead to written in `docs/game/playtests.md`
 
 #### P2-GAME-06 · Host sign-in and stream channel
-- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-02, P2-DATA-08 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-02, P2-DATA-08 · **Blocked on:** —
 
 The game page is the host for raids and duo (decision 010). It signs in with the streamer's
 GameTime account and joins its live stream's channel; without that, solo and local duo still work.
@@ -366,7 +370,7 @@ GameTime account and joins its live stream's channel; without that, solo and loc
 - [ ] A dropped connection reconnects without ending the round; signed out or offline, solo and local duo are unaffected
 
 #### P2-GAME-07 · Viewer raids on the host
-- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-06 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-06 · **Blocked on:** —
 
 Viewers launch shards from the app; the host runs every launch through the rules' `launch()` and
 tells viewers what happened. Launches replace the game's own spawns, so difficulty doesn't depend
@@ -378,7 +382,7 @@ on audience size (already unit tested in the greybox).
 - [ ] A dev script sends launches as the service role against local Supabase, so the host can be tested without the app
 
 #### P2-GAME-08 · Online duo partner
-- **Size:** L · **Owner:** TBD · **Depends on:** P2-GAME-06 · **Blocked on:** ⛔ GAME
+- **Size:** L · **Owner:** TBD · **Depends on:** P2-GAME-06 · **Blocked on:** —
 
 A friend joins from their own browser with the second shield. Host-authoritative: the partner
 sends input, the host sends state.
@@ -429,7 +433,7 @@ Ready before Phase 3 starts in week 6.
 ### DevOps / QA
 
 #### P2-OPS-01 · Game build and preview in CI
-- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-01 · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-01 · **Blocked on:** —
 
 - [ ] CI builds the game when `games/<slug>/` changes
 - [ ] Vercel project for the game with a preview per PR and production from `main`; URL recorded in `AGENTS.md`
@@ -581,7 +585,7 @@ Flow 1: sign-up is optional until you chat or follow.
 - [ ] Favorites picked during onboarding carry over (per D4)
 
 #### P3-APP-15 · Raid button and sheet
-- **Size:** M · **Owner:** TBD · **Depends on:** P3-DATA-07, P2-APP-04, P2-DES-04, P3-APP-14 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P3-DATA-07, P2-APP-04, P2-DES-04, P3-APP-14 · **Blocked on:** —
 
 Viewers join the original game from the stream (decision 010). The app answers instantly; the
 stream shows the shard a few seconds later with the viewer's name on it.
@@ -633,7 +637,7 @@ Reports are insert-only for users and reviewed by the team with the service role
 - [ ] Only the stream's owner can call it (tested)
 
 #### P3-DATA-06 · Production games list and original game row
-- **Size:** S · **Owner:** TBD · **Depends on:** Phase 1: production games list · **Blocked on:** ⛔ GAME (the original game's row only)
+- **Size:** S · **Owner:** TBD · **Depends on:** Phase 1: production games list · **Blocked on:** —
 
 Production has no games; `supabase/seed.sql` is local-only and must never be pushed.
 
@@ -642,7 +646,7 @@ Production has no games; `supabase/seed.sql` is local-only and must never be pus
 - [ ] Verified on the hosted project with `--remote`
 
 #### P3-DATA-07 · `ringward-launch` Edge Function for viewer launches
-- **Size:** M · **Owner:** TBD · **Depends on:** P2-DATA-08, P3-OPS-01 · **Blocked on:** ⛔ GAME · **Tags:** safety
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-DATA-08, P3-OPS-01 · **Blocked on:** — · **Tags:** safety
 
 A broadcast payload is whatever the client sends, so viewers don't broadcast launches themselves.
 This function checks who they are and sends the launch for them.
@@ -690,32 +694,32 @@ Risk #2 mitigation: cap resolution and stream length.
 ### Game
 
 #### P3-GAME-01 · Final art and title screen
-- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-05 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-05 · **Blocked on:** —
 
-- [ ] Original art in GameTime's palette, replacing all greybox shapes, still readable on a phone stream
+- [ ] Original art in the game's own theme and palette (`docs/game/design.md`), replacing all greybox shapes, still readable on a phone stream
 - [ ] Title screen with the game's own name and logo
 - [ ] Cover art for its `games` row (used by game chips and tiles)
 
 #### P3-GAME-02 · Sound
-- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-03 · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** P2-GAME-03 · **Blocked on:** —
 
 - [ ] Sound effects for the core actions and a music loop: original or CC0, with sources listed in the game README
 - [ ] Mute toggle and volume that suit OBS capture (no clipping)
 
 #### P3-GAME-03 · Polish and tuning
-- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-05 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-05 · **Blocked on:** —
 
 - [ ] Feedback effects (hits, score pops, round end) that read on a small screen
 - [ ] Difficulty and pacing (round length, or how a long session progresses) tuned from playtest #1; changes noted in `docs/game/playtests.md`
 
 #### P3-GAME-04 · Production deploy and "Play it" link
-- **Size:** S · **Owner:** TBD · **Depends on:** P2-OPS-01, P3-DATA-06 · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** P2-OPS-01, P3-DATA-06 · **Blocked on:** —
 
 - [ ] Production URL for the game is live and recorded in `AGENTS.md`
 - [ ] The original game's row points at it so streamers can find and play it from the game page
 
 #### P3-GAME-05 · Playtest #2 through the real Go Live path
-- **Size:** S · **Owner:** TBD · **Depends on:** P3-GAME-01, P3-VID-04 · **Blocked on:** ⛔ GAME
+- **Size:** S · **Owner:** TBD · **Depends on:** P3-GAME-01, P3-VID-04 · **Blocked on:** —
 
 - [ ] A teammate streams the game through OBS and the app's Go Live flow; 3+ classmates watch on phones and play
 - [ ] The classmates raid from their phones and one round is played in online duo; the time from a tap to the shard showing on stream is noted
@@ -832,13 +836,13 @@ feed is never empty during demo hours.
 ### Game
 
 #### P4-GAME-01 · Game bug fixing and freeze
-- **Size:** M · **Owner:** TBD · **Depends on:** P3-GAME-05 · **Blocked on:** ⛔ GAME
+- **Size:** M · **Owner:** TBD · **Depends on:** P3-GAME-05 · **Blocked on:** —
 
 - [ ] Must-fix items from playtest #2 fixed; no new features
 - [ ] Game frozen by the end of week 9; the production URL serves the frozen build
 
 #### P4-GAME-02 · Record gameplay for the fallback loop and demo
-- **Size:** S · **Owner:** TBD · **Depends on:** P3-GAME-01 · **Blocked on:** ⛔ GAME · **Tags:** cold-start, demo
+- **Size:** S · **Owner:** TBD · **Depends on:** P3-GAME-01 · **Blocked on:** — · **Tags:** cold-start, demo
 
 - [ ] 10–15 minutes of good gameplay recorded at the OBS settings, for P4-VID-01 and the demo backup video
 

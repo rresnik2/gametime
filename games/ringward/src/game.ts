@@ -22,8 +22,9 @@ export const SHARD_R = 0.06;
 export const SHIELD_HALF_ARC = 35 * DEG;
 /** The centre third of the shield. */
 export const PERFECT_HALF_ARC = SHIELD_HALF_ARC / 3;
-export const SHIELD_TURN_SPEED = 540 * DEG;
-export const KEY_TURN_SPEED = 300 * DEG;
+/** Swing speed caps, raised Nov 17, 2026 at the project lead's request (were 540 and 300). */
+export const SHIELD_TURN_SPEED = 720 * DEG;
+export const KEY_TURN_SPEED = 420 * DEG;
 export const WARNING_SECONDS = 0.6;
 export const SURVIVAL_BONUS_PER_CRACK = 250;
 /** Rim slots viewers launch from, numbered clockwise from the top like a clock. */
@@ -91,6 +92,8 @@ export interface Game {
   score: number;
   combo: number;
   cracks: number;
+  /** Cracks taken by each fish (one per shield, nearest to where the shard landed), for drawing damage. */
+  hurt: number[];
   blocks: number;
   perfects: number;
   untilSpawn: number;
@@ -109,10 +112,12 @@ export interface GameOptions {
 }
 
 export function createGame(random: () => number = Math.random, options: GameOptions = {}): Game {
+  const shields = options.duo ? [-Math.PI / 2, Math.PI / 2] : [-Math.PI / 2];
   return {
     phase: 'ready',
     elapsed: 0,
-    shields: options.duo ? [-Math.PI / 2, Math.PI / 2] : [-Math.PI / 2],
+    shields,
+    hurt: shields.map(() => 0),
     shards: [],
     events: [],
     score: 0,
@@ -267,6 +272,7 @@ function hit(game: Game, kind: HitKind, shard: Shard): void {
   let points = 0;
   if (kind === 'crack') {
     game.cracks += 1;
+    game.hurt[nearestShieldIndex(game, shard.angle)] += 1;
     game.combo = 0;
     if (shard.by) raider(game, shard.by).cracks += 1;
     if (game.cracks >= MAX_CRACKS) game.coreBreaker = shard.by;
@@ -279,6 +285,15 @@ function hit(game: Game, kind: HitKind, shard: Shard): void {
     if (perfect) game.perfects += 1;
   }
   game.events.push({ kind, angle: shard.angle, points, age: 0, by: shard.by });
+}
+
+/** Which shield (and so which fish) a shard landed nearest to. */
+export function nearestShieldIndex(game: Game, angle: number): number {
+  let best = 0;
+  game.shields.forEach((a, i) => {
+    if (Math.abs(wrapAngle(angle - a)) < Math.abs(wrapAngle(angle - game.shields[best]))) best = i;
+  });
+  return best;
 }
 
 /** The smallest angular distance from a shard to any shield. */

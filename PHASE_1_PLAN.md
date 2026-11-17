@@ -35,6 +35,7 @@ Update this list in the same PR as the work.
 - [x] Stream orientation decided: the feed is always vertical; joining a landscape stream rotates it to landscape full screen on phones and tablets, with auto-rotate on by default ([decision 011](docs/decisions/011-stream-orientation.md)). Answers the wireframes' landscape-stream question; two follow-up questions go to the design review
 - [x] Game session length: no round-length limit; the game may be quick or long-form, as long as a viewer who swipes in can tell what's happening within a few seconds ([decision 012](docs/decisions/012-game-session-length.md)). Issues #28, #30, #31 and #65 are updated to match
 - [x] Game: three original concepts scored alongside The Biosphere Realm, re-scored Nov 16, 2026 without the round-length limit ([decision 012](docs/decisions/012-game-session-length.md)) and with decision 011's orientation rules ([docs/game/concepts.md](docs/game/concepts.md)), one-page design doc for the recommended one ([docs/game/design.md](docs/game/design.md)), and a greybox of its core mechanic in `games/ringward/` (Canvas + TypeScript, Vite; portrait 9:16 layout, also runs in a 16:9 window; own CI job). The greybox includes viewer raids (simulated with `?viewers=N`) and a local duo mode (`?duo`)
+- [x] **Game picked** (Nov 17, 2026): Ringward's mechanics re-themed as "shooting fish in a barrel": an orange goldfish (two in duo) in a wooden barrel batting away cartoon cannonballs, tropical and old-timey ([decision 009](docs/decisions/009-game-concept.md), [design](docs/game/design.md)). The greybox is re-skinned; the local seed row `…001` is Ringward and The Biosphere Realm is a regular game
 - [x] Decided: the MVP game has viewer interaction and a 2-player mode, hosted by the streamer's browser over Supabase Realtime ([decision 010](docs/decisions/010-game-multiplayer-and-viewers.md); design in [docs/game/hosting-and-interaction.md](docs/game/hosting-and-interaction.md))
 - [x] Mockups of the three top game concepts (Ringward, Hot Core, Lumen Drop): each in the feed with the app overlay, its 1080×1920 game screen, start and end screens and its signature moment, plus Ringward's Raid sheet and a comparison of readability risks: [`docs/game/mockups/index.html`](docs/game/mockups/index.html) ([review log](docs/game/mockups/REVIEW.md)). Input to decision 009, which stays Open
 - [x] Jev (TypeSafe) adopted as a dev-time judgment tool, not in the app or MVP scope: agents use it when it helps (under $5/month), and it triages every failed CI run with a PR comment ([decision 013](docs/decisions/013-jev-dev-tool.md); `.github/workflows/ci-triage.yml`). Needs the `TYPESAFE_API_KEY` repository secret to run
@@ -42,7 +43,7 @@ Update this list in the same PR as the work.
 **Open**
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
 - [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
-- [ ] **Game concept: proposed, awaiting pick** between Ringward, Lumen Drop, Hot Core and The Biosphere Realm (as is or with a streaming mode). Recommended: **Ringward** (37/40; portrait) ([decision 009](docs/decisions/009-game-concept.md), Open; the team's call). After the pick: mark 009 Decided, seed row with `is_original = true`, its own Vercel project (README)
+- [ ] Game name: "Ringward" is the working title; the team picks a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README), and removing the `blocked:game-concept` label from its 20 issues
 - [ ] Game networking (decision 010): **ticketed and filed Nov 17, 2026, owners not assigned.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F; #103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107) (C), P3-APP-15 Raid sheet (B; #106), in [docs/backlog.md](docs/backlog.md)
 - [ ] Game: stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
 - [ ] Production games list (production has none; the seed list is local-only)
@@ -271,7 +272,9 @@ the game to the smallest concept on the shortlist.
   web build in `games/<slug>/`, deployed to its own Vercel URL. Keep it separate from the Expo app
   so a game bug can't break the app.
 - **Design doc** (`docs/game/design.md`, one page): core loop, controls, session length (quick
-  rounds or a long session), scoring, win/lose states, art direction using GameTime's palette, and
+  rounds or a long session), scoring, win/lose states, art direction with the game's own theme and
+  palette (each game has its own; GameTime's tokens in `src/theme/tokens.ts` are for the app and
+  still a work in progress), and
   what a viewer who swipes in mid-session sees in the first 5 seconds.
 - **Greybox prototype (week 2):** the core mechanic playable in a browser with placeholder shapes,
   streamed once through OBS into the app to check it reads on a phone screen.

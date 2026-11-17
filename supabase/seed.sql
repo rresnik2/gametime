@@ -11,7 +11,8 @@
 -- ---------------------------------------------------------------------------
 
 insert into public.games (id, slug, name, color, is_original) values
-  ('00000000-0000-4000-a000-000000000001', 'gametime-original', 'GameTime Original (TBD)', '#7C5CFF', true),
+  -- The MVP's original game (decision 009): working title Ringward, games/ringward/.
+  ('00000000-0000-4000-a000-000000000001', 'ringward',          'Ringward',                 '#E98A3C', true),
   ('00000000-0000-4000-a000-000000000002', 'arena-shooter',     'Arena Shooter',            '#FF3B5C', false),
   ('00000000-0000-4000-a000-000000000003', 'battle-royale',     'Battle Royale',            '#FF9F1C', false),
   ('00000000-0000-4000-a000-000000000004', 'kart-racing',       'Kart Racing',              '#2EF2C3', false),
@@ -21,8 +22,8 @@ insert into public.games (id, slug, name, color, is_original) values
   ('00000000-0000-4000-a000-000000000008', 'puzzle',            'Puzzle',                   '#FFD60A', false),
   ('00000000-0000-4000-a000-000000000009', 'mobile-strategy',   'Mobile Strategy',          '#00BCD4', false),
   ('00000000-0000-4000-a000-00000000000a', 'just-chatting',     'Just Chatting',            '#A1A1B5', false),
-  -- Candidate original game under test (games/the-biosphere-realm/).
-  ('00000000-0000-4000-a000-00000000000b', 'the-biosphere-realm', 'The Biosphere Realm',    '#2EF2C3', true);
+  -- Not picked as the MVP game (decision 009); kept as a regular game anyone can stream.
+  ('00000000-0000-4000-a000-00000000000b', 'the-biosphere-realm', 'The Biosphere Realm',    '#2EF2C3', false);
 
 -- ---------------------------------------------------------------------------
 -- Test users. The on_auth_user_created trigger creates their profiles and account details
