@@ -16,6 +16,7 @@ One file per decision, numbered in order. 001–006 match D1–D6 in `PHASE_1_PL
 | [010](010-game-multiplayer-and-viewers.md) | The MVP game has viewer interaction and a 2-player mode | Decided |
 | [011](011-stream-orientation.md) | Vertical feed; landscape streams rotate when you join them | Decided |
 | [012](012-game-session-length.md) | The original game may be quick or long-form (replaces 002's round limit) | Decided |
+| [013](013-jev-dev-tool.md) | Jev (TypeSafe) as a dev-time judgment tool, not in the app | Decided |
 
 ## Adding a record
 
