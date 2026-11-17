@@ -18,8 +18,10 @@ P3-DATA-07 (#107), filed Nov 17. Three filed tickets gained a criterion, and the
 updated to match: #35 (P2-DES-04), #36 (P2-OPS-01) and #67 (P3-GAME-05). V2-12 "Viewer interaction in the game" is removed: decision 010 made it MVP.
 
 **Nov 17, 2026:** the game is picked ([decision 009](decisions/009-game-concept.md)), so the 20
-tickets that were ⛔ GAME are unblocked here. Their issues still carry the `blocked:game-concept`
-label until someone removes it (#27–#31, #36, #58, #63–#67, #80, #81, #102–#107).
+tickets that were ⛔ GAME are unblocked, and the `blocked:game-concept` label was removed from
+their issues (#27–#31, #36, #58, #63–#67, #80, #81, #102–#107) the same day, and their "Blocked
+on" field now reads "—". #63 (P3-GAME-01) was also updated to "the game's own theme and
+palette".
 
 ## How to read a ticket
 
