@@ -26,6 +26,8 @@ jobs:
         run: npm run typecheck
       - name: Test
         run: npm test -- --ci
+      - name: Script tests (CI triage)
+        run: npm run test:scripts
       - name: Build web
         run: npm run build:web
 

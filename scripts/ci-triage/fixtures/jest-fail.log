@@ -1,0 +1,19 @@
+2026-11-17T18:00:00.0000000Z ##[group]Run npm test -- --ci
+2026-11-17T18:00:00.0000000Z > jest --ci
+2026-11-17T18:00:00.0000000Z PASS src/components/ui/__tests__/live-pill.test.tsx
+2026-11-17T18:00:00.0000000Z FAIL src/components/ui/__tests__/avatar.test.tsx
+2026-11-17T18:00:00.0000000Z   ● Avatar › shows initials when there is no image
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z     expect(element).toHaveTextContent()
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z     Expected element to have text content:
+2026-11-17T18:00:00.0000000Z       AP
+2026-11-17T18:00:00.0000000Z     Received:
+2026-11-17T18:00:00.0000000Z       A
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z       18 |     render(<Avatar name="Ada Park" />);
+2026-11-17T18:00:00.0000000Z     > 19 |     expect(screen.getByTestId('avatar')).toHaveTextContent('AP');
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z Test Suites: 1 failed, 4 passed, 5 total
+2026-11-17T18:00:00.0000000Z Tests:       1 failed, 22 passed, 23 total
+2026-11-17T18:00:00.0000000Z ##[error]Process completed with exit code 1.

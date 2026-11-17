@@ -1,0 +1,8 @@
+2026-11-17T18:00:00.0000000Z ##[group]Run npx supabase start -x storage-api,imgproxy,studio
+2026-11-17T18:00:00.0000000Z Pulling images...
+2026-11-17T18:00:00.0000000Z Pulling public.ecr.aws/supabase/postgres:17.6.1.054...
+2026-11-17T18:00:00.0000000Z Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+2026-11-17T18:00:00.0000000Z Retrying after 4s: public.ecr.aws/supabase/postgres:17.6.1.054
+2026-11-17T18:00:00.0000000Z failed to pull docker image: Error response from daemon: toomanyrequests: You have reached your pull rate limit.
+2026-11-17T18:00:00.0000000Z Try rerunning the command with --debug to troubleshoot the error.
+2026-11-17T18:00:00.0000000Z ##[error]Process completed with exit code 1.
