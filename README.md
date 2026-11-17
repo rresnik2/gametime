@@ -6,6 +6,7 @@ iOS, Android and web.
 - Product plan: `GameTime — Product Plan.pdf`
 - Current phase: [PHASE_1_PLAN.md](PHASE_1_PLAN.md)
 - Wireframes: [docs/wireframes/index.html](docs/wireframes/index.html) (open in a browser; no build step)
+- Game mockups: [docs/game/mockups/index.html](docs/game/mockups/index.html) (the three top game concepts; open in a browser)
 
 ## Quickstart
 

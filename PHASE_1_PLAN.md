@@ -34,6 +34,7 @@ Update this list in the same PR as the work.
 - [x] Wireframes for every MVP screen and the four MVP flows, including the 0/1/2-live cold start and web/tablet layouts: [`docs/wireframes/index.html`](docs/wireframes/index.html). **Draft, needs team review** (exit criterion 3 needs approval); its "Open product questions" list needs answers at the design review
 - [x] Stream orientation decided: the feed is always vertical; joining a landscape stream rotates it to landscape full screen on phones and tablets, with auto-rotate on by default ([decision 011](docs/decisions/011-stream-orientation.md)). Answers the wireframes' landscape-stream question; two follow-up questions go to the design review
 - [x] Game session length: no round-length limit; the game may be quick or long-form, as long as a viewer who swipes in can tell what's happening within a few seconds ([decision 012](docs/decisions/012-game-session-length.md)). Issues #28, #30, #31 and #65 still show the old round-length text
+- [x] Mockups of the three top game concepts (Ringward, Hot Core, Lumen Drop): each in the feed with the app overlay, its 1080×1920 game screen, start and end screens and its signature moment, plus Ringward's Raid sheet and a comparison of readability risks: [`docs/game/mockups/index.html`](docs/game/mockups/index.html) ([review log](docs/game/mockups/REVIEW.md)). Input to decision 009, which stays Open
 
 **Open**
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)

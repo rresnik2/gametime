@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GameTime Game Mockups</title>
+<!--
+  GameTime: mid-fidelity mockups of the three top original-game candidates (decision 009).
+  Self-contained: no external fonts, images or scripts. The game screens are inline SVG drawn by
+  the script at the bottom, so each scene is defined once and reused in the phone and canvas frames.
+  Phone frames: 375×812 pt shown at 72% (?real = 100%), same overlay as wireframe W1.
+  Canvas frames: the 1080×1920 OBS canvas, drawn at the scale the stream has inside the phone.
+  ?only=R1 shows one frame on its own (used for screenshots). Colours: src/theme/tokens.ts.
+-->
+<style>
+:root{
+  --bg:#0B0B12;--surface:#16161F;--raised:#20202C;--border:#2A2A38;
+  --primary:#7C5CFF;--live:#FF3B5C;--mint:#2EF2C3;--text:#FFFFFF;--muted:#A1A1B5;
+  --ph:#34343F;--ph2:#4A4A58;--ph3:#5E5E6E;
+  --anno:#F5B700;--paper:#ECECF1;--card:#F7F7FA;--ink:#1C1C26;--inkm:#5A5A6B;--rule:#D3D3DC;
+  --display:"Space Grotesk",ui-rounded,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ui:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --cvw:270px;
+}
+*{box-sizing:border-box}
+html{font-variant-emoji:text;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:inherit}
+code{font-size:.92em}
+.wrap{max-width:1500px;margin:0 auto;padding:0 32px 80px}
+@media (max-width:600px){.wrap{padding:0 16px 60px}}
+
+/* ---------- page chrome (as in docs/wireframes) ---------- */
+.top{background:var(--ink);color:#fff;padding:40px 0 32px}
+.top h1{font:700 34px/1.15 var(--display);margin:0 0 8px}
+.top p{max-width:900px;margin:6px 0;color:#C9C9D6}
+.badge{display:inline-block;background:var(--anno);color:#111;font-weight:800;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-right:8px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.toc a{color:#fff;text-decoration:none;border:1px solid #44445a;border-radius:999px;padding:6px 12px;font-size:13px}
+.toc a:hover,.toc a:focus-visible{background:#2a2a3a}
+section{padding-top:36px;margin-top:20px;border-top:1px solid var(--rule)}
+section>h2{font:700 26px/1.2 var(--display);margin:0 0 4px}
+section>.lede{color:var(--inkm);max-width:980px;margin:0 0 12px}
+h3.sub{font:700 16px/1.3 var(--ui);margin:28px 0 12px;color:var(--inkm);text-transform:uppercase;letter-spacing:.06em}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+.facts span{background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600}
+
+/* comparison table: a table on wide screens, stacked cards on phones */
+.cmp{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--rule);border-radius:12px;overflow:hidden;font-size:14px}
+.cmp th,.cmp td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--rule)}
+.cmp th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--inkm);background:#fff}
+.cmp tr:last-child td{border-bottom:0}
+.cmp td b.score{font:700 22px/1 var(--display)}
+.cmp td small{color:var(--inkm)}
+.cmp .gm{font:700 17px/1.2 var(--display);white-space:nowrap}
+.cmp .gm i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:1px}
+@media (max-width:760px){
+  .cmp,.cmp tbody,.cmp tr,.cmp td{display:block;width:100%}
+  .cmp thead{display:none}
+  .cmp tr{border-bottom:1px solid var(--rule);padding:6px 0}
+  .cmp td{border:0;padding:4px 12px}
+  .cmp td[data-l]::before{content:attr(data-l);display:block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--inkm)}
+}
+ul.plain{max-width:980px;padding-left:20px;margin:12px 0}
+ul.plain li{margin-bottom:6px}
+
+/* rows of frames */
+.row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:28px 0;margin-bottom:12px}
+.frame{width:296px;flex-shrink:0;margin-right:20px}
+.fh{font-weight:700;font-size:14px;line-height:1.3;margin-bottom:6px;min-height:36px}
+.fh .id{display:inline-block;background:var(--ink);color:#fff;font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:4px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.fh .route{display:block;font:500 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--inkm)}
+ol.notes{list-style:none;padding:0;margin:10px 0 0;counter-reset:n;font-size:12.5px;line-height:1.45}
+ol.notes li{counter-increment:n;position:relative;padding-left:26px;margin-bottom:7px}
+ol.notes li::before{content:counter(n);position:absolute;left:0;top:1px;width:19px;height:19px;border-radius:50%;background:var(--anno);font:800 11px/19px var(--ui);text-align:center;color:#111}
+ol.notes li.g{counter-increment:none}
+ol.notes li.g::before{content:"";width:7px;height:7px;top:6px;left:6px;background:var(--inkm)}
+ol.notes li.risk::before{background:var(--live);color:#fff}
+.five{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:8px 10px;margin-top:10px;font-size:12.5px;line-height:1.45}
+.five b.h{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--inkm);margin-bottom:2px}
+.five p{margin:4px 0}
+.five em{font-style:normal;font-weight:800;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;background:var(--ink);color:#fff;border-radius:4px;padding:1px 4px;margin-right:4px}
+
+/* ---------- device frames (as in docs/wireframes) ---------- */
+.phone{position:relative;background:var(--bg);color:var(--text);overflow:hidden;font:15px/1.35 var(--ui);width:375px;height:812px;zoom:.72;border-radius:48px;box-shadow:0 0 0 10px #101016,0 0 0 12px #3a3a46;margin:12px}
+.sb{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;font-weight:600;font-size:14px;z-index:50;pointer-events:none}
+.sbi{letter-spacing:2px;font-size:11px}
+.hi{position:absolute;bottom:8px;left:50%;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:rgba(255,255,255,.55);z-index:80}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:83px;padding:6px 4px 30px;background:var(--bg);border-top:1px solid var(--border);display:flex;z-index:30}
+.tabs .t{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px;font-weight:600;color:var(--muted)}
+.tabs .t i{font-style:normal;font-size:19px;line-height:24px;height:24px}
+.tabs .t.on{color:var(--primary)}
+.tabs .t.go i{width:50px;height:34px;line-height:30px;border-radius:12px;font-size:24px;color:#fff;text-align:center;border:2.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--live),var(--primary)) border-box}
+.stream{position:absolute;left:0;width:375px;height:666.67px}
+.stream svg,.cv svg{display:block;width:100%;height:100%}
+.scrim{position:absolute;left:0;right:0;bottom:83px;height:420px;background:linear-gradient(rgba(11,11,18,0),rgba(11,11,18,.9));z-index:10}
+.toggle{position:absolute;top:50px;left:0;right:0;display:flex;justify-content:center;gap:22px;font:600 16px/44px var(--ui);color:rgba(255,255,255,.7);z-index:20;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.toggle b{color:#fff;position:relative}
+.toggle b::after{content:"";position:absolute;left:20%;right:20%;bottom:6px;height:3px;border-radius:2px;background:#fff}
+.top-left{position:absolute;left:12px;display:flex;gap:6px;align-items:center;z-index:20}
+.live{display:inline-flex;align-items:center;gap:5px;background:var(--live);color:#fff;font:800 11px/1 var(--ui);letter-spacing:.07em;padding:5px 8px;border-radius:6px;flex-shrink:0}
+.live::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.vc{display:inline-flex;align-items:center;gap:4px;font:800 13px/1 var(--ui);background:rgba(11,11,18,.6);padding:4px 8px;border-radius:6px}
+.rail{position:absolute;right:8px;width:60px;display:flex;flex-direction:column;align-items:center;gap:16px;z-index:20}
+.rail .rb{position:relative;width:56px;display:flex;flex-direction:column;align-items:center;font-size:11.5px;font-weight:700;gap:2px;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+.rail .rb i{font-style:normal;width:48px;height:48px;border-radius:50%;background:rgba(32,32,44,.7);display:grid;place-items:center;font-size:22px}
+.rail .rb.raid i{background:var(--primary);box-shadow:0 0 0 3px rgba(124,92,255,.35)}
+.rail .follow{position:absolute;bottom:-8px;left:50%;margin-left:-11px;width:22px;height:22px;border-radius:50%;background:var(--primary);font:800 16px/22px var(--ui);text-align:center}
+.av{display:block;width:36px;height:36px;border-radius:50%;background:var(--ph2);flex-shrink:0;color:#fff;font:700 15px/36px var(--ui);text-align:center}
+.rail .av{width:48px;height:48px;font-size:19px;line-height:48px}
+.chatov{position:absolute;left:12px;width:270px;display:flex;flex-direction:column;gap:6px;z-index:20}
+.msg{font-size:13.5px;line-height:1.3;background:rgba(11,11,18,.45);border-radius:10px;padding:5px 9px;align-self:flex-start}
+.msg b{color:var(--muted);font-weight:700;margin-right:4px}
+.meta{position:absolute;left:12px;right:84px;z-index:20;display:flex;flex-direction:column;gap:8px}
+.chatin{position:absolute;left:12px;right:84px;height:44px;border-radius:22px;background:rgba(32,32,44,.85);display:flex;align-items:center;padding:0 16px;color:var(--muted);font-size:14px;z-index:20}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;border-radius:999px;background:var(--raised);font-size:12.5px;font-weight:600;color:var(--text);flex-shrink:0;white-space:nowrap}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--ph3))}
+.flex{display:flex;align-items:center;gap:10px}
+.sm{font-size:13px}.xs{font-size:11.5px}.muted{color:var(--muted)}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:35}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--surface);border-radius:22px 22px 0 0;padding:10px 16px 34px;display:flex;flex-direction:column;gap:10px;z-index:40}
+.sheet::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--ph2);align-self:center;margin-bottom:2px}
+.h2{font:700 21px/1.2 var(--display);margin:0}
+.ib{width:44px;height:44px;display:grid;place-items:center;font-size:21px;color:var(--text);flex-shrink:0;border-radius:50%;background:var(--raised)}
+.banner{border-radius:12px;padding:10px 12px;font-size:13px;background:var(--raised);display:flex;gap:10px;align-items:flex-start;flex-shrink:0}
+.banner.ok{background:rgba(46,242,195,.12)}
+.banner.ok>b{color:var(--mint)}
+.ring{position:relative;width:300px;height:300px;align-self:center;flex-shrink:0}
+.ring .slot{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--raised);border:2px solid var(--border)}
+.ring .slot.me{background:var(--primary);border-color:#fff;box-shadow:0 0 0 4px rgba(124,92,255,.3)}
+.ring .slot.me svg{position:absolute;inset:0;margin:auto}
+.ring svg.mid{position:absolute;inset:0}
+.ring.cool .slot:not(.me){opacity:.4}
+.rstrip{position:absolute;left:12px;right:84px;height:48px;border-radius:24px;background:rgba(124,92,255,.92);display:flex;align-items:center;gap:8px;padding:0 6px 0 8px;font-size:13.5px;z-index:21}
+.rstrip .go{margin-left:auto;height:36px;padding:0 12px;border-radius:18px;background:rgba(11,11,18,.35);display:grid;place-items:center;font-weight:700;font-size:12.5px}
+.rail .rb.raid.cool i{background:rgba(32,32,44,.85);box-shadow:none}
+
+/* game canvas frames: same scale as the stream inside the phone (375 pt wide), or 72% of that */
+.cv{position:relative;width:var(--cvw);height:calc(var(--cvw)*16/9);margin:12px;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px #3a3a46;background:var(--bg)}
+.cvcap{font:500 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--inkm);margin:-4px 12px 0}
+
+/* annotation markers (not UI) */
+.m{position:absolute;z-index:90;width:30px;height:30px;border-radius:50%;background:var(--anno);color:#111;font:800 16px/30px var(--ui);text-align:center;box-shadow:0 0 0 2.5px #111}
+.m.r{background:var(--live);color:#fff}
+.cv .m{width:22px;height:22px;font-size:12px;line-height:22px;margin:-11px 0 0 -11px;box-shadow:0 0 0 2px #111}
+
+/* app-overlay zones drawn on canvases (toggle) */
+.zones{display:none}
+.zones-on .zones{display:inline}
+.ztoggle{position:fixed;right:16px;bottom:16px;z-index:200;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 16px;font:700 13px/1.2 var(--ui);box-shadow:0 4px 16px rgba(0,0,0,.25);cursor:pointer;min-height:44px}
+.zbody{padding-bottom:80px}
+.ztoggle[aria-pressed="true"]{background:var(--anno);color:#111}
+
+/* review mode: ?real shows phones at 100% and canvases at the same 375 pt width */
+.real .phone{zoom:1}
+.real .frame{width:400px;max-width:100%}
+.real{--cvw:375px}
+/* single-frame mode for screenshots: ?only=R1 */
+.only body{background:var(--paper)}
+.only .ztoggle{display:none}
+</style>
+</head>
+<body class="zbody">
+
+<header class="top">
+  <div class="wrap" style="padding-bottom:0">
+    <h1>GameTime: original game mockups</h1>
+    <p><span class="badge">Draft · input to decision 009</span>Nov 16, 2026 · mid-fidelity mockups of the three top candidates in <code>docs/game/concepts.md</code> (re-scored Nov 16, 2026, out of 40). The team still makes the pick.</p>
+    <p>Phone frames are 375 × 812 pt shown at 72%, with the same overlay as wireframe W1 (LIVE pill, viewer count, action rail, chat, streamer info). All three games are portrait, so per <a href="../../decisions/011-stream-orientation.md">decision 011</a> they fill the phone in the feed. Game frames are the 1080 × 1920 OBS canvas, drawn at the same scale as the stream inside the phone, so their text is the size a viewer sees. Add <code>?real</code> for 100%. The <b>Show app overlay</b> button (bottom right) outlines where the feed's overlay lands on every canvas. Yellow dots are annotations; red dots mark a readability risk. Everything is original: names, shapes and art; colours from <code>src/theme/tokens.ts</code>. Review log: <code>docs/game/mockups/REVIEW.md</code>.</p>
+    <nav class="toc" aria-label="Sections">
+      <a href="#compare">Compare</a><a href="#ringward">Ringward</a><a href="#hotcore">Hot Core</a><a href="#lumen">Lumen Drop</a><a href="#shared">What all three share</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================================================================== COMPARE -->
+<section id="compare" style="border-top:0">
+  <h2>Compare</h2>
+  <p class="lede">Scores from <code>docs/game/concepts.md</code> (decision 002 as amended by 010–012). The last column is what drawing them showed, judged on the feed frames (R1, H1, L1) at 100%. Sections follow the score order; the letters A, C, B are the concept IDs in <code>concepts.md</code>.</p>
+  <table class="cmp">
+    <thead><tr><th>Game</th><th>Score</th><th>One-line pitch</th><th>Orientation</th><th>Main readability risk the mockups show</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="gm"><i style="background:#2EF2C3"></i><a href="#ringward">Ringward</a><br><small>recommended</small></td>
+        <td data-l="Score (of 40)"><b class="score">37</b></td>
+        <td data-l="Pitch">Turn a shield around a glowing core to block shards from every side for 2:00. On a stream the viewers throw the shards, and a friend can add a second shield.</td>
+        <td data-l="Orientation">Portrait, centred arena</td>
+        <td data-l="Main risk">The arena is centred, so its lower third sits under chat, the action rail (taller with the Raid button) and the scrim. The crack pips (the stakes) and raider names in the lower half are the hardest things to see. A layout fix exists (R1b) but costs size: the arena has to shrink to about 63% of the width, from 91%.</td>
+      </tr>
+      <tr>
+        <td class="gm"><i style="background:#FF3B5C"></i><a href="#hotcore">Hot Core</a><br><small>fallback</small></td>
+        <td data-l="Score (of 40)"><b class="score">29</b></td>
+        <td data-l="Pitch">Hold to charge a reactor, let go to bank the points. Overload and you lose everything since your last bank.</td>
+        <td data-l="Orientation">Portrait, one big shape</td>
+        <td data-l="Main risk">The layout survives the overlay, and how much is at stake is clear ("AT RISK", the vote, a gauge that turns red when overload becomes possible). What a newcomer can't see is <i>when</i> inside the red zone it will blow: the only warning is a flicker in the glow, a few pixels at feed size and likely lost to compression. So the tension the player feels is invisible to viewers. Not fixable in layout without changing the rules.</td>
+      </tr>
+      <tr>
+        <td class="gm"><i style="background:#7C5CFF"></i><a href="#lumen">Lumen Drop</a></td>
+        <td data-l="Score (of 40)"><b class="score">28</b></td>
+        <td data-l="Pitch">Steer a falling spark through mint gates for combo; touch a red one and the run ends. Every 10 gates the shaft narrows and speeds up.</td>
+        <td data-l="Orientation">Portrait, vertical shaft</td>
+        <td data-l="Main risk">Gates rise from the bottom of the screen, which is exactly where chat, the rail and the scrim sit, so a viewer sees each gate only for about the last third of its trip. Gates are thin bars that blur at speed. Mint vs red also leans on colour, so the red gates need a hatch to read for colour-blind viewers. Only partly fixable: a one-row HUD (as in R1b) would lift the spark to about y 480 and show about half of each gate's trip, not a third (not drawn).</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="lede" style="margin-top:12px">Read Ringward's 37 with its risk: its "readable" and "swipe-in" 5s hold for the overlay-safe layout (R1b), not for the design.md layout drawn in R1.</p>
+</section>
+
+<!-- ================================================================== RINGWARD -->
+<section id="ringward">
+  <h2>A · Ringward</h2>
+  <div class="facts"><span>37 / 40 · recommended</span><span>Portrait 1080 × 1920</span><span>2:00 rounds</span><span>Solo, duo, raids</span></div>
+  <p class="lede">Keep the core alive for two minutes. Shards fly at it from every side, and on a stream the viewers are the ones throwing them (<a href="../../decisions/010-game-multiplayer-and-viewers.md">decision 010</a>). Drawn to <code>docs/game/design.md</code> on the game PR (rresnik2/gametime#8): score above the arena, time left inside the core, three crack pips below it, raider names on dark pills inside the rim, P1 purple and P2 near-white shields, overdrive in the last 20 s.</p>
+
+  <h3 class="sub">In the feed, and the game screen behind it</h3>
+  <div class="row">
+    <div class="frame" id="R1">
+      <div class="fh"><span class="id">R1</span>The stream in the feed · raid in progress<span class="route">For You feed, portrait stream (decision 011)</span></div>
+      <div class="phone feed" data-feed="rw" data-tab="live"></div>
+      <ol class="notes">
+        <li><b>Swipe-in partly passes:</b> the mint core, its countdown, the purple arc and the score read at once. But the one incoming shard is behind the Raid button (only its tip shows) and the next launch's warning is under chat, so the threat itself is mostly hidden until a shard crosses the clear middle. Compare <a href="#R1b">R1b</a>. A crack is rarer still (this streamer: one in 52 s).</li>
+        <li><b>Raid button</b> (Ringward streams only, and only while a round is on; between rounds the rail is the usual four buttons) opens the Raid sheet <a href="#R8">R8</a>. Five buttons push the rail up to about 350 pt, over the arena's right edge.</li>
+        <li class="risk"><b>Overlay collision:</b> raider names sit under the overlay: <i>pixelpilot</i>'s pill is cut by the Raid button, and <i>mintmoth</i>'s rim warning (the next launch, from 7 o'clock) is under chat. Shards launch from every side, and 6 of the 12 slots (3 to 8 o'clock) start under chat or the rail.</li>
+        <li class="risk"><b>Overlay collision:</b> the crack pips sit between the last chat line and the streamer's name, under the darkest part of the scrim, and "RAID ON · 12 raiding" is hidden behind the name row (its tail peeks out after the game chip, where it reads as app UI). Cracks are the stakes; they shouldn't be the hardest thing to see.</li>
+        <li class="g">The fix is a smaller arena: see <a href="#R1b">R1b</a>.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="R2">
+      <div class="fh"><span class="id">R2</span>Game screen · mid-round, raid on<span class="route">OBS canvas 1080 × 1920</span></div>
+      <div class="cv" data-scene="rw-mid" data-rail="5" data-marks='[[1,540,250],[2,905,280],[3,165,1295],[4,720,900],[5,1000,880],[6,745,1560],[7,850,1672]]'></div>
+      <ol class="notes">
+        <li><b>Score</b>, huge and centred.</li>
+        <li><b>Multiplier</b>: ×4 (one step per 8 combo, max ×5).</li>
+        <li><b>Rim warning</b>: the launch slot flashes red 0.6 s before the shard flies, so viewers see the threat a beat before the player reacts. The raider's name (<i>mintmoth</i>) shows on the warning too: the greybox already draws it, but design.md doesn't say so yet.</li>
+        <li><b>Time left</b> inside the core. One crack already runs across it; the core dims and fractures with each one. The core and timer are drawn bigger than the greybox's (core 0.28 R vs 0.2 R; timer about 36 pt vs 21 pt in the feed; shield ring 0.48 R vs 0.45 R): a proposal for design.md, since the timer is a main swipe-in cue.</li>
+        <li><b>Raider names</b> ride their shards on dark pills, inside the rim. Raid shards always come from one of the 12 rim slots (every 30°, the ticks).</li>
+        <li><b>Crack pips</b>: two left. The third crack ends the round.</li>
+        <li><b>One-line status</b> (decision 012's proposal): "RAID ON · 12 raiding". In solo with no viewers it reads "SOLO · best 7,960". At 1:08 the wave table gives a shard every 1.0 s that takes 1.35 s to reach the core, so a viewer usually sees one shard nearing the shield, the last one bouncing away, and the next one's warning.</li>
+      </ol>
+      <div class="five"><b class="h">A newcomer's first 5 seconds</b>
+        <p><em>0–1 s</em>A dark screen, one bright mint circle with "1:08" counting down, a purple arc around it, a red shard closing in. "2,900" on top.</p>
+        <p><em>1–3 s</em>A shard bounces off the arc with a flash (+40, or "PERFECT +100" off the middle, about one block in four). A rim slot flashes red with a name on it, and a shard follows.</p>
+        <p><em>3–5 s</em>Usually another block. Rarely (this streamer: once in 52 s) one gets past, the core cracks and a pip goes dark; the empty pip already says that has happened. Names on the shards say viewers are throwing them, so the next thing they want is the Raid button.</p>
+        <p><b>In the feed (R1)</b> much less of this reads: the incoming shard is behind the Raid button, <i>mintmoth</i>'s warning is under chat, and the pips are under the scrim. The core, arc, countdown and score still say "defend the circle", but the threat, the names and the stakes mostly don't show until a shard crosses the clear middle.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="frame" id="R1b">
+      <div class="fh"><span class="id">R1b</span>Proposal: the same moment, laid out for the feed<span class="route">For You feed · overlay-safe layout</span></div>
+      <div class="phone feed" data-feed="rwfit" data-tab="live"></div>
+      <ol class="notes">
+        <li><b>Arena shrinks</b> to a 340 px radius centred at y 800 (63% of the width, down from 91%), so its whole rim, every launch slot included, is above chat and left of the Raid-height rail. Its lower half is still under the top of the scrim (about 25% darker at the rim), which dims but doesn't hide it.</li>
+        <li><b>One top row</b>: multiplier, score, and the three crack pips beside it (90% of R2's size), all in the clear band. "RAID ON · 12 raiding" sits between the score and the arena.</li>
+        <li><b>Same timing, smaller motion.</b> The game runs in arena units, so rim to core still takes 1.35 s, but shards travel about 30% fewer pixels and read smaller. Names stay readable (40 px on the canvas, about 14 pt here), but fixed-size pills crowd a smaller ring sooner.</li>
+        <li class="g">Trade-off for the team: R1 is the more striking game on a monitor; R1b is the one that reads in the feed. Draft only. If Ringward is picked, its design doc would adopt one of the two, and the lower half of the canvas could hold something viewers can lose (best score, the raider leaderboard on the result card).</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3 class="sub">Start and end screens</h3>
+  <div class="row">
+    <div class="frame" id="R3">
+      <div class="fh"><span class="id">R3</span>Start screen<span class="route">OBS canvas · before a round</span></div>
+      <div class="cv" data-scene="rw-start" data-rail="4"></div>
+      <ol class="notes">
+        <li class="g">What a viewer needs (name, goal, "Raids on · raid when the round starts": the Raid button only appears during a round) sits in the clear band above the overlay. The control and the start key are for the streamer, so they can sit lower, under chat.</li>
+        <li class="g">The best score lives in the browser's local storage only (no saves of its own, decision 002).</li>
+      </ol>
+    </div>
+    <div class="frame" id="R4">
+      <div class="fh"><span class="id">R4</span>End · win: "Core held"<span class="route">OBS canvas · timer reached 0:00</span></div>
+      <div class="cv" data-scene="rw-held" data-rail="4"></div>
+      <ol class="notes">
+        <li class="g">Surviving adds 250 per crack the core can still take: 2 left = +500. In a raid the card says how many raiders were beaten.</li>
+      </ol>
+    </div>
+    <div class="frame" id="R5">
+      <div class="fh"><span class="id">R5</span>End · "Viewers win"<span class="route">OBS canvas · a raider's shard landed the third crack</span></div>
+      <div class="cv" data-scene="rw-vwin" data-rail="4"></div>
+      <ol class="notes">
+        <li class="g">The card names the core breaker as the largest text on the card after the title: this is the clip moment for raiders. Only real usernames appear (decision 010: no free text).</li>
+        <li class="g">"Core lost" (the game's own shard landed the third crack) is the same card with "CORE LOST" in red and no name.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3 class="sub">Signature moments</h3>
+  <div class="row">
+    <div class="frame" id="R6">
+      <div class="fh"><span class="id">R6</span>Viewer raid in overdrive<span class="route">OBS canvas · last 20 s, 38 raiding</span></div>
+      <div class="cv" data-scene="rw-raid" data-rail="5" data-marks='[[1,250,470],[2,140,720],[3,1010,1115,"r"]]'></div>
+      <ol class="notes">
+        <li><b>Overdrive</b>: the arena's rim pulses red and shards come every 0.5 s. One crack left. Because the rim is red, the rim warnings are drawn white here; design.md makes both red, which would hide the warnings in the most clip-worthy 20 s. A proposal for design.md.</li>
+        <li><b>Two raid shards in flight and the next raider's warning</b>: <i>quillfire</i> about to meet the shield and <i>combo_king</i> just launched from the opposite rim, one overdrive tick (0.5 s) apart. Raid launches are always singles; the shield needs about 140° to reach <i>combo_king</i>, 0.26 s with the mouse or 0.46 s with keys, just inside the roughly 0.48 s it has, so both can be blocked. <i>quillfire</i> is in the shield's perfect zone; plus one ricochet leaving the arena. That is about the most overdrive puts on screen (a shard every 0.5 s, 0.85 s to the core). 38 raiders don't add shards: their launches replace the game's own spawns, 8 wait in the queue ("8 queued"), and the rest get "raid full" in the app.</li>
+        <li class="risk">In the feed, <i>blockhead</i>'s warning at 3 o'clock is half under the rail and <i>combo_king</i> is under chat. Names are 40 px on the canvas, about 14 pt on a phone.</li>
+      </ol>
+    </div>
+    <div class="frame" id="R7">
+      <div class="fh"><span class="id">R7</span>Duo: two shields<span class="route">OBS canvas · streamer + partner</span></div>
+      <div class="cv" data-scene="rw-duo" data-rail="5" data-marks='[[1,110,690],[2,880,1075],[3,400,1440,"r"]]'></div>
+      <ol class="notes">
+        <li><b>P1</b> (the streamer) is purple, <b>P2</b> (the partner) near-white, each labelled with their name.</li>
+        <li><b>Shields are solid to each other</b>, so the two players split the ring: here P2 holds the right side.</li>
+        <li class="risk"><b>Half the duo is under the overlay:</b> <i>tidepool</i>'s shard, just launched from 6 o'clock on P2's side of the split, is under chat in the feed, and so is the lower part of P2's half. P2 has to swing about 50° down for it, which is the duo moment, and a feed viewer mostly can't see it. Shards come more often in duo (the greybox spawns at 0.7× the solo interval).</li>
+      </ol>
+    </div>
+    <div class="frame" id="R8">
+      <div class="fh"><span class="id">R8</span>Raid sheet in the app<span class="route">Feed → Raid button (R1)</span></div>
+      <div class="phone" data-tab="live" id="R8phone">
+        <div class="stream" data-scene="rw-mid" style="top:31px"></div>
+        <div class="toggle"><span>Following</span><b>For You</b></div>
+        <div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ 1.2K</span></div>
+        <div class="dim"></div>
+        <div class="sheet">
+          <div class="flex" style="justify-content:space-between;align-items:flex-start">
+            <div><div class="h2">Raid nova's core</div><div class="sm muted">Round on · raid now</div></div>
+            <span class="ib" aria-label="Close">✕</span>
+          </div>
+          <div class="sm">Tap a slot on the ring. Your shard flies at the core from there, with your name on it.</div>
+          <div class="ring cool" data-ring></div>
+          <div class="banner ok"><b>✓</b><div><b>Queued: your shard is 3rd in line.</b><br><span class="xs muted">The sheet folds away in a moment so you can watch for your name.</span></div></div>
+          <div class="xs muted" style="text-align:center">One shard every 4 s. Raid shards replace the game's own, so the round stays fair.</div>
+        </div>
+        <span class="m" style="top:352px;left:300px">1</span>
+        <span class="m" style="top:516px;left:252px">2</span>
+        <span class="m" style="top:630px;left:336px">3</span>
+      </div>
+      <ol class="notes">
+        <li><b>12 slots</b> in the same layout as the rim ticks in the game, each a 44 pt target with a label for screen readers ("Slot at 4 o'clock"). Other raiders' queued slots aren't shown: the hosting design doesn't tell the app when they launch.</li>
+        <li><b>Your slot</b> lights up and a <b>cooldown ring</b> (4 s) fills around the mini core; the other slots grey out until it's full.</li>
+        <li><b>Instant answer</b>, because the stream lags: "3rd in line" now, your name on the shard a few seconds later. The sheet then folds to a strip (<a href="#R9">R9</a>). Viewers pick where, never when, so delay can't make them miss.</li>
+        <li class="g">States: signed out or anonymous → "Sign in to raid" (decision 010); blocked by the streamer → no Raid button; queue of 8 full → "Raid full, try again in a moment"; between rounds → the sheet closes and the Raid button leaves the rail until the next round starts; raids switched off → no button.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="frame" id="R9">
+      <div class="fh"><span class="id">R9</span>After launching: the sheet folds to a strip<span class="route">Feed · about 2 s after R8</span></div>
+      <div class="phone feed" data-feed="rwq" data-tab="live"></div>
+      <ol class="notes">
+        <li><b>Strip</b> in place of the chat input: "queued" and the cooldown (the hosting design sends the queue position once, at launch, so the strip doesn't count down the line), so the arena is visible again while the viewer waits for their name. Tap it (or "Raid") to reopen the sheet and pick the next slot once the cooldown is full.</li>
+        <li><b>Raid button</b> shows the cooldown as a ring until the next shard is allowed.</li>
+        <li class="g">The game frame behind is R8's, for comparison; on a real stream it has moved on two seconds.</li>
+        <li class="g">Draft: the strip and the sheet are one component in two heights. Whether chat input stays reachable during a raid is for the design review.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== HOT CORE -->
+<section id="hotcore">
+  <h2>C · Hot Core</h2>
+  <div class="facts"><span>29 / 40 · fallback</span><span>Portrait 1080 × 1920</span><span>1:30 rounds (assumed)</span><span>Viewers vote bank / hold</span></div>
+  <p class="lede">A push-your-luck game on one button. Hold to pump energy into a reactor; the points at risk grow faster the longer you hold, but once it's in the danger zone it can overload at any moment, and the only warning is a flicker in its glow that gets harder to read each level. Let go to bank. The concept has no design doc, so these mockups make five assumptions: 1:30 rounds (from the first concept draft; decision 012 allows any length), levels that speed up the charge and come every 15 s, a <b>charge gauge</b> that fills while you hold (overload becomes possible once it enters its red last third and likelier as it fills; a full gauge always overloads; the reactor glows red while it's in that zone), a flicker that appears only in the last second or so before an overload (fainter each level, so a player who spots it can still let go in time), and a viewer <b>bank / hold vote</b> from the app as its viewer interaction (scored 2 of 5 in <code>concepts.md</code>, because stream delay makes votes late). Unlike Ringward, it was laid out from the start to keep everything above the feed's overlay.</p>
+
+  <h3 class="sub">In the feed, and the game screen behind it</h3>
+  <div class="row">
+    <div class="frame" id="H1">
+      <div class="fh"><span class="id">H1</span>The stream in the feed · mid-round<span class="route">For You feed, portrait stream</span></div>
+      <div class="phone feed" data-feed="hc" data-tab="live"></div>
+      <ol class="notes">
+        <li><b>What matters is above the overlay</b>: level, timer, banked score, the vote, the reactor and the points at risk. The bottom of the gauge touches the first chat line. Nothing else sits under chat: a "last banks" history was tried there and made chat harder to read, so it lives on the end card (H4) instead.</li>
+        <li class="risk"><b>The timing is invisible at this size.</b> How much is at stake reads fine ("+1,350 AT RISK", the vote, the gauge). But the flicker (the white flecks round the core) is the game's only warning of <i>when</i> it will overload, and here it's a few pixels that compression may erase. Viewers can't feel the moment the player is gambling on.</li>
+        <li><b>Viewer vote.</b> Needs an app control (a rail button like Ringward's Raid, not drawn) and arrives a few seconds late, so it's a crowd mood rather than a real call.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="H2">
+      <div class="fh"><span class="id">H2</span>Game screen · mid-round, holding<span class="route">OBS canvas 1080 × 1920 · an earlier round than H4/H5</span></div>
+      <div class="cv" data-scene="hc-mid" data-rail="4" data-marks='[[1,310,335],[2,790,335],[3,280,480],[4,62,576],[5,820,760],[6,690,1030],[7,610,720,"r"]]'></div>
+      <ol class="notes">
+        <li><b>Level</b>: each level charges faster and makes the flicker harder to read.</li>
+        <li><b>Round timer.</b></li>
+        <li><b>Banked</b>: safe points. This is the score.</li>
+        <li><b>Viewer vote</b>, bank vs hold, live from the app.</li>
+        <li><b>Charge gauge</b>: 24 segments, here just into red. In the red last third an overload can happen at any moment and gets likelier; full always overloads. So it shows the danger zone, not the moment. The flicker only shows in the last second or so before an overload.</li>
+        <li><b>At risk</b>: what you lose if it overloads now, inside the reactor. "HOLDING 3.2 s" above it.</li>
+        <li class="risk"><b>The flicker</b>: the faint white fleck at about 1 o'clock on the core's edge (another at 7) is the only overload warning, drawn at its real size: here it means this hold blows within about a second unless the player lets go. The player watching for it can react; you may need to zoom to find it, and after video compression it is likely gone.</li>
+      </ol>
+      <div class="five"><b class="h">A newcomer's first 5 seconds</b>
+        <p><em>0–1 s</em>One big glowing reactor, red, its ring of segments just into red, a faint flicker already on, "+1,350 AT RISK" climbing inside it, "4,820 BANKED" on top, and the vote bar leaning to BANK. Within about a second the player either lets go (the number flies up into BANKED) or misses the flicker and the reactor overloads in a white flash.</p>
+        <p><em>1–5 s</em>The next hold starts from an empty ring and the number climbs again; by now the newcomer gets it. One who swipes in between holds sees only a number and an empty ring until the next hold starts.</p>
+        <p><b>In the feed (H1)</b> all of this reads, except the flicker, and chat is shouting "BANK IT".</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub">Start and end screens</h3>
+  <div class="row">
+    <div class="frame" id="H3">
+      <div class="fh"><span class="id">H3</span>Start screen<span class="route">OBS canvas · before a round</span></div>
+      <div class="cv" data-scene="hc-start" data-rail="4"></div>
+      <ol class="notes"><li class="g">The three rules as three labelled rows, in the clear band: hold to charge, let go to bank, overload loses what isn't banked. The start key (for the streamer) sits under the overlay. The best score is in local storage only.</li></ol>
+    </div>
+    <div class="frame" id="H4">
+      <div class="fh"><span class="id">H4</span>End: round over<span class="route">OBS canvas · timer reached 0:00</span></div>
+      <div class="cv" data-scene="hc-end" data-rail="4"></div>
+      <ol class="notes"><li class="g">There's no losing a round, only a smaller total, so the end card leans on the overloads and on whether chat called it right.</li></ol>
+    </div>
+  </div>
+
+  <h3 class="sub">Signature moment</h3>
+  <div class="row">
+    <div class="frame" id="H5">
+      <div class="fh"><span class="id">H5</span>The charge near overload<span class="route">OBS canvas · 3.8 s into a hold, level 5</span></div>
+      <div class="cv" data-scene="hc-edge" data-rail="4" data-marks='[[1,62,576],[2,330,640],[3,690,1030]]'></div>
+      <ol class="notes">
+        <li><b>91% say BANK.</b> The crowd is certain; the player isn't.</li>
+        <li><b>Gauge almost full</b> and the reactor glows red (it turns red whenever the gauge is in its red zone). The flicker is two faint flecks, fainter than at level 3 (it gets harder to read each level, by design): what's at stake shows, the moment doesn't. That is the whole bet, and the risk in the compare table.</li>
+        <li><b>+3,940 at risk</b>, more than half the banked score. Releasing banks it; an overload empties it in a white flash. (This hold overloads; H4's total adds one later bank of +370.)</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== LUMEN DROP -->
+<section id="lumen">
+  <h2>B · Lumen Drop</h2>
+  <div class="facts"><span>28 / 40</span><span>Portrait 1080 × 1920</span><span>Endless run, ends on red</span><span>Viewers place gates</span></div>
+  <p class="lede">Steer a falling spark down an endless vertical shaft. Gates rise towards it in pairs, one mint and one red: pass through mint to grow the combo, touch red and the run ends. Every ten gates the shaft narrows and speeds up. Viewers place gate pairs ahead of the spark from the app (<code>concepts.md</code>: 3 of 5; every gate must stay fair). Assumptions drawn here: a pair is a mint gate and a red bar with open space around them, and flying past a mint gate without going through it resets the combo. The score is distance × the current combo, as <code>concepts.md</code> says, so a combo reset would cut it sharply; whether the score should instead build up is an open question for the design doc. Red bars carry a dark hatch so they don't rely on colour alone.</p>
+
+  <h3 class="sub">In the feed, and the game screen behind it</h3>
+  <div class="row">
+    <div class="frame" id="L1">
+      <div class="fh"><span class="id">L1</span>The stream in the feed · mid-run<span class="route">For You feed, portrait stream</span></div>
+      <div class="phone feed" data-feed="ld" data-tab="live"></div>
+      <ol class="notes">
+        <li><b>Swipe-in is quick</b>: a bright spark falling, mint and red bars coming up at it. The HUD sits above the overlay.</li>
+        <li class="risk"><b>The look-ahead is under the overlay.</b> Gates rise from the bottom, through chat and the rail, under the scrim. The spark is already drawn high (at 37% of the stream), and still only the next gate is clean. A one-row HUD could lift it to about 25%, showing about half of each gate's trip (not drawn).</li>
+        <li class="risk"><b>Thin, fast bars.</b> 48 px gates are about 17 pt here; at speed and after compression they smear. A viewer-placed gate's name tag (<i>tidepool</i>) is under chat.</li>
+        <li class="g">Placing gates also needs an app control (a fifth rail button, like Ringward's Raid; not drawn). It would lift the rail to y 920, over a right side that's already under the overlay.</li>
+      </ol>
+    </div>
+
+    <div class="frame" id="L2">
+      <div class="fh"><span class="id">L2</span>Game screen · mid-run<span class="route">OBS canvas 1080 × 1920</span></div>
+      <div class="cv" data-scene="ld-mid" data-rail="4" data-marks='[[1,220,360],[2,290,478],[3,510,632],[4,370,770],[5,100,900],[6,368,1260]]'></div>
+      <ol class="notes">
+        <li><b>Score</b>: distance × the current combo (1,284 m × 14 = 17,976).</li>
+        <li><b>Combo</b> and <b>distance</b>.</li>
+        <li><b>Shaft progress</b>: 6 of the 10 gates before it narrows; also the one-line status for decision 012.</li>
+        <li><b>The spark</b>, with a short trail so it reads as falling.</li>
+        <li><b>Next gate pair</b>: mint gate (two posts, light bar, downward chevrons) to pass through; red bar (hatched) to avoid.</li>
+        <li><b>A viewer's gate</b>, tagged with their name.</li>
+      </ol>
+      <div class="five"><b class="h">A newcomer's first 5 seconds</b>
+        <p><em>0–1 s</em>A dark shaft, a bright spark near the top, a big score. Mint and red bars rising.</p>
+        <p><em>1–3 s</em>The spark slides through a mint gate: "+1", the combo ticks up. A red bar slides past right beside it.</p>
+        <p><em>3–5 s</em>The rule is clear by the second gate: through the mint, never touch red. What's at stake (the combo) is less obvious than a core with cracks.</p>
+        <p><b>In the feed (L1)</b> only the next gate is clear; the rest rise from behind chat and the rail, and <i>tidepool</i>'s tag is under chat.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub">Start and end screens</h3>
+  <div class="row">
+    <div class="frame" id="L3">
+      <div class="fh"><span class="id">L3</span>Start screen<span class="route">OBS canvas · before a run</span></div>
+      <div class="cv" data-scene="ld-start" data-rail="4"></div>
+      <ol class="notes"><li class="g">One example gate pair, labelled, teaches the whole rule, above the overlay. The controls and start key (for the streamer) sit lower.</li></ol>
+    </div>
+    <div class="frame" id="L4">
+      <div class="fh"><span class="id">L4</span>End: run over<span class="route">OBS canvas · the spark touched red</span></div>
+      <div class="cv" data-scene="ld-end" data-rail="4"></div>
+      <ol class="notes"><li class="g">When a viewer's red bar ends the run, the card names them, like Ringward's core breaker.</li></ol>
+    </div>
+  </div>
+
+  <h3 class="sub">Signature moment</h3>
+  <div class="row">
+    <div class="frame" id="L5">
+      <div class="fh"><span class="id">L5</span>Threading mint past red<span class="route">OBS canvas · shaft 6, ×22 combo</span></div>
+      <div class="cv" data-scene="ld-thread" data-rail="4" data-marks='[[1,880,650],[2,120,860],[3,960,1300,"r"]]'></div>
+      <ol class="notes">
+        <li><b>"CLOSE!"</b>: the spark goes through a mint gate with a red bar a hair away. This is the clip.</li>
+        <li><b>Narrower shaft</b>, faster, with speed streaks on the walls.</li>
+        <li class="risk"><b>Pairs every 220 px</b>: five in view, but in the feed only the top two are clear of the overlay.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== SHARED -->
+<section id="shared">
+  <h2>What all three share</h2>
+  <ul class="plain">
+    <li><b>Portrait games fill the phone, so the overlay covers their lower 40%.</b> On the 1080 × 1920 canvas, the clear band runs from about y 280 (below the LIVE pill) to y 1140 (chat starts at y 1166; this keeps a small margin). Below that: chat on the left, the action rail on the right from y 1150 (y 920 with Ringward's Raid button), streamer info and the chat input, all under a scrim that darkens from y 800 down. Turn on <b>Show app overlay</b> to see it on every canvas.</li>
+    <li><b>Reference device:</b> these frames assume a 375 × 812 pt phone with the 9:16 stream fitted to the width (about 31 pt bands above and below it), as decision 011's "nothing is cropped" implies. On a shorter phone (16:9-class, like an SE) or with aspect-fill, the scale and the clear band shift; re-check the band on the shortest phone the app supports.</li>
+    <li><b>Proposed rule for the chosen game's design doc:</b> keep the score, the goal or status line and the main action inside y 280–1140, and don't put anything a newcomer must read in the lower left or along the right edge below y 900.</li>
+    <li><b>Clean view:</b> per wireframe W1, a single tap hides the whole overlay. That helps a viewer who has decided to watch, but the swipe-in impression comes before any tap, so the collisions above still count.</li>
+    <li><b>Text sizes:</b> the canvas is shown at about 35% in the feed, so 40 px on the canvas is about 14 pt on a phone. Nothing a viewer needs is drawn under 40 px here.</li>
+    <li><b>Each game shows a one-line status</b> (Ringward "RAID ON · 12 raiding", Hot Core "LEVEL 3", Lumen Drop "SHAFT 4" with 6 of 10 blocks lit), the persistent line decision 012 proposes for swipe-in.</li>
+    <li><b>Look-alikes:</b> at thumbnail size Ringward and Hot Core look similar (a glowing disc, Hot Core's mint until its gauge reaches red, in a dark segmented ring under a big white number). If both stay in contention, give Hot Core its own silhouette.</li>
+    <li><b>Not drawn:</b> two-player modes for Hot Core (a race) and Lumen Drop (two sparks), which <code>concepts.md</code> scores low; sound; motion. A real stream also adds video compression, which these flat shapes survive better than thin lines.</li>
+  </ul>
+</section>
+
+</main>
+
+<button class="ztoggle" type="button" aria-pressed="false">Show app overlay</button>
+
+<!-- Shared SVG defs (gradients, filters, patterns). Not display:none, which breaks gradients in some browsers. -->
+<svg id="defs" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowBig" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="gMint"><stop offset="0" stop-color="#2EF2C3" stop-opacity=".55"/><stop offset=".55" stop-color="#2EF2C3" stop-opacity=".18"/><stop offset="1" stop-color="#2EF2C3" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gRedHalo"><stop offset="0" stop-color="#FF3B5C" stop-opacity=".6"/><stop offset=".55" stop-color="#FF3B5C" stop-opacity=".22"/><stop offset="1" stop-color="#FF3B5C" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gRim"><stop offset=".86" stop-color="#FF3B5C" stop-opacity="0"/><stop offset=".93" stop-color="#FF3B5C" stop-opacity=".45"/><stop offset="1" stop-color="#FF3B5C" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gCoolCore"><stop offset="0" stop-color="#F2FFFB"/><stop offset=".55" stop-color="#9FF8E2"/><stop offset="1" stop-color="#2EF2C3"/></radialGradient>
+    <radialGradient id="gHotCore"><stop offset="0" stop-color="#FFF4F6"/><stop offset=".5" stop-color="#FF9AAC"/><stop offset="1" stop-color="#FF3B5C"/></radialGradient>
+    <radialGradient id="gIdleCore"><stop offset="0" stop-color="#2A2A38"/><stop offset="1" stop-color="#20202C"/></radialGradient>
+    <radialGradient id="gSpark"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset=".35" stop-color="#2EF2C3" stop-opacity=".45"/><stop offset="1" stop-color="#2EF2C3" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gTrailR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF3B5C" stop-opacity="0"/><stop offset="1" stop-color="#FF3B5C" stop-opacity=".75"/></linearGradient>
+    <linearGradient id="gTrailG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A1A1B5" stop-opacity="0"/><stop offset="1" stop-color="#A1A1B5" stop-opacity=".6"/></linearGradient>
+    <linearGradient id="gTrailM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2EF2C3" stop-opacity="0"/><stop offset="1" stop-color="#2EF2C3" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="gHudFade" x1="0" y1="0" x2="0" y2="1"><stop offset=".75" stop-color="#0B0B12"/><stop offset="1" stop-color="#0B0B12" stop-opacity="0"/></linearGradient>
+    <linearGradient id="gScrimZone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5B700" stop-opacity="0"/><stop offset="1" stop-color="#F5B700" stop-opacity=".22"/></linearGradient>
+    <pattern id="hatch" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="28" fill="#0B0B12" fill-opacity=".45"/></pattern>
+  </defs>
+</svg>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  if (/[?&]real\b/.test(location.search)) root.classList.add('real');
+
+  // ---------------------------------------------------------------- helpers
+  var C = { bg: '#0B0B12', surface: '#16161F', raised: '#20202C', border: '#2A2A38', primary: '#7C5CFF', live: '#FF3B5C', mint: '#2EF2C3', text: '#FFFFFF', muted: '#A1A1B5' };
+  var DISPLAY = "'Space Grotesk',ui-rounded,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+  var UI = "Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
+  function r1(n) { return Math.round(n * 10) / 10; }
+  // angle in degrees, 0 = up, clockwise
+  function P(cx, cy, r, deg) { var a = deg * Math.PI / 180; return [cx + r * Math.sin(a), cy - r * Math.cos(a)]; }
+  function arc(cx, cy, r, a0, a1) {
+    var p0 = P(cx, cy, r, a0), p1 = P(cx, cy, r, a1), sweep = ((a1 - a0) % 360 + 360) % 360;
+    return 'M' + r1(p0[0]) + ' ' + r1(p0[1]) + 'A' + r + ' ' + r + ' 0 ' + (sweep > 180 ? 1 : 0) + ' 1 ' + r1(p1[0]) + ' ' + r1(p1[1]);
+  }
+  function T(x, y, size, txt, o) {
+    o = o || {};
+    return '<text x="' + r1(x) + '" y="' + r1(y) + '" font-size="' + size + '" font-weight="' + (o.w || 700) + '" fill="' + (o.fill || C.text) + '" text-anchor="' + (o.a || 'middle') + '" font-family="' + (o.fam || DISPLAY) + '"' + (o.ls ? ' letter-spacing="' + o.ls + '"' : '') + (o.op != null ? ' opacity="' + o.op + '"' : '') + '>' + txt + '</text>';
+  }
+  function textW(txt, size, k) { return txt.length * size * (k || 0.58); }
+  // a rounded label; returns markup, centred on x,y
+  function pill(x, y, txt, o) {
+    o = o || {};
+    var size = o.size || 40, W = (o.w || textW(txt, size, o.k)) + (o.pad || 24) * 2, H = o.h || size * 1.55;
+    return '<rect x="' + r1(x - W / 2) + '" y="' + r1(y - H / 2) + '" width="' + r1(W) + '" height="' + r1(H) + '" rx="' + r1(H / 2) + '" fill="' + (o.bg || 'rgba(11,11,18,.9)') + '"' + (o.stroke ? ' stroke="' + o.stroke + '" stroke-width="' + (o.sw || 3) + '"' : '') + '/>' +
+      T(x, y + size * 0.36, size, txt, { fill: o.fg || C.text, fam: o.fam || UI, w: o.weight || 700, ls: o.ls });
+  }
+  function button(x, y, txt, o) { o = o || {}; return pill(x, y, txt, { size: o.size || 46, bg: o.bg || C.primary, fg: C.text, fam: DISPLAY, ls: 3, pad: 44, h: 104, k: 0.66 }); }
+
+  // ---------------------------------------------------------------- Ringward
+  function shard(x, y, a, out, tl) {
+    var rot = out ? a + 180 : a, col = out ? '#A1A1B5' : C.live;
+    tl = tl == null ? 176 : tl;
+    return '<g transform="translate(' + r1(x) + ' ' + r1(y) + ') rotate(' + rot + ')">' +
+      (tl > 20 ? '<rect x="-11" y="' + -(24 + tl) + '" width="22" height="' + tl + '" rx="11" fill="url(#' + (out ? 'gTrailG' : 'gTrailR') + ')"/>' : '') +
+      '<path d="M0 44L22 -2L0 -30L-22 -2Z" fill="' + col + '" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="3" filter="url(#glow)"/></g>';
+  }
+  function shieldArc(cx, cy, r, a, col, hi, w) {
+    var span = 70;
+    return '<g filter="url(#glow)"><path d="' + arc(cx, cy, r, a - span / 2, a + span / 2) + '" stroke="' + col + '" stroke-width="' + w + '" fill="none" stroke-linecap="round"/>' +
+      '<path d="' + arc(cx, cy, r, a - span / 6, a + span / 6) + '" stroke="' + hi + '" stroke-width="' + w + '" fill="none"/></g>';
+  }
+  // kept clear of the timer digits in the middle of the core
+  var CRACKS = ['M-62 -118L-40 -84L-66 -62L-30 -48', 'M44 134L30 102L56 86L24 64', 'M-122 56L-88 66L-80 96L-48 108'];
+  function core(cx, cy, r, time, cracks, o) {
+    o = o || {};
+    var s = '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r + 110) + '" fill="url(#gMint)" opacity="' + (o.dim ? .4 : 1) + '"/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + C.mint + '" opacity="' + (o.dim ? .35 : cracks >= 2 ? .82 : 1) + '"/>';
+    var k = r / 135;
+    for (var i = 0; i < cracks; i++) s += '<path d="' + CRACKS[i] + '" transform="translate(' + cx + ' ' + cy + ') scale(' + k + ')" stroke="' + C.bg + '" stroke-width="' + (9 / k) + '" fill="none" stroke-linejoin="round" stroke-linecap="round"' + (o.dim ? ' opacity=".4"' : '') + '/>';
+    if (time) s += T(cx, cy + 38 * k, 104 * k, time, { fill: C.bg });
+    return s;
+  }
+  function pips(cx, y, used, op, sp, k) {
+    sp = sp || 112; k = k || 1;
+    var s = '<g' + (op != null ? ' opacity="' + op + '"' : '') + '>';
+    for (var i = 0; i < 3; i++) {
+      var x = cx + (i - 1) * sp;
+      if (i < 3 - used) s += '<circle cx="' + x + '" cy="' + y + '" r="' + 34 * k + '" fill="' + C.mint + '" filter="url(#glow)"/>';
+      else s += '<circle cx="' + x + '" cy="' + y + '" r="' + 32 * k + '" fill="' + C.raised + '" stroke="' + C.live + '" stroke-width="6"/><path d="M' + r1(x - 14 * k) + ' ' + r1(y - 20 * k) + 'l' + 10 * k + ' ' + 14 * k + 'l' + -8 * k + ' ' + 8 * k + 'l' + 14 * k + ' ' + 18 * k + '" stroke="' + C.live + '" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+    return s + '</g>';
+  }
+  function ringward(o) {
+    var cx = 540, cy = o.cy || 960, R = o.R || 490, TR = Math.round(R * 0.48), s = '';
+    if (o.overdrive) s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R + 70) + '" fill="url(#gRim)"/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + C.surface + '" stroke="' + (o.overdrive ? C.live : C.border) + '" stroke-width="' + (o.overdrive ? 12 : 8) + '"' + (o.overdrive ? ' filter="url(#glow)"' : '') + '/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + TR + '" fill="none" stroke="' + C.raised + '" stroke-width="3"/>';
+    for (var i = 0; i < 12; i++) {
+      var a = P(cx, cy, R - 34, i * 30), b = P(cx, cy, R - 6, i * 30);
+      s += '<line x1="' + r1(a[0]) + '" y1="' + r1(a[1]) + '" x2="' + r1(b[0]) + '" y2="' + r1(b[1]) + '" stroke="' + C.muted + '" stroke-opacity=".35" stroke-width="8" stroke-linecap="round"/>';
+    }
+    (o.warns || []).forEach(function (w) {
+      var wc = o.overdrive ? '#FFFFFF' : C.live;
+      s += '<path d="' + arc(cx, cy, R, w.a - 9, w.a + 9) + '" stroke="' + wc + '" stroke-width="24" fill="none" stroke-linecap="round" filter="url(#glowBig)"/>';
+      if (w.name) { var p = P(cx, cy, R - 160, w.a); s += pill(p[0], p[1], w.name, { size: 40, k: 0.56, stroke: wc, sw: 4 }); }
+    });
+    (o.shards || []).forEach(function (sh) { var p = P(cx, cy, sh.d, sh.a); s += shard(p[0], p[1], sh.a, sh.out, sh.out ? 176 : Math.min(176, R - sh.d - 20)); });
+    (o.shields || []).forEach(function (sd) {
+      s += shieldArc(cx, cy, TR, sd.a, sd.col, sd.hi, Math.round(44 * Math.max(R / 490, .8)));
+      if (sd.label) { var p = P(cx, cy, TR + 92, sd.a); s += pill(p[0], p[1], sd.label, { size: 40, k: 0.56, bg: sd.col, fg: sd.fg || C.text }); }
+    });
+    s += core(cx, cy, Math.round(R * 0.276), o.time, o.cracks || 0, { dim: o.dimCore });
+    // name pills last, so nothing in the arena clips them
+    (o.shards || []).forEach(function (sh) {
+      if (!sh.name) return;
+      var p = P(cx, cy, sh.d, sh.a);
+      s += pill(p[0] + (sh.dx || 0), p[1] + (sh.dy == null ? 72 : sh.dy), sh.name, { size: 40, k: 0.56, stroke: C.border });
+    });
+
+    (o.pops || []).forEach(function (p) {
+      if (p.small) s += T(p.x, p.y - 62, 40, p.small, { fill: C.mint, ls: 3 });
+      s += T(p.x, p.y, 64, p.txt, { fill: C.mint });
+    });
+    if (o.overdrive) s += pill(cx, cy - R + 112, 'OVERDRIVE', { size: 46, fam: DISPLAY, ls: 6, k: 0.72, bg: C.live, pad: 30 });
+    return s;
+  }
+  function rwHud(o) {
+    var s = T(540, 410, 170, o.score);
+    if (o.mult) s += pill(905, 360, o.mult, { size: 60, fam: DISPLAY, fg: C.mint, bg: 'rgba(46,242,195,.14)', stroke: 'rgba(46,242,195,.5)', pad: 22, k: 0.62 });
+    s += pips(540, 1560, o.cracks || 0);
+    if (o.status) s += T(540, 1672, 46, o.status, { fill: C.muted, ls: 2, fam: UI });
+    return s;
+  }
+  // proposal: the same HUD fitted into the band the feed overlay leaves clear (y 280-1140)
+  function rwHudFit(o) {
+    var s = T(540, 392, 130, o.score);
+    s += pill(215, 345, o.mult, { size: 56, fam: DISPLAY, fg: C.mint, bg: 'rgba(46,242,195,.14)', stroke: 'rgba(46,242,195,.5)', pad: 22, k: 0.62 });
+    s += pips(882, 345, o.cracks || 0, null, 84, .9);
+    s += T(540, 440, 40, o.status, { fill: C.muted, ls: 2, fam: UI });
+    return s;
+  }
+  function card(y0, y1, inner, edge) {
+    return '<rect x="70" y="' + y0 + '" width="940" height="' + (y1 - y0) + '" rx="40" fill="rgba(22,22,31,.95)" stroke="' + (edge || C.border) + '" stroke-width="4"/>' + inner;
+  }
+
+  // ---------------------------------------------------------------- Hot Core
+  function hotcore(o) {
+    var cx = 540, cy = o.cy || 935, s = '', ch = o.charge || 0, hot = ch >= 2 / 3, idle = o.idle;
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (idle ? 330 : 300 + ch * 160) + '" fill="url(#' + (hot ? 'gRedHalo' : 'gMint') + ')" opacity="' + (idle ? .25 : .5 + ch * .5) + '"/>';
+    // struts and housing
+    [45, 135, 225, 315].forEach(function (a) {
+      var p0 = P(cx, cy, 268, a), p1 = P(cx, cy, 318, a);
+      s += '<line x1="' + r1(p0[0]) + '" y1="' + r1(p0[1]) + '" x2="' + r1(p1[0]) + '" y2="' + r1(p1[1]) + '" stroke="' + C.border + '" stroke-width="34" stroke-linecap="round"/>';
+    });
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="272" fill="' + C.surface + '" stroke="' + C.border + '" stroke-width="8"/>';
+    // gauge: 24 segments, last third red
+    var n = 24, filled = Math.round(ch * n);
+    for (var i = 0; i < n; i++) {
+      var a0 = i * 15 + 2, a1 = i * 15 + 13, col = i < filled ? (i >= 16 ? C.live : C.mint) : (i >= 16 && !idle ? 'rgba(255,59,92,.25)' : C.raised);
+      if (o.blink && i === filled - 1) col = '#FFFFFF';
+      s += '<path d="' + arc(cx, cy, 240, a0, a1) + '" stroke="' + col + '" stroke-width="34" fill="none"/>';
+    }
+    // core
+    var cr = 190;
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + cr + '" fill="url(#' + (idle ? 'gIdleCore' : hot ? 'gHotCore' : 'gCoolCore') + ')"' + (idle ? '' : ' filter="url(#glow)"') + '/>';
+    // flicker: the only overload warning
+    (o.flicker || []).forEach(function (f) {
+      s += '<path d="' + arc(cx, cy, cr + 14, f[0], f[0] + f[1]) + '" stroke="#FFFFFF" stroke-width="' + (f[2] || 6) + '" fill="none" stroke-linecap="round" opacity="' + (f[3] || .8) + '"/>';
+    });
+    (o.sparks || []).forEach(function (a) {
+      var p0 = P(cx, cy, cr + 4, a), p1 = P(cx, cy, cr + 40, a + 4);
+      s += '<line x1="' + r1(p0[0]) + '" y1="' + r1(p0[1]) + '" x2="' + r1(p1[0]) + '" y2="' + r1(p1[1]) + '" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>';
+    });
+    var ink = idle ? C.muted : C.bg;
+    if (o.holdTxt) s += T(cx, cy - 76, 40, o.holdTxt, { fill: ink, ls: 2, fam: UI, w: 800 });
+    if (o.risk) s += T(cx, cy + 34, 100, o.risk, { fill: ink });
+    if (o.riskLbl) s += T(cx, cy + 96, 40, o.riskLbl, { fill: ink, ls: 4, fam: UI, w: 800 });
+    return s;
+  }
+  function hcHud(o) {
+    var s = pill(165, 335, o.level, { size: 40, fam: UI, fg: C.muted, bg: C.raised, pad: 24, k: 0.6 });
+    s += T(1000, 360, 72, o.time, { a: 'end' });
+    s += T(540, 412, 40, 'BANKED', { fill: C.muted, ls: 6, fam: UI, w: 800 });
+    s += T(540, 536, 128, o.banked);
+    if (o.vote != null) {
+      var x0 = 330, x1 = 750, w = (x1 - x0) * o.vote;
+      s += '<rect x="' + x0 + '" y="563" width="' + (x1 - x0) + '" height="26" rx="13" fill="' + C.raised + '"/><rect x="' + x0 + '" y="563" width="' + r1(w) + '" height="26" rx="13" fill="' + C.mint + '"/>';
+      s += T(x0 - 18, 590, 40, 'BANK ' + Math.round(o.vote * 100) + '%', { a: 'end', fill: C.mint, fam: UI, w: 800 });
+      s += T(x1 + 18, 590, 40, 'HOLD ' + Math.round((1 - o.vote) * 100) + '%', { a: 'start', fill: C.muted, fam: UI, w: 800 });
+    }
+    if (o.history) {
+      s += T(540, 1280, 40, 'LAST BANKS', { fill: C.muted, ls: 5, fam: UI, w: 800 });
+      var ws = o.history.map(function (h) { return textW(h, 40, 0.6) + 36; }), gap = 22;
+      var x = 540 - (ws.reduce(function (a, b) { return a + b; }, 0) + gap * (ws.length - 1)) / 2;
+      o.history.forEach(function (h, i) { var bad = h.indexOf('−') >= 0; s += pill(x + ws[i] / 2, 1356, h, { size: 40, fam: UI, k: 0.6, bg: bad ? 'rgba(255,59,92,.18)' : C.raised, fg: bad ? C.live : C.text, pad: 18 }); x += ws[i] + gap; });
+    }
+    return s;
+  }
+
+  // ---------------------------------------------------------------- Lumen Drop
+  function lumen(o) {
+    var x0 = o.x0, x1 = o.x1, top = o.top || 0, bot = o.bot || 1920, s = '';
+    // walls
+    s += '<rect x="0" y="' + top + '" width="' + x0 + '" height="' + (bot - top) + '" fill="' + C.surface + '"/><rect x="' + x1 + '" y="' + top + '" width="' + (1080 - x1) + '" height="' + (bot - top) + '" fill="' + C.surface + '"/>';
+    s += '<line x1="' + x0 + '" y1="' + top + '" x2="' + x0 + '" y2="' + bot + '" stroke="' + C.border + '" stroke-width="6"/><line x1="' + x1 + '" y1="' + top + '" x2="' + x1 + '" y2="' + bot + '" stroke="' + C.border + '" stroke-width="6"/>';
+    for (var y = top + 60; y < bot; y += 150) {
+      var len = o.fast ? 110 : 34;
+      if (y + 70 + len > bot) break;
+      s += '<line x1="' + (x0 - 40) + '" y1="' + y + '" x2="' + (x0 - 40) + '" y2="' + (y + len) + '" stroke="' + C.border + '" stroke-width="10" stroke-linecap="round"/>';
+      s += '<line x1="' + (x1 + 40) + '" y1="' + (y + 70) + '" x2="' + (x1 + 40) + '" y2="' + (y + 70 + len) + '" stroke="' + C.border + '" stroke-width="10" stroke-linecap="round"/>';
+    }
+    if (o.fast) for (var k = 0; k < 7; k++) { var sx = x0 + 60 + k * (x1 - x0 - 120) / 6; s += '<line x1="' + r1(sx) + '" y1="' + (top + 120 + (k % 3) * 260) + '" x2="' + r1(sx) + '" y2="' + (top + 420 + (k % 3) * 260) + '" stroke="#FFFFFF" stroke-opacity=".06" stroke-width="6"/>'; }
+    (o.rows || []).forEach(function (r) {
+      var h = 48, y = r.y;
+      // red bar, hatched
+      s += '<rect x="' + r.r0 + '" y="' + (y - h / 2) + '" width="' + (r.r1 - r.r0) + '" height="' + h + '" rx="10" fill="' + C.live + '"' + (r.dim ? ' opacity=".35"' : ' filter="url(#glow)"') + '/>';
+      s += '<rect x="' + r.r0 + '" y="' + (y - h / 2) + '" width="' + (r.r1 - r.r0) + '" height="' + h + '" rx="10" fill="url(#hatch)"' + (r.dim ? ' opacity=".35"' : '') + '/>';
+      // mint gate: two posts and a light bar with chevrons
+      var op = r.dim ? ' opacity=".35"' : '';
+      s += '<g' + op + '><rect x="' + r.m0 + '" y="' + (y - h / 2) + '" width="' + (r.m1 - r.m0) + '" height="' + h + '" fill="' + C.mint + '" fill-opacity="' + (r.lit ? .45 : .16) + '"/>';
+      for (var cxv = r.m0 + 40; cxv < r.m1 - 20; cxv += 46) s += '<path d="M' + (cxv - 13) + ' ' + (y - 10) + 'l13 13l13 -13" stroke="' + C.mint + '" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+      s += '<rect x="' + (r.m0 - 12) + '" y="' + (y - 46) + '" width="24" height="92" rx="12" fill="' + C.mint + '" filter="url(#glow)"/><rect x="' + (r.m1 - 12) + '" y="' + (y - 46) + '" width="24" height="92" rx="12" fill="' + C.mint + '" filter="url(#glow)"/></g>';
+      if (r.tag) s += pill(r.tagX, y + 80, r.tag, { size: 40, k: 0.56, stroke: C.border, fg: C.muted });
+    });
+    if (o.spark) {
+      var sp = o.spark;
+      s += '<path d="M' + (sp.x - 22) + ' ' + sp.y + 'L' + (sp.x - 4) + ' ' + (sp.y - (o.fast ? 260 : 180)) + 'L' + (sp.x + 4) + ' ' + (sp.y - (o.fast ? 260 : 180)) + 'L' + (sp.x + 22) + ' ' + sp.y + 'Z" fill="url(#gTrailM)"/>';
+      s += '<circle cx="' + sp.x + '" cy="' + sp.y + '" r="96" fill="url(#gSpark)"/><circle cx="' + sp.x + '" cy="' + sp.y + '" r="30" fill="#FFFFFF" stroke="' + C.mint + '" stroke-width="8" filter="url(#glow)"/>';
+    }
+    return s;
+  }
+  function ldHud(o) {
+    var s = '<rect x="0" y="0" width="1080" height="640" fill="url(#gHudFade)"/>';
+    s += T(540, 410, 150, o.score);
+    s += pill(420, 478, o.combo, { size: 44, fam: DISPLAY, fg: C.mint, bg: 'rgba(46,242,195,.14)', stroke: 'rgba(46,242,195,.5)', k: 0.66, pad: 22 });
+    s += T(700, 494, 46, o.dist, { fill: C.muted, a: 'start', fam: UI, w: 800 });
+    s += T(260, 572, 40, o.shaft, { fill: C.text, a: 'start', fam: UI, w: 800, ls: 3 });
+    for (var i = 0; i < 10; i++) s += '<rect x="' + (530 + i * 38) + '" y="546" width="30" height="34" rx="6" fill="' + (i < o.prog ? C.primary : C.raised) + '"/>';
+    return s;
+  }
+
+  // ---------------------------------------------------------------- overlay zones (W1 positions mapped onto the canvas)
+  function zones(rail5) {
+    var z = function (x, y, w, h, label, bottom) {
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="#F5B700" fill-opacity=".16" stroke="#F5B700" stroke-width="6" stroke-dasharray="18 12"/>' +
+        pill(x + w / 2, bottom ? y + h - 24 : y + 24, label, { size: 28, fam: UI, fg: '#F5B700', bg: 'rgba(11,11,18,.6)', weight: 800, pad: 10 });
+    };
+    var rt = rail5 ? 919 : 1149;
+    return '<g class="zones">' +
+      '<rect x="0" y="800" width="1080" height="1120" fill="url(#gScrimZone)"/><line x1="0" y1="800" x2="1080" y2="800" stroke="#F5B700" stroke-width="4" stroke-dasharray="8 10"/>' + pill(985, 776, 'scrim starts', { size: 28, fam: UI, fg: '#F5B700', bg: 'rgba(11,11,18,.6)', weight: 800, pad: 10 }) +
+      z(288, 55, 504, 126, 'Following / For You') + z(35, 199, 368, 69, 'LIVE · viewers') +
+      z(884, rt, 173, 1920 - rt, 'rail', true) + z(35, 1166, 777, 357, 'chat', true) + z(35, 1610, 803, 173, 'streamer · game · title', true) + z(35, 1840, 803, 80, 'chat input', true) + '</g>';
+  }
+
+  // ---------------------------------------------------------------- scenes
+  var SCENES = {
+    'rw-mid': function () {
+      return ringward({ time: '1:08', cracks: 1,
+        shields: [{ a: 350, col: C.primary, hi: '#B9A8FF' }],
+        shards: [{ a: 320, d: 470, out: true }, { a: 90, d: 370, name: 'pixelpilot', dx: -60 }],
+        warns: [{ a: 210, name: 'mintmoth' }],
+        pops: [{ x: 250, y: 840, txt: '+100', small: 'PERFECT' }] }) +
+        rwHud({ score: '2,900', mult: '×4', cracks: 1, status: 'RAID ON · 12 raiding' });
+    },
+    'rw-fit': function () {
+      return ringward({ cy: 800, R: 340, time: '1:08', cracks: 1,
+        shields: [{ a: 350, col: C.primary, hi: '#B9A8FF' }],
+        shards: [{ a: 320, d: 330, out: true }, { a: 90, d: 255, name: 'pixelpilot', dx: -60, dy: -60 }],
+        warns: [{ a: 210, name: 'mintmoth' }],
+        pops: [{ x: 295, y: 765, txt: '+100', small: 'PERFECT' }] }) +
+        rwHudFit({ score: '2,900', mult: '×4', cracks: 1, status: 'RAID ON · 12 raiding' });
+    },
+    'rw-raid': function () {
+      return ringward({ time: '0:14', cracks: 2, overdrive: true,
+        shields: [{ a: 337, col: C.primary, hi: '#B9A8FF' }],
+        shards: [{ a: 330, d: 270, name: 'quillfire', dx: -150, dy: -80 }, { a: 150, d: 488, name: 'combo_king', dx: -60, dy: -70 }, { a: 30, d: 470, out: true }],
+        warns: [{ a: 90, name: 'blockhead' }],
+        pops: [{ x: 840, y: 725, txt: '+125', small: 'PERFECT' }] }) +
+        rwHud({ score: '9,240', mult: '×5', cracks: 2, status: 'OVERDRIVE · 38 raiding · 8 queued' });
+    },
+    'rw-duo': function () {
+      return ringward({ time: '1:31', cracks: 0,
+        shields: [{ a: 300, col: C.primary, hi: '#B9A8FF', label: 'P1 nova' }, { a: 95, col: '#E8E8F0', hi: '#FFFFFF', label: 'P2 kai', fg: C.bg }],
+        shards: [{ a: 330, d: 260, name: 'pixelpilot', dy: -70 }, { a: 180, d: 470, name: 'tidepool', dx: 60, dy: -70 }, { a: 100, d: 470, out: true }],
+        pops: [{ x: 870, y: 900, txt: '+125', small: 'PERFECT' }] }) +
+        rwHud({ score: '1,900', mult: '×5', cracks: 0, status: 'DUO · nova + kai · 9 raiding' });
+    },
+    'rw-start': function () {
+      return T(540, 395, 130, 'RINGWARD', { ls: 10 }) + T(540, 470, 48, 'Keep the core alive for 2:00', { fill: C.muted, fam: UI, w: 600 }) +
+        T(540, 545, 44, 'Raids on · raid when the round starts', { fill: C.mint, fam: UI, w: 700 }) +
+        ringward({ cy: 860, R: 270, time: '2:00', shields: [{ a: 0, col: C.primary, hi: '#B9A8FF' }], warns: [] }) +
+        T(540, 1250, 46, 'Turn the shield: mouse or A / D', { fam: UI, w: 700 }) +
+        button(540, 1390, 'SPACE OR CLICK TO START') +
+        T(540, 1520, 40, 'Best 7,960 · duo: invite link on your dashboard', { fill: C.muted, fam: UI, w: 600 });
+    },
+    'rw-held': function () {
+      return '<g opacity=".3">' + ringward({ time: '0:00', cracks: 1, shields: [{ a: 200, col: C.primary, hi: '#B9A8FF' }] }) + '</g>' + T(540, 410, 170, '9,860') +
+        card(470, 1135, T(540, 600, 116, 'CORE HELD', { fill: C.mint, ls: 4 }) +
+          T(540, 675, 46, '+500 core bonus · 2 pips left', { fill: C.muted, fam: UI, w: 600 }) +
+          T(540, 775, 54, 'Beat 14 raiders', { fam: UI, w: 800 }) + T(540, 845, 44, '162 blocked · 41 perfect · best ×5', { fill: C.muted, fam: UI, w: 600 }) +
+          pill(540, 945, 'NEW BEST', { size: 40, fam: UI, fg: C.bg, bg: C.mint, ls: 4, k: 0.68 }) +
+          T(540, 1080, 40, 'Space or click to play again', { fill: C.muted, fam: UI, w: 600 }), 'rgba(46,242,195,.5)') +
+        pips(540, 1560, 1, .3);
+    },
+    'rw-vwin': function () {
+      return '<g opacity=".3">' + ringward({ time: '0:26', cracks: 3, dimCore: true, shields: [{ a: 80, col: C.primary, hi: '#B9A8FF' }] }) + '</g>' + T(540, 410, 170, '4,480') +
+        card(470, 1140, T(540, 590, 112, 'VIEWERS WIN', { fill: C.live, ls: 4 }) +
+          T(540, 665, 46, 'Core broken by', { fill: C.muted, fam: UI, w: 600 }) +
+          pill(540, 760, 'combo_king', { size: 72, k: 0.56, bg: 'rgba(255,59,92,.2)', stroke: C.live, sw: 5, pad: 40 }) +
+          T(540, 880, 44, '104 blocked · 21 raiders · survived 1:34', { fam: UI, w: 700 }) +
+          T(540, 945, 42, 'Cracks: combo_king 2 · lagwizard 1', { fill: C.muted, fam: UI, w: 600 }) +
+          T(540, 1080, 40, 'Space or click to play again', { fill: C.muted, fam: UI, w: 600 }), C.live) +
+        pips(540, 1560, 3, .5);
+    },
+    'hc-mid': function () {
+      return hotcore({ charge: .70, holdTxt: 'HOLDING 3.2 s', risk: '+1,350', riskLbl: 'AT RISK', flicker: [[38, 6, 5, .55], [212, 5, 5, .45]] }) +
+        hcHud({ level: 'LEVEL 3', time: '0:52', banked: '4,820', vote: .64 });
+    },
+    'hc-edge': function () {
+      return hotcore({ charge: .96, holdTxt: 'HOLDING 3.8 s', risk: '+3,940', riskLbl: 'AT RISK', flicker: [[10, 4, 4, .35], [236, 4, 4, .35]] }) +
+        hcHud({ level: 'LEVEL 5', time: '0:21', banked: '6,240', vote: .91 });
+    },
+    'hc-start': function () {
+      var s = T(540, 390, 130, 'HOT CORE', { ls: 10 }) + T(540, 465, 48, "Charge it. Bank it. Don't blow it.", { fill: C.muted, fam: UI, w: 600 });
+      var rows = [['HOLD', 'Space or mouse button: charge', C.mint], ['LET GO', 'Bank the points at risk', C.primary], ['OVERLOAD', 'Lose everything not banked', C.live]];
+      rows.forEach(function (r, i) {
+        var y = 555 + i * 80;
+        s += pill(235, y, r[0], { size: 40, fam: UI, fg: r[2] === C.primary ? C.text : C.bg, bg: r[2], w: 250, pad: 0, ls: 2 }) + T(402, y + 14, 42, r[1], { a: 'start', fam: UI, w: 600 });
+      });
+      s += hotcore({ cy: 1080, charge: 0, idle: true, holdTxt: 'HOLD', risk: '0', riskLbl: 'AT RISK' });
+      return s + button(540, 1500, 'SPACE OR CLICK TO START') + T(540, 1620, 40, 'Rounds of 1:30 · Best 5,870', { fill: C.muted, fam: UI, w: 600 });
+    },
+    'hc-end': function () {
+      return '<g opacity=".3">' + hotcore({ cy: 1620, charge: 0, idle: true }) + '</g>' +
+        card(285, 1140, T(540, 395, 96, 'ROUND OVER', { ls: 4 }) +
+          T(540, 470, 40, 'BANKED', { fill: C.muted, ls: 6, fam: UI, w: 800 }) + T(540, 620, 170, '6,610', { fill: C.mint }) +
+          pill(540, 710, 'NEW BEST', { size: 40, fam: UI, fg: C.bg, bg: C.mint, ls: 4, k: 0.68 }) +
+          T(540, 810, 48, '8 banks · 2 overloads', { fam: UI, w: 700 }) + T(540, 870, 44, 'Biggest bank +1,980 at level 4', { fill: C.muted, fam: UI, w: 600 }) +
+          T(540, 955, 44, "Chat's call matched the player's", { fam: UI, w: 700 }) + T(540, 1010, 44, 'on 7 of 10 holds', { fill: C.mint, fam: UI, w: 700 }) +
+          T(540, 1095, 40, 'Space or click to play again', { fill: C.muted, fam: UI, w: 600 }), 'rgba(46,242,195,.5)');
+    },
+    'ld-mid': function () {
+      return lumen({ x0: 140, x1: 940, spark: { x: 300, y: 720 },
+        rows: [{ y: 900, m0: 200, m1: 400, r0: 440, r1: 720 }, { y: 1180, m0: 560, m1: 760, r0: 140, r1: 400, tag: 'gate from tidepool', tagX: 640 }, { y: 1460, m0: 690, m1: 900, r0: 380, r1: 650 }, { y: 1740, m0: 240, m1: 440, r0: 500, r1: 940 }] }) +
+        ldHud({ score: '17,976', combo: '×14', dist: '1,284 m', shaft: 'SHAFT 4', prog: 6 });
+    },
+    'ld-thread': function () {
+      return lumen({ x0: 240, x1: 840, fast: true, spark: { x: 420, y: 752 },
+        rows: [{ y: 760, m0: 290, m1: 450, r0: 466, r1: 700, lit: true }, { y: 980, m0: 520, m1: 680, r0: 240, r1: 500 }, { y: 1200, m0: 620, m1: 800, r0: 380, r1: 600 }, { y: 1420, m0: 290, m1: 450, r0: 470, r1: 840 }, { y: 1640, m0: 600, m1: 780, r0: 240, r1: 580 }] }) +
+        ldHud({ score: '43,912', combo: '×22', dist: '1,996 m', shaft: 'SHAFT 6', prog: 9 }) +
+        T(690, 690, 64, 'CLOSE!', { ls: 3 });
+    },
+    'ld-start': function () {
+      return T(540, 390, 130, 'LUMEN DROP', { ls: 8 }) + T(540, 465, 48, 'Thread the mint. Never touch red.', { fill: C.muted, fam: UI, w: 600 }) +
+        T(540, 540, 44, 'Viewers can place gates from the app', { fill: C.mint, fam: UI, w: 700 }) +
+        lumen({ x0: 80, x1: 1000, top: 600, bot: 1130, spark: { x: 370, y: 700 }, rows: [{ y: 930, m0: 270, m1: 470, r0: 610, r1: 820 }] }) +
+        T(370, 1040, 40, 'GO THROUGH', { fill: C.mint, fam: UI, w: 800, ls: 2 }) + T(715, 1040, 40, 'ENDS THE RUN', { fill: C.live, fam: UI, w: 800, ls: 2 }) +
+        T(540, 1100, 40, 'Every 10 gates the shaft narrows and speeds up', { fill: C.muted, fam: UI, w: 600 }) +
+        T(540, 1290, 46, 'Steer: mouse or ← / →', { fam: UI, w: 700 }) +
+        button(540, 1460, 'SPACE OR CLICK TO DROP') + T(540, 1590, 40, 'Best 71,040', { fill: C.muted, fam: UI, w: 600 });
+    },
+    'ld-end': function () {
+      return '<g opacity=".25">' + lumen({ x0: 140, x1: 940, rows: [] }) + '</g>' +
+        card(285, 1140, T(540, 395, 100, 'RUN OVER', { fill: C.live, ls: 4 }) +
+          T(540, 465, 44, 'Touched red at 1,341 m', { fill: C.muted, fam: UI, w: 600 }) +
+          T(540, 625, 170, '20,115') +
+          T(540, 720, 48, 'Best combo ×15 · 37 gates', { fam: UI, w: 700 }) + T(540, 780, 42, 'Best 71,040', { fill: C.muted, fam: UI, w: 600 }) +
+          T(540, 870, 44, 'That red bar was placed by', { fill: C.muted, fam: UI, w: 600 }) +
+          pill(540, 955, 'tidepool', { size: 60, k: 0.56, bg: 'rgba(255,59,92,.2)', stroke: C.live, sw: 5, pad: 40 }) +
+          T(540, 1085, 40, 'Space or click to drop again', { fill: C.muted, fam: UI, w: 600 }), C.live);
+    }
+  };
+  function svgFor(name, rail5, withZones) {
+    return '<svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Game screen ' + name + '"><rect width="1080" height="1920" fill="' + C.bg + '"/>' + SCENES[name]() + (withZones ? zones(rail5) : '') + '</svg>';
+  }
+
+  // ---------------------------------------------------------------- feed phones (overlay as in wireframe W1)
+  var FEEDS = {
+    rw: { scene: 'rw-mid', raid: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: C.mint, title: 'Raid me: can 30 of you break the core?',
+      chat: [['scroller', 'how do i raid?'], ['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'core is cracking lol']],
+      marks: [[1, 170, 22, ''], [2, 316, 323, ''], [3, 470, 196, 'r'], [4, 556, 246, 'r']] },
+    rwfit: { scene: 'rw-fit', raid: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: C.mint, title: 'Raid me: can 30 of you break the core?',
+      chat: [['scroller', 'how do i raid?'], ['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'core is cracking lol']],
+      marks: [[1, 190, 24, ''], [2, 168, 300, ''], [3, 350, 215, '']] },
+    rwq: { scene: 'rw-mid', raid: true, cool: true, strip: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: C.mint, title: 'Raid me: can 30 of you break the core?',
+      chat: [['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'core is cracking lol'], ['scroller', 'launched one!']],
+      marks: [[1, 632, 280, ''], [2, 316, 323, '']] },
+    hc: { scene: 'hc-mid', viewers: '318', hearts: '902', name: 'emberline', av: '#FF3B5C', game: 'Hot Core', color: C.live, title: 'Never banking under 3k. Chat decides.',
+      chat: [['tidepool', 'is it gonna blow??'], ['scroller', 'what does at risk mean'], ['kartqueen', 'BANK IT'], ['blockhead', 'BANK IT NOW']],
+      marks: [[1, 160, 88, ''], [2, 262, 240, 'r'], [3, 204, 345, '']] },
+    ld: { scene: 'ld-mid', viewers: '642', hearts: '1.9K', name: 'driftwren', av: '#2EF2C3', game: 'Lumen Drop', color: C.primary, title: 'Shaft 10 or bust',
+      chat: [['mintmoth', 'left gate left gate'], ['tidepool', 'the next red is mine'], ['scroller', 'first time here, what is this?'], ['orbit_ox', 'CLEAN thread']],
+      marks: [[1, 262, 132, ''], [2, 560, 205, 'r'], [3, 455, 268, 'r']] }
+  };
+  function feedHtml(f) {
+    var h = '<div class="stream" style="top:31px">' + svgFor(f.scene, f.raid, false) + '</div><div class="scrim"></div>' +
+      '<div class="toggle"><span>Following</span><b>For You</b></div>' +
+      '<div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ ' + f.viewers + '</span></div>' +
+      '<div class="rail" style="top:' + (f.raid ? 350 : 430) + 'px">' +
+      (f.raid ? '<div class="rb raid' + (f.cool ? ' cool' : '') + '"><i>' + (f.cool ? '<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="none" stroke="#2A2A38" stroke-width="4"/><path d="' + arc(20, 20, 16, 0, 180) + '" fill="none" stroke="#7C5CFF" stroke-width="4" stroke-linecap="round"/><circle cx="20" cy="20" r="5" fill="#2EF2C3"/></svg>' : '<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="11" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="14" cy="14" r="4" fill="#2EF2C3"/><path d="M14 0L17 7L14 9L11 7Z" fill="#FF3B5C"/></svg>') + '</i>Raid</div>' : '') +
+      '<div class="rb"><span class="av" style="background:' + f.av + ';color:' + (f.av === C.mint ? C.bg : C.text) + '">' + f.name[0].toUpperCase() + '</span><span class="follow">+</span></div>' +
+      '<div class="rb"><i>♥</i>' + f.hearts + '</div><div class="rb"><i>↗</i>Share</div><div class="rb"><i>⋯</i></div></div>' +
+      '<div class="chatov" style="top:436px">' + f.chat.map(function (m, i) { return '<div class="msg" style="opacity:' + [.35, .6, .85, 1][i] + '"><b>' + m[0] + '</b>' + m[1] + '</div>'; }).join('') + '</div>' +
+      '<div class="meta" style="top:590px"><div class="flex"><span class="av" style="background:' + f.av + ';color:' + (f.av === C.mint ? C.bg : C.text) + '">' + f.name[0].toUpperCase() + '</span><b>' + f.name + '</b><span class="chip" style="--c:' + f.color + '">' + f.game + '</span></div>' +
+      '<div class="sm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + f.title + '</div></div>' +
+      (f.strip ? '<div class="rstrip" style="top:668px"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="4"/><path d="' + arc(16, 16, 12, 0, 180) + '" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg><div><b>Your shard is queued</b><div style="font-size:12.5px;font-weight:600">next one in 2 s</div></div><span class="go">Raid ▴</span></div>'
+        : '<div class="chatin" style="top:670px">Say something…</div>');
+    f.marks.forEach(function (m) { h += '<span class="m' + (m[3] ? ' ' + m[3] : '') + '" style="top:' + m[1] + 'px;left:' + m[2] + 'px">' + m[0] + '</span>'; });
+    return h;
+  }
+
+  // ---------------------------------------------------------------- render
+  var TABS = [['live', '▶', 'Live'], ['discover', '⌕', 'Discover'], ['golive', '+', 'Go Live'], ['squads', '⚇', 'Squads'], ['profile', '◯', 'Profile']];
+  function chrome(p) {
+    p.insertAdjacentHTML('afterbegin', '<div class="sb"><span>9:41</span><span class="sbi">▂▄▆ ◠ ▭</span></div>');
+    var t = p.getAttribute('data-tab');
+    if (t && t !== 'none') p.insertAdjacentHTML('beforeend', '<nav class="tabs">' + TABS.map(function (tab) { return '<div class="t' + (tab[0] === 'golive' ? ' go' : '') + (tab[0] === t ? ' on' : '') + '"><i>' + tab[1] + '</i>' + tab[2] + '</div>'; }).join('') + '</nav>');
+    p.insertAdjacentHTML('beforeend', '<div class="hi"></div>');
+  }
+  document.querySelectorAll('.phone.feed').forEach(function (p) { p.innerHTML = feedHtml(FEEDS[p.getAttribute('data-feed')]); });
+  document.querySelectorAll('.phone .stream[data-scene]').forEach(function (d) { d.innerHTML = svgFor(d.getAttribute('data-scene'), true, false); });
+  document.querySelectorAll('.cv[data-scene]').forEach(function (d) {
+    var html = svgFor(d.getAttribute('data-scene'), d.getAttribute('data-rail') === '5', true);
+    JSON.parse(d.getAttribute('data-marks') || '[]').forEach(function (m) {
+      html += '<span class="m' + (m[3] ? ' ' + m[3] : '') + '" style="left:' + r1(m[1] / 10.8) + '%;top:' + r1(m[2] / 19.2) + '%">' + m[0] + '</span>';
+    });
+    d.innerHTML = html;
+    d.insertAdjacentHTML('afterend', '<div class="cvcap">1080 × 1920 canvas · shown at feed scale</div>');
+  });
+  // Raid sheet ring: 12 slots, 44 pt each, same layout as the rim ticks
+  document.querySelectorAll('.phone').forEach(chrome);
+  document.querySelectorAll('[data-ring]').forEach(function (ring) {
+    var h = '<svg class="mid" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="150" r="122" fill="none" stroke="#2A2A38" stroke-width="2"/><circle cx="150" cy="150" r="74" fill="#0B0B12" stroke="#2A2A38" stroke-width="2"/>' +
+      '<circle cx="150" cy="150" r="30" fill="#2EF2C3"/><circle cx="150" cy="150" r="46" fill="none" stroke="#20202C" stroke-width="7"/>' +
+      '<path d="' + arc(150, 150, 46, 0, 20) + '" fill="none" stroke="#7C5CFF" stroke-width="7" stroke-linecap="round"/>' +
+      '<text x="150" y="157" text-anchor="middle" font-size="18" font-weight="800" fill="#0B0B12" font-family="' + UI + '">4 s</text>' +
+      '<text x="150" y="214" text-anchor="middle" font-size="12" font-weight="700" fill="#A1A1B5" font-family="' + UI + '">NEXT SHARD</text></svg>';
+    for (var i = 0; i < 12; i++) {
+      var p = P(150, 150, 122, i * 30), cls = 'slot' + (i === 4 ? ' me' : '');
+      h += '<span class="' + cls + '" style="left:' + r1(p[0]) + 'px;top:' + r1(p[1]) + 'px"' + (i === 4 ? '><svg width="20" height="20" viewBox="-10 -10 20 20" transform="rotate(120)"><path d="M0 9L6 0L0 -7L-6 0Z" fill="#fff"/></svg></span>' : '></span>');
+    }
+    ring.innerHTML = h;
+  });
+
+  // overlay-zones toggle
+  var btn = document.querySelector('.ztoggle');
+  btn.addEventListener('click', function () {
+    var on = root.classList.toggle('zones-on');
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.textContent = on ? 'Hide app overlay' : 'Show app overlay';
+  });
+  if (/[?&]zones\b/.test(location.search)) btn.click();
+
+  // ?only=R1 shows one frame on its own, without notes (screenshots)
+  var only = /[?&]only=([A-Za-z0-9]+)/.exec(location.search);
+  if (only) {
+    var el = document.getElementById(only[1]);
+    if (el) {
+      root.classList.add('only');
+      el.querySelectorAll('.notes,.five').forEach(function (n) { n.remove(); });
+      el.style.margin = '16px';
+      document.body.replaceChildren(el, document.getElementById('defs'));
+    }
+  }
+})();
+</script>
+</body>
+</html>
