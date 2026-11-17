@@ -1,0 +1,50 @@
+# When a CI run fails, ask Jev (TypeSafe) what kind of failure it is and post one comment on the
+# PR with what to do (decision 013). Suggestions only: it never re-runs, edits or blocks anything.
+#
+# workflow_run runs this file from main with the repo's secrets, even for PRs from forks, so it
+# must never check out or run the PR's code. It only reads the failed run's logs.
+name: CI triage
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: ID of a failed CI run to triage
+        required: true
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ci-triage-${{ github.event.workflow_run.id || inputs.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  triage:
+    name: Triage the failed CI run
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5 # main's copy of scripts/, never the PR's
+        with:
+          sparse-checkout: scripts/ci-triage
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Triage
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
+        run: |
+          if [ -z "$TYPESAFE_API_KEY" ]; then
+            echo "::notice::TYPESAFE_API_KEY isn't set as a repository secret; skipping triage."
+            exit 0
+          fi
+          node scripts/ci-triage/run.mjs --run "$RUN_ID" --comment

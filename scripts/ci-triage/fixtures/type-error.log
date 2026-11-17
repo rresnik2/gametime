@@ -1,0 +1,9 @@
+2026-11-17T18:00:00.0000000Z ##[group]Run npm run typecheck
+2026-11-17T18:00:00.0000000Z > gametime@1.0.0 typecheck
+2026-11-17T18:00:00.0000000Z > tsc --noEmit
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z src/app/(tabs)/index.tsx(22,15): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+2026-11-17T18:00:00.0000000Z   Type 'undefined' is not assignable to type 'string'.
+2026-11-17T18:00:00.0000000Z src/lib/supabase.ts(8,3): error TS2554: Expected 1 arguments, but got 2.
+2026-11-17T18:00:00.0000000Z Found 2 errors in 2 files.
+2026-11-17T18:00:00.0000000Z ##[error]Process completed with exit code 1.
