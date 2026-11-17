@@ -102,13 +102,15 @@ the notes: open a small `docs/…` PR for them.
 | Backlog | `docs/backlog.md`; issue filer `scripts/create-backlog-issues.sh` (dry run unless `--apply`) |
 | Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. Recommended: `games/ringward/` (greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Earlier candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
 | Game design | `docs/game/concepts.md` (shortlist), `docs/game/design.md` (one page), `docs/game/hosting-and-interaction.md` (raids, duo, Realtime channels `ringward:<stream_id>` and `ringward-duo:<stream_id>`); pick tracked in decision 009, multiplayer in 010 |
-| Jev (TypeSafe), dev tool only | `POST https://api.typesafe.ai/v1/systemone`, model `jev-latest`; docs https://docs.typesafe.ai/llms.txt; local skill copy in `.claude/skills/typesafe-ai/` (git-excluded). Ask before any live call; rules in [decision 013](docs/decisions/013-jev-dev-tool.md) |
+| Jev (TypeSafe), dev tool only | `POST https://api.typesafe.ai/v1/systemone`, model `jev-latest`; docs https://docs.typesafe.ai/llms.txt; local skill copy in `.claude/skills/typesafe-ai/` (git-excluded). Use it when it helps, no per-call approval, under $5/month; rules in [decision 013](docs/decisions/013-jev-dev-tool.md) |
+| CI failure triage | `.github/workflows/ci-triage.yml` (runs when CI fails; comments on the PR) and `scripts/ci-triage/` (questions in `questions.mjs`, live check `probe.mjs`, tests `npm run test:scripts`) |
 
 Environment variables: `EXPO_PUBLIC_SUPABASE_URL` and `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 Locally they come from `.env` (local Supabase); Vercel (production, preview) and EAS (preview,
 production) hold the hosted project's values. Only public keys go in `EXPO_PUBLIC_` variables.
-`TYPESAFE_API_KEY` (Jev, decision 013) lives in the maintainer's shell profile only: never in the
-repo, Vercel or EAS, and never with an `EXPO_PUBLIC_` prefix.
+`TYPESAFE_API_KEY` (Jev, decision 013) lives in the maintainer's shell profile (`~/.zshrc`) and as
+a GitHub Actions repository secret: never in the repo, Vercel or EAS, and never with an
+`EXPO_PUBLIC_` prefix.
 
 ## Tooling pitfalls (each of these has cost time)
 
@@ -161,6 +163,12 @@ repo, Vercel or EAS, and never with an `EXPO_PUBLIC_` prefix.
 - **The TypeSafe Claude Code plugin (`typesafe@typesafe-ai`) doesn't install:** its marketplace
   isn't found and the source is unverified (Nov 17, 2026). Use the vendor's skill file copied to
   `.claude/skills/typesafe-ai/` (git-excluded) and the docs at https://docs.typesafe.ai/llms.txt.
+- **`TYPESAFE_API_KEY` is empty in an agent's shell:** it's set in `~/.zshrc`, which
+  non-interactive shells don't load. Pass it for one command without printing it:
+  `TYPESAFE_API_KEY="$(zsh -ic 'printf %s "$TYPESAFE_API_KEY"')" node scripts/ci-triage/probe.mjs`.
+- **`node --test scripts/` fails with one "test failed":** Node treats the folder as a file. Use a
+  glob, as `npm run test:scripts` does. Jest would also pick up `*.test.mjs` and fail to load it,
+  so `jest.config.js` ignores `scripts/`.
 
 ---
 

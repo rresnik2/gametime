@@ -1,0 +1,12 @@
+2026-11-17T18:00:00.0000000Z ##[group]Run npm run lint
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z > gametime@1.0.0 lint
+2026-11-17T18:00:00.0000000Z > expo lint
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z /home/runner/work/gametime/gametime/src/components/ui/button.tsx
+2026-11-17T18:00:00.0000000Z   14:9  error  'pressed' is assigned a value but never used  @typescript-eslint/no-unused-vars
+2026-11-17T18:00:00.0000000Z   31:5  warning  React Hook useEffect has a missing dependency: 'onPress'  react-hooks/exhaustive-deps
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z ✖ 2 problems (1 error, 1 warning)
+2026-11-17T18:00:00.0000000Z 
+2026-11-17T18:00:00.0000000Z ##[error]Process completed with exit code 1.

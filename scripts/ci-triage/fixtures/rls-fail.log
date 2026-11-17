@@ -1,0 +1,18 @@
+2026-11-17T18:00:00.0000000Z ##[group]Run npx supabase test db
+2026-11-17T18:00:00.0000000Z Connecting to local database...
+2026-11-17T18:00:00.0000000Z ./rls.test.sql .. 
+2026-11-17T18:00:00.0000000Z ok 1 - anon can read live streams
+2026-11-17T18:00:00.0000000Z ok 2 - users can read their own profile
+2026-11-17T18:00:00.0000000Z not ok 3 - blocked viewer cannot send chat to the streamer
+2026-11-17T18:00:00.0000000Z # Failed test 3: "blocked viewer cannot send chat to the streamer"
+2026-11-17T18:00:00.0000000Z #     caught: no exception
+2026-11-17T18:00:00.0000000Z #       wanted: 42501
+2026-11-17T18:00:00.0000000Z ok 4 - stream keys are owner-only
+2026-11-17T18:00:00.0000000Z # Looks like you failed 1 test of 16
+2026-11-17T18:00:00.0000000Z Failed 1/16 subtests
+2026-11-17T18:00:00.0000000Z Test Summary Report
+2026-11-17T18:00:00.0000000Z ./rls.test.sql (Wstat: 0 Tests: 16 Failed: 1)
+2026-11-17T18:00:00.0000000Z   Failed test:  3
+2026-11-17T18:00:00.0000000Z Files=1, Tests=16,  1 wallclock secs
+2026-11-17T18:00:00.0000000Z Result: FAIL
+2026-11-17T18:00:00.0000000Z ##[error]Process completed with exit code 1.

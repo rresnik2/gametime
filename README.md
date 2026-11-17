@@ -31,6 +31,7 @@ include (video playback, for example), switch to a development build with
 | `npm run lint` | ESLint (`eslint-config-expo`) |
 | `npm run typecheck` | TypeScript, no emit |
 | `npm test` | Jest (`jest-expo`) |
+| `npm run test:scripts` | Node tests for repo scripts (CI failure triage in `scripts/ci-triage/`) |
 | `npm run build:web` | Static web export to `dist/` |
 | `npm run icons` | Regenerate the app icons, splash and favicon from `assets/brand/mark.svg` |
 | `scripts/create-backlog-issues.sh` | Validate `docs/backlog.md` and preview its GitHub issues; `--apply` files tickets that don't have an issue yet (public repo: ask the project lead first) |
