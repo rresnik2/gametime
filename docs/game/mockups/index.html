@@ -131,7 +131,8 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
 .ring .slot.me{background:var(--primary);border-color:#fff;box-shadow:0 0 0 4px rgba(124,92,255,.3)}
 .ring .slot.me svg{position:absolute;inset:0;margin:auto}
 .ring svg.mid{position:absolute;inset:0}
-.ring.cool .slot:not(.me){opacity:.4}
+.ring .slot{border-color:rgba(255,255,255,.55)}
+.ring.cool .slot:not(.me){opacity:.6}
 .rstrip{position:absolute;left:12px;right:84px;height:48px;border-radius:24px;background:rgba(124,92,255,.92);display:flex;align-items:center;gap:8px;padding:0 6px 0 8px;font-size:13.5px;z-index:21}
 .rstrip .go{margin-left:auto;height:36px;padding:0 12px;border-radius:18px;background:rgba(11,11,18,.35);display:grid;place-items:center;font-weight:700;font-size:12.5px}
 .rail .rb.raid.cool i{background:rgba(32,32,44,.85);box-shadow:none}
@@ -166,10 +167,10 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
 <header class="top">
   <div class="wrap" style="padding-bottom:0">
     <h1>GameTime: original game mockups</h1>
-    <p><span class="badge">Draft · input to decision 009</span>Nov 16, 2026 · mid-fidelity mockups of the three top candidates in <code>docs/game/concepts.md</code> (re-scored Nov 16, 2026, out of 40). The team still makes the pick.</p>
-    <p>Phone frames are 375 × 812 pt shown at 72%, with the same overlay as wireframe W1 (LIVE pill, viewer count, action rail, chat, streamer info). All three games are portrait, so per <a href="../../decisions/011-stream-orientation.md">decision 011</a> they fill the phone in the feed. Game frames are the 1080 × 1920 OBS canvas, drawn at the same scale as the stream inside the phone, so their text is the size a viewer sees. Add <code>?real</code> for 100%. The <b>Show app overlay</b> button (bottom right) outlines where the feed's overlay lands on every canvas. Yellow dots are annotations; red dots mark a readability risk. Everything is original: names, shapes and art; colours from <code>src/theme/tokens.ts</code>. Review log: <code>docs/game/mockups/REVIEW.md</code>.</p>
+    <p><span class="badge">Ringward picked · decision 009</span>Nov 17, 2026 · mid-fidelity mockups of the three top candidates in <code>docs/game/concepts.md</code> (scored out of 40). Ringward was picked on Nov 17, 2026 and re-themed as "fish in a barrel"; its section is redrawn from <code>docs/game/design.md</code> on PR rresnik2/gametime#108. Hot Core and Lumen Drop were not picked and stay as drawn on Nov 16 for the record.</p>
+    <p>Phone frames are 375 × 812 pt shown at 72%, with the same overlay as wireframe W1 (LIVE pill, viewer count, action rail, chat, streamer info). All three games are portrait, so per <a href="../../decisions/011-stream-orientation.md">decision 011</a> they fill the phone in the feed. Game frames are the 1080 × 1920 OBS canvas, drawn at the same scale as the stream inside the phone, so their text is the size a viewer sees. Add <code>?real</code> for 100%. The <b>Show app overlay</b> button (bottom right) outlines where the feed's overlay lands on every canvas. Yellow dots are annotations; red dots mark a readability risk. Everything is original: names, shapes and art. The app overlay uses <code>src/theme/tokens.ts</code> (a work in progress); the picked game has its own palette from design.md. Review log: <code>docs/game/mockups/REVIEW.md</code>.</p>
     <nav class="toc" aria-label="Sections">
-      <a href="#compare">Compare</a><a href="#ringward">Ringward</a><a href="#hotcore">Hot Core</a><a href="#lumen">Lumen Drop</a><a href="#shared">What all three share</a>
+      <a href="#compare">Compare</a><a href="#ringward">Ringward (picked)</a><a href="#hotcore">Hot Core (not picked)</a><a href="#lumen">Lumen Drop (not picked)</a><a href="#shared">What all three share</a>
     </nav>
   </div>
 </header>
@@ -179,26 +180,26 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
 <!-- ================================================================== COMPARE -->
 <section id="compare" style="border-top:0">
   <h2>Compare</h2>
-  <p class="lede">Scores from <code>docs/game/concepts.md</code> (decision 002 as amended by 010–012). The last column is what drawing them showed, judged on the feed frames (R1, H1, L1) at 100%. Sections follow the score order; the letters A, C, B are the concept IDs in <code>concepts.md</code>.</p>
+  <p class="lede">Scores from <code>docs/game/concepts.md</code> (decision 002 as amended by 010–012). The last column is what drawing them showed, judged on the feed frames (R1, H1, L1) at 100%. Sections follow the score order; the letters A, C, B are the concept IDs in <code>concepts.md</code>. <b>Decision 009 (Nov 17, 2026) picked Ringward</b>, re-themed as fish in a barrel; the other two were not picked.</p>
   <table class="cmp">
     <thead><tr><th>Game</th><th>Score</th><th>One-line pitch</th><th>Orientation</th><th>Main readability risk the mockups show</th></tr></thead>
     <tbody>
       <tr>
-        <td class="gm"><i style="background:#2EF2C3"></i><a href="#ringward">Ringward</a><br><small>recommended</small></td>
+        <td class="gm"><i style="background:#E98A3C"></i><a href="#ringward">Ringward</a><br><small>picked (decision 009) ·<br>fish in a barrel</small></td>
         <td data-l="Score (of 40)"><b class="score">37</b></td>
-        <td data-l="Pitch">Turn a shield around a glowing core to block shards from every side for 2:00. On a stream the viewers throw the shards, and a friend can add a second shield.</td>
-        <td data-l="Orientation">Portrait, centred arena</td>
-        <td data-l="Main risk">The arena is centred, so its lower third sits under chat, the action rail (taller with the Raid button) and the scrim. The crack pips (the stakes) and raider names in the lower half are the hardest things to see. A layout fix exists (R1b) but costs size: the arena has to shrink to about 63% of the width, from 91%.</td>
+        <td data-l="Pitch">A goldfish in a barrel swings a shield on a stick to bat away cartoon cannonballs fired in from every side, for 2:00. On a stream the viewers fire them, and a friend can join as a second fish.</td>
+        <td data-l="Orientation">Portrait, centred barrel</td>
+        <td data-l="Main risk">The barrel is centred, so its lower third sits under chat, the action rail (taller with the Raid button) and the scrim. The bubbles (lives) and thrower names in the lower half are the hardest things to see. The re-theme helps: the fish's bruises and band-aids show the damage in the clear middle. But design.md's result cards sit low in the barrel, under chat. A layout fix exists (R1b) but costs size: the barrel shrinks to about 63% of the width, from 91%.</td>
       </tr>
       <tr>
-        <td class="gm"><i style="background:#FF3B5C"></i><a href="#hotcore">Hot Core</a><br><small>fallback</small></td>
+        <td class="gm"><i style="background:#FF3B5C"></i><a href="#hotcore">Hot Core</a><br><small>not picked (decision 009)</small></td>
         <td data-l="Score (of 40)"><b class="score">29</b></td>
         <td data-l="Pitch">Hold to charge a reactor, let go to bank the points. Overload and you lose everything since your last bank.</td>
         <td data-l="Orientation">Portrait, one big shape</td>
         <td data-l="Main risk">The layout survives the overlay, and how much is at stake is clear ("AT RISK", the vote, a gauge that turns red when overload becomes possible). What a newcomer can't see is <i>when</i> inside the red zone it will blow: the only warning is a flicker in the glow, a few pixels at feed size and likely lost to compression. So the tension the player feels is invisible to viewers. Not fixable in layout without changing the rules.</td>
       </tr>
       <tr>
-        <td class="gm"><i style="background:#7C5CFF"></i><a href="#lumen">Lumen Drop</a></td>
+        <td class="gm"><i style="background:#7C5CFF"></i><a href="#lumen">Lumen Drop</a><br><small>not picked (decision 009)</small></td>
         <td data-l="Score (of 40)"><b class="score">28</b></td>
         <td data-l="Pitch">Steer a falling spark through mint gates for combo; touch a red one and the run ends. Every 10 gates the shaft narrows and speeds up.</td>
         <td data-l="Orientation">Portrait, vertical shaft</td>
@@ -206,14 +207,16 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
       </tr>
     </tbody>
   </table>
-  <p class="lede" style="margin-top:12px">Read Ringward's 37 with its risk: its "readable" and "swipe-in" 5s hold for the overlay-safe layout (R1b), not for the design.md layout drawn in R1.</p>
+  <p class="lede" style="margin-top:12px">Read Ringward's 37 with its risk: its "readable" 5 holds fully for the overlay-safe layout (R1b). In the design.md layout (R1), the bubbles, names and incoming balls in the lower half are under the overlay, though the fish's visible damage keeps the stakes readable.</p>
 </section>
 
 <!-- ================================================================== RINGWARD -->
 <section id="ringward">
-  <h2>A · Ringward</h2>
-  <div class="facts"><span>37 / 40 · recommended</span><span>Portrait 1080 × 1920</span><span>2:00 rounds</span><span>Solo, duo, raids</span></div>
-  <p class="lede">Keep the core alive for two minutes. Shards fly at it from every side, and on a stream the viewers are the ones throwing them (<a href="../../decisions/010-game-multiplayer-and-viewers.md">decision 010</a>). Drawn to <code>docs/game/design.md</code> on the game PR (rresnik2/gametime#8): score above the arena, time left inside the core, three crack pips below it, raider names on dark pills inside the rim, P1 purple and P2 near-white shields, overdrive in the last 20 s.</p>
+  <h2>A · Ringward (working title): fish in a barrel</h2>
+  <div class="facts"><span>Picked · decision 009, Nov 17, 2026</span><span>37 / 40</span><span>Portrait 1080 × 1920</span><span>2:00 rounds</span><span>Solo, duo, raids</span></div>
+  <p class="lede">Shooting fish in a barrel, except the fish fights back. A round orange goldfish with red lips swings a shield on a stick to bat away cartoon cannonballs fired in from every side, for two minutes; on a stream, the viewers fire them (<a href="../../decisions/010-game-multiplayer-and-viewers.md">decision 010</a>). Every ball that gets through is a "BONK!" that pops one of three bubbles and leaves slapstick injuries that pile up: bruises, band-aids, a black eye, and finally a dizzy spiral eye. Drawn to <code>docs/game/design.md</code> on PR rresnik2/gametime#108 (fish-in-a-barrel theme, not merged yet): time, score and multiplier above the barrel, the bubbles below it, thrower names on cream-on-dark pills inside the rim, and the 12 viewer slots on the stave joints. The game has its own palette and an old-film finish (sepia, grain, vignette, a scratch or two) with slab-serif lettering (Rockwell where installed, Georgia otherwise, as in the greybox). GameTime's tokens apply only to the app overlay.</p>
+  <p class="lede"><b>Name:</b> "Ringward" is the working title and is what the frames show. <a href="../../decisions/009-game-concept.md">Decision 009</a> proposes <b>Finvincible</b>, <b>Goldie's Barrel</b> and <b>Bonk Barrel</b> (each needs a web and app-store search first). Renaming changes the title card (R3), the game chip in the feed and the Raid sheet's heading.</p>
+  <p class="lede"><b>Originality:</b> generic vintage-film and carnival-postcard cues, no stripes, clownfish or named characters. The one thing to watch in Phase 3 art is the 1930s-cartoon-plus-film-grain combination: keep away from pie-cut eyes, rubber-hose limbs and that era's title-card styling.</p>
 
   <h3 class="sub">In the feed, and the game screen behind it</h3>
   <div class="row">
@@ -221,31 +224,32 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
       <div class="fh"><span class="id">R1</span>The stream in the feed · raid in progress<span class="route">For You feed, portrait stream (decision 011)</span></div>
       <div class="phone feed" data-feed="rw" data-tab="live"></div>
       <ol class="notes">
-        <li><b>Swipe-in partly passes:</b> the mint core, its countdown, the purple arc and the score read at once. But the one incoming shard is behind the Raid button (only its tip shows) and the next launch's warning is under chat, so the threat itself is mostly hidden until a shard crosses the clear middle. Compare <a href="#R1b">R1b</a>. A crack is rarer still (this streamer: one in 52 s).</li>
-        <li><b>Raid button</b> (Ringward streams only, and only while a round is on; between rounds the rail is the usual four buttons) opens the Raid sheet <a href="#R8">R8</a>. Five buttons push the rail up to about 350 pt, over the arena's right edge.</li>
-        <li class="risk"><b>Overlay collision:</b> raider names sit under the overlay: <i>pixelpilot</i>'s pill is cut by the Raid button, and <i>mintmoth</i>'s rim warning (the next launch, from 7 o'clock) is under chat. Shards launch from every side, and 6 of the 12 slots (3 to 8 o'clock) start under chat or the rail.</li>
-        <li class="risk"><b>Overlay collision:</b> the crack pips sit between the last chat line and the streamer's name, under the darkest part of the scrim, and "RAID ON · 12 raiding" is hidden behind the name row (its tail peeks out after the game chip, where it reads as app UI). Cracks are the stakes; they shouldn't be the hardest thing to see.</li>
-        <li class="g">The fix is a smaller arena: see <a href="#R1b">R1b</a>.</li>
+        <li><b>Swipe-in mostly passes:</b> a barrel, a goldfish holding a shield, a big score and the time left read at once, and the bruise under a crossed band-aid says the fish has already taken a hit. The fish is in the clear middle, so its injuries are the stakes cue that survives the overlay. But the incoming cannonball is behind the Raid button and the next shot's warning is under chat. Compare <a href="#R1b">R1b</a>.</li>
+        <li><b>Raid button</b> (a cannonball icon; Ringward streams only, and only while a round is on) opens the Raid sheet <a href="#R8">R8</a>. Five buttons push the rail up to about 350 pt, over the barrel's right edge.</li>
+        <li class="risk"><b>Overlay collision:</b> <i>pixelpilot</i>'s pill is cut by the Raid button, and <i>mintmoth</i>'s warning ring (the next shot, from 7 o'clock) is under chat. Balls come from all 12 stave joints, and 6 of them (3 to 8 o'clock) are under chat or the rail.</li>
+        <li class="risk"><b>Overlay collision:</b> the three bubbles (lives) sit between the last chat line and the streamer's name under the darkest scrim, and "12 throwing" is behind the name row.</li>
+        <li class="g">The layout fix is a smaller barrel: see <a href="#R1b">R1b</a>.</li>
       </ol>
     </div>
 
     <div class="frame" id="R2">
       <div class="fh"><span class="id">R2</span>Game screen · mid-round, raid on<span class="route">OBS canvas 1080 × 1920</span></div>
-      <div class="cv" data-scene="rw-mid" data-rail="5" data-marks='[[1,540,250],[2,905,280],[3,165,1295],[4,720,900],[5,1000,880],[6,745,1560],[7,850,1672]]'></div>
+      <div class="cv" data-scene="rw-mid" data-rail="5" data-marks='[[1,540,245],[2,925,285],[3,150,300],[4,150,1300],[5,700,830],[6,1005,1000],[7,745,1560],[8,770,1672]]'></div>
       <ol class="notes">
-        <li><b>Score</b>, huge and centred.</li>
+        <li><b>Score</b>, huge, in cream slab lettering.</li>
         <li><b>Multiplier</b>: ×4 (one step per 8 combo, max ×5).</li>
-        <li><b>Rim warning</b>: the launch slot flashes red 0.6 s before the shard flies, so viewers see the threat a beat before the player reacts. The raider's name (<i>mintmoth</i>) shows on the warning too: the greybox already draws it, but design.md doesn't say so yet.</li>
-        <li><b>Time left</b> inside the core. One crack already runs across it; the core dims and fractures with each one. The core and timer are drawn bigger than the greybox's (core 0.28 R vs 0.2 R; timer about 36 pt vs 21 pt in the feed; shield ring 0.48 R vs 0.45 R): a proposal for design.md, since the timer is a main swipe-in cue.</li>
-        <li><b>Raider names</b> ride their shards on dark pills, inside the rim. Raid shards always come from one of the 12 rim slots (every 30°, the ticks).</li>
-        <li><b>Crack pips</b>: two left. The third crack ends the round.</li>
-        <li><b>One-line status</b> (decision 012's proposal): "RAID ON · 12 raiding". In solo with no viewers it reads "SOLO · best 7,960". At 1:08 the wave table gives a shard every 1.0 s that takes 1.35 s to reach the core, so a viewer usually sees one shard nearing the shield, the last one bouncing away, and the next one's warning.</li>
+        <li><b>Time left</b>, beside the score (design.md moved it out of the middle; the fish is there now).</li>
+        <li><b>Warning</b>: a red ring flashes on the stave joint 0.6 s before the ball comes in, with the thrower's name (<i>mintmoth</i>), so viewers see the threat a beat before the player reacts.</li>
+        <li><b>The fish after one bonk</b>: a purple bruise on its side with a crossed band-aid over it, a bump, a sweat drop, and a petal gone from its hibiscus. It holds the purple shield on a stick; the shield's lighter middle third is the perfect zone. Drawn at the greybox's larger size.</li>
+        <li><b>Thrower names</b> on cream-on-dark pills beside their ball, inside the rim. Incoming balls have a faded-red rim and smoke puffs behind them; a blocked ball (top left) goes out without the red rim.</li>
+        <li><b>Bubbles</b>: lives. One popped, two left; the third bonk ends the round.</li>
+        <li><b>Status line</b>: "12 throwing" (design.md's wording for raiders). The greybox shows it only during a raid, so a solo round with no viewers firing has no persistent status line and no names on balls. Proposal for design.md: a solo status such as "3 bubbles · last 2:00" that becomes "FRENZY! in 0:32" near the end. At 1:08 the wave table fires a ball every 1.0 s that takes 1.35 s to reach the fish, so a viewer usually sees one ball nearing the shield, the last one bouncing away, and the next one's warning.</li>
       </ol>
       <div class="five"><b class="h">A newcomer's first 5 seconds</b>
-        <p><em>0–1 s</em>A dark screen, one bright mint circle with "1:08" counting down, a purple arc around it, a red shard closing in. "2,900" on top.</p>
-        <p><em>1–3 s</em>A shard bounces off the arc with a flash (+40, or "PERFECT +100" off the middle, about one block in four). A rim slot flashes red with a name on it, and a shard follows.</p>
-        <p><em>3–5 s</em>Usually another block. Rarely (this streamer: once in 52 s) one gets past, the core cracks and a pip goes dark; the empty pip already says that has happened. Names on the shards say viewers are throwing them, so the next thing they want is the Raid button.</p>
-        <p><b>In the feed (R1)</b> much less of this reads: the incoming shard is behind the Raid button, <i>mintmoth</i>'s warning is under chat, and the pips are under the scrim. The core, arc, countdown and score still say "defend the circle", but the threat, the names and the stakes mostly don't show until a shard crosses the clear middle.</p>
+        <p><em>0–1 s</em>A sepia barrel of lagoon water, a round orange goldfish with red lips and a crossed band-aid over a bruise, a purple shield on a stick, a cannonball trailing smoke. "2,900" on top, "1:08" beside it.</p>
+        <p><em>1–3 s</em>The ball clangs off the shield (+40, or "PERFECT +100" off the middle, about one block in four). A red ring flashes on the rim with a name on it, and a ball follows.</p>
+        <p><em>3–5 s</em>Usually another block. Rarely (this streamer: once in 52 s) one gets through: "BONK!", the fish squashes, a bubble pops and it gets a black eye and a second band-aid. The first band-aid already tells the story. Names on the balls say viewers are firing them, so the next thing they want is the Raid button.</p>
+        <p><b>In the feed (R1)</b> the barrel, the fish, its injuries, the score and the time all read; the incoming ball, <i>mintmoth</i>'s warning and the bubbles are under the overlay.</p>
       </div>
     </div>
   </div>
@@ -255,10 +259,10 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
       <div class="fh"><span class="id">R1b</span>Proposal: the same moment, laid out for the feed<span class="route">For You feed · overlay-safe layout</span></div>
       <div class="phone feed" data-feed="rwfit" data-tab="live"></div>
       <ol class="notes">
-        <li><b>Arena shrinks</b> to a 340 px radius centred at y 800 (63% of the width, down from 91%), so its whole rim, every launch slot included, is above chat and left of the Raid-height rail. Its lower half is still under the top of the scrim (about 25% darker at the rim), which dims but doesn't hide it.</li>
-        <li><b>One top row</b>: multiplier, score, and the three crack pips beside it (90% of R2's size), all in the clear band. "RAID ON · 12 raiding" sits between the score and the arena.</li>
-        <li><b>Same timing, smaller motion.</b> The game runs in arena units, so rim to core still takes 1.35 s, but shards travel about 30% fewer pixels and read smaller. Names stay readable (40 px on the canvas, about 14 pt here), but fixed-size pills crowd a smaller ring sooner.</li>
-        <li class="g">Trade-off for the team: R1 is the more striking game on a monitor; R1b is the one that reads in the feed. Draft only. If Ringward is picked, its design doc would adopt one of the two, and the lower half of the canvas could hold something viewers can lose (best score, the raider leaderboard on the result card).</li>
+        <li><b>The barrel shrinks</b> to a 340 px radius centred at y 800 (63% of the width, down from 91%), so its whole rim, every stave joint included, is above chat and left of the Raid-height rail. Its lower half is still under the top of the scrim, which dims but doesn't hide it.</li>
+        <li><b>One top row</b>: time, score and the three bubbles, all in the clear band; "×4 · 12 throwing" between the score and the barrel.</li>
+        <li><b>The trade-off:</b> the game runs in arena units, so the timing is the same, but everything is drawn about 30% smaller. The fish is about 55 pt wide here (80 pt in R1), so its bruises and band-aids are harder to read, and the fixed-size name pills crowd a smaller ring sooner.</li>
+        <li class="g">R1 is the more striking game on a monitor; R1b is the one that reads in the feed. Draft only, for the team to pick before Phase 3 art.</li>
       </ol>
     </div>
   </div>
@@ -266,26 +270,34 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
   <h3 class="sub">Start and end screens</h3>
   <div class="row">
     <div class="frame" id="R3">
-      <div class="fh"><span class="id">R3</span>Start screen<span class="route">OBS canvas · before a round</span></div>
+      <div class="fh"><span class="id">R3</span>Title card<span class="route">OBS canvas · before a round</span></div>
       <div class="cv" data-scene="rw-start" data-rail="4"></div>
       <ol class="notes">
-        <li class="g">What a viewer needs (name, goal, "Raids on · raid when the round starts": the Raid button only appears during a round) sits in the clear band above the overlay. The control and the start key are for the streamer, so they can sit lower, under chat.</li>
-        <li class="g">The best score lives in the browser's local storage only (no saves of its own, decision 002).</li>
+        <li class="g">As in the greybox: a double-ruled band over the faded barrel, the title in outlined slab capitals, "~ fish in a barrel ~" under it. The title changes if the team picks one of decision 009's names.</li>
+        <li class="g">What a viewer needs (the goal, "Raids on · fire when the round starts": the Raid button only appears during a round) is in the clear band. The controls and the start key are for the streamer, so they sit lower, under chat.</li>
       </ol>
     </div>
     <div class="frame" id="R4">
-      <div class="fh"><span class="id">R4</span>End · win: "Core held"<span class="route">OBS canvas · timer reached 0:00</span></div>
+      <div class="fh"><span class="id">R4</span>End · win: "STILL SWIMMING"<span class="route">OBS canvas · the timer reached 0:00</span></div>
       <div class="cv" data-scene="rw-held" data-rail="4"></div>
       <ol class="notes">
-        <li class="g">Surviving adds 250 per crack the core can still take: 2 left = +500. In a raid the card says how many raiders were beaten.</li>
+        <li class="g">As design.md specifies, the result card sits in the lower part of the barrel so the fish stays in view: here still swimming, with its one bruise and band-aid. Lasting to 2:00 adds 250 per bubble left: 2 left = +500.</li>
+        <li class="risk"><b>Overlay collision:</b> that low card (y 1090–1450) is exactly where chat, the rail and the streamer's name sit in the feed, under the darkest scrim. A viewer swiping in at the end of a round sees the battered fish but not the result. Flagged for design.md: keep the title line above y 1140, or move the card up once the fish has been shown.</li>
       </ol>
     </div>
     <div class="frame" id="R5">
-      <div class="fh"><span class="id">R5</span>End · "Viewers win"<span class="route">OBS canvas · a raider's shard landed the third crack</span></div>
+      <div class="fh"><span class="id">R5</span>End · "VIEWERS WIN"<span class="route">OBS canvas · a viewer's ball landed the third bonk</span></div>
       <div class="cv" data-scene="rw-vwin" data-rail="4"></div>
       <ol class="notes">
-        <li class="g">The card names the core breaker as the largest text on the card after the title: this is the clip moment for raiders. Only real usernames appear (decision 010: no free text).</li>
-        <li class="g">"Core lost" (the game's own shard landed the third crack) is the same card with "CORE LOST" in red and no name.</li>
+        <li class="g">"Final bonk by" names the viewer (design.md's wording) under the fish with all three injuries, a spiral eye and three stars: the clip moment for throwers. Only real usernames appear (decision 010: no free text).</li>
+        <li class="risk">The thrower's name is on the low card, so in the feed it sits under chat (see R4).</li>
+      </ol>
+    </div>
+    <div class="frame" id="R5b">
+      <div class="fh"><span class="id">R5b</span>End · lose: "DIZZY!"<span class="route">OBS canvas · the game's own ball landed the third bonk</span></div>
+      <div class="cv" data-scene="rw-dizzy" data-rail="4"></div>
+      <ol class="notes">
+        <li class="g">The card shows how long the fish lasted. Same low card as R4 and R5, with the same overlay risk.</li>
       </ol>
     </div>
   </div>
@@ -293,25 +305,39 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
   <h3 class="sub">Signature moments</h3>
   <div class="row">
     <div class="frame" id="R6">
-      <div class="fh"><span class="id">R6</span>Viewer raid in overdrive<span class="route">OBS canvas · last 20 s, 38 raiding</span></div>
-      <div class="cv" data-scene="rw-raid" data-rail="5" data-marks='[[1,250,470],[2,140,720],[3,1010,1115,"r"]]'></div>
+      <div class="fh"><span class="id">R6</span>Viewer raid in FRENZY!<span class="route">OBS canvas · last 20 s, 38 throwing</span></div>
+      <div class="cv" data-scene="rw-raid" data-rail="5" data-marks='[[1,540,500],[2,140,720],[3,690,790],[4,1010,1115,"r"]]'></div>
       <ol class="notes">
-        <li><b>Overdrive</b>: the arena's rim pulses red and shards come every 0.5 s. One crack left. Because the rim is red, the rim warnings are drawn white here; design.md makes both red, which would hide the warnings in the most clip-worthy 20 s. A proposal for design.md.</li>
-        <li><b>Two raid shards in flight and the next raider's warning</b>: <i>quillfire</i> about to meet the shield and <i>combo_king</i> just launched from the opposite rim, one overdrive tick (0.5 s) apart. Raid launches are always singles; the shield needs about 140° to reach <i>combo_king</i>, 0.26 s with the mouse or 0.46 s with keys, just inside the roughly 0.48 s it has, so both can be blocked. <i>quillfire</i> is in the shield's perfect zone; plus one ricochet leaving the arena. That is about the most overdrive puts on screen (a shard every 0.5 s, 0.85 s to the core). 38 raiders don't add shards: their launches replace the game's own spawns, 8 wait in the queue ("8 queued"), and the rest get "raid full" in the app.</li>
-        <li class="risk">In the feed, <i>blockhead</i>'s warning at 3 o'clock is half under the rail and <i>combo_king</i> is under chat. Names are 40 px on the canvas, about 14 pt on a phone.</li>
+        <li><b>FRENZY!</b>: the rope hoop and the screen edge pulse red and balls come every 0.5 s. Two proposals for design.md here: the warning rings are drawn cream, because red rings would vanish into the red hoop in the most clip-worthy 20 s; and the "FRENZY!" sign sits inside the barrel's top, because the greybox's FRENZY! text sits under the bubbles, which is behind the streamer row in the feed.</li>
+        <li><b>Two raid balls in flight and the next thrower's warning</b>: <i>quillfire</i> about to meet the shield's perfect zone and <i>combo_king</i> just fired from the opposite rim, one tick (0.5 s) apart. Raid shots are always singles; the shield needs about 140° to reach <i>combo_king</i> (to get its edge there; 173° centre to centre), 0.19 s with the mouse (720°/s) or 0.33 s with keys (420°/s), inside the roughly 0.48 s it has. Plus one ball bouncing out. 38 throwers don't add balls: their shots replace the game's own, 8 wait in the queue ("8 queued"), and the rest get "raid full" in the app.</li>
+        <li><b>The fish after two bonks</b>: a black eye with a droopy lid, a second bruise, a band-aid on its head, a star circling, and a second petal gone. One bubble left, so the next bonk is DIZZY!</li>
+        <li class="risk">In the feed, <i>blockhead</i>'s warning at 3 o'clock is half under the rail and <i>combo_king</i> is under chat.</li>
+        <li class="g">The status lines "· 8 queued" (here) and "DUO · nova + kai" (R7) are proposals; the greybox shows "N throwing · top: name (n)".</li>
       </ol>
     </div>
     <div class="frame" id="R7">
-      <div class="fh"><span class="id">R7</span>Duo: two shields<span class="route">OBS canvas · streamer + partner</span></div>
+      <div class="fh"><span class="id">R7</span>Duo: two goldfish, two shields<span class="route">OBS canvas · streamer + partner</span></div>
       <div class="cv" data-scene="rw-duo" data-rail="5" data-marks='[[1,110,690],[2,880,1075],[3,400,1440,"r"]]'></div>
       <ol class="notes">
-        <li><b>P1</b> (the streamer) is purple, <b>P2</b> (the partner) near-white, each labelled with their name.</li>
-        <li><b>Shields are solid to each other</b>, so the two players split the ring: here P2 holds the right side.</li>
-        <li class="risk"><b>Half the duo is under the overlay:</b> <i>tidepool</i>'s shard, just launched from 6 o'clock on P2's side of the split, is under chat in the feed, and so is the lower part of P2's half. P2 has to swing about 50° down for it, which is the duo moment, and a feed viewer mostly can't see it. Shards come more often in duo (the greybox spawns at 0.7× the solo interval).</li>
+        <li><b>P1</b> (the streamer) wears a pink hibiscus and holds the purple shield; <b>P2</b> (the partner) wears a white plumeria and holds the cream shield. They share the three bubbles, but each fish shows its own injuries: the one bonk so far landed on P2's side, so P2 has the bruise and crossed band-aid and P1 is clean. Each fish sits towards its own shield, as in the greybox. Duo fish are drawn smaller, so per-fish injuries (a band-aid about 11 pt across in the feed) are a monitor-scale detail.</li>
+        <li><b>Shields are solid to each other</b>, so the players split the barrel: here P2 holds the right side.</li>
+        <li class="risk"><b>Half the duo is under the overlay:</b> <i>tidepool</i>'s ball, just fired from 6 o'clock on P2's side of the split, is under chat in the feed, and so is the lower part of P2's half. P2 has to swing about 50° down for it, which is the duo moment. Balls come more often in duo, but the two sources disagree: design.md says 30% more, while the greybox's 0.7× interval is about 43% more. One needs correcting (flagged on #108).</li>
       </ol>
     </div>
+    <div class="frame" id="R10">
+      <div class="fh"><span class="id">R10</span>Damage, bonk by bonk<span class="route">Reference sheet · fish at about 2/3 of feed scale</span></div>
+      <div class="cv" data-scene="rw-damage" data-nozones></div>
+      <ol class="notes">
+        <li class="g">design.md's injury table, each bonk adding to the last. One: a purple bruise with a crossed band-aid, a bump, a sweat drop, a petal gone. Two: a black eye with a droopy lid, a second bruise, a band-aid on the head, a circling star, another petal. Three: a third bruise and a band-aid on the cheek; when the round is lost, a spiral eye and three stars. Slapstick only: no blood or gore (the app is 13+).</li>
+        <li class="g">On R1's fish at feed size the crossed band-aid is about 22 pt across and the black eye about 21 pt: readable, and in the clear middle of the screen. The flower's petals are too small to count on a phone; treat them as a detail for the monitor.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3 class="sub">Raiding from the app</h3>
+  <div class="row">
     <div class="frame" id="R8">
-      <div class="fh"><span class="id">R8</span>Raid sheet in the app<span class="route">Feed → Raid button (R1)</span></div>
+      <div class="fh"><span class="id">R8</span>Raid sheet: fire a cannonball<span class="route">Feed → Raid button (R1)</span></div>
       <div class="phone" data-tab="live" id="R8phone">
         <div class="stream" data-scene="rw-mid" style="top:31px"></div>
         <div class="toggle"><span>Following</span><b>For You</b></div>
@@ -319,35 +345,32 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
         <div class="dim"></div>
         <div class="sheet">
           <div class="flex" style="justify-content:space-between;align-items:flex-start">
-            <div><div class="h2">Raid nova's core</div><div class="sm muted">Round on · raid now</div></div>
+            <div><div class="h2">Raid nova's barrel</div><div class="sm muted">Round on · fire now</div></div>
             <span class="ib" aria-label="Close">✕</span>
           </div>
-          <div class="sm">Tap a slot on the ring. Your shard flies at the core from there, with your name on it.</div>
+          <div class="sm">Tap a stave joint. Your cannonball flies in from there, with your name on it.</div>
           <div class="ring cool" data-ring></div>
-          <div class="banner ok"><b>✓</b><div><b>Queued: your shard is 3rd in line.</b><br><span class="xs muted">The sheet folds away in a moment so you can watch for your name.</span></div></div>
-          <div class="xs muted" style="text-align:center">One shard every 4 s. Raid shards replace the game's own, so the round stays fair.</div>
+          <div class="banner ok"><b>✓</b><div><b>Queued: your cannonball is 3rd in line.</b><br><span class="xs muted">The sheet folds away in a moment so you can watch for your name.</span></div></div>
+          <div class="xs muted" style="text-align:center">One cannonball every 4 s. Raid shots replace the game's own, so the round stays fair.</div>
         </div>
         <span class="m" style="top:352px;left:300px">1</span>
         <span class="m" style="top:516px;left:252px">2</span>
         <span class="m" style="top:630px;left:336px">3</span>
       </div>
       <ol class="notes">
-        <li><b>12 slots</b> in the same layout as the rim ticks in the game, each a 44 pt target with a label for screen readers ("Slot at 4 o'clock"). Other raiders' queued slots aren't shown: the hosting design doesn't tell the app when they launch.</li>
-        <li><b>Your slot</b> lights up and a <b>cooldown ring</b> (4 s) fills around the mini core; the other slots grey out until it's full.</li>
-        <li><b>Instant answer</b>, because the stream lags: "3rd in line" now, your name on the shard a few seconds later. The sheet then folds to a strip (<a href="#R9">R9</a>). Viewers pick where, never when, so delay can't make them miss.</li>
-        <li class="g">States: signed out or anonymous → "Sign in to raid" (decision 010); blocked by the streamer → no Raid button; queue of 8 full → "Raid full, try again in a moment"; between rounds → the sheet closes and the Raid button leaves the rail until the next round starts; raids switched off → no button.</li>
+        <li><b>12 slots on a little barrel</b>, one on each stave joint as in the game, each a 44 pt target labelled for screen readers ("Stave at 4 o'clock"). The barrel is drawn in the game's colours; the buttons, sheet and text are app UI in GameTime's tokens. Other throwers' queued slots aren't shown: the hosting design doesn't tell the app when they fire.</li>
+        <li><b>Your slot</b> shows a cannonball, and a <b>cooldown ring</b> (4 s) fills around the little fish; the other slots grey out until it's full.</li>
+        <li><b>Instant answer</b>, because the stream lags: "3rd in line" now, your name on the ball a few seconds later. The sheet then folds to a strip (<a href="#R9">R9</a>). Viewers pick where, never when, so delay can't make them miss.</li>
+        <li class="g">States: signed out or anonymous → "Sign in to raid" (decision 010); blocked by the streamer → no Raid button; queue of 8 full → "Raid full, try again in a moment"; between rounds → the sheet closes and the Raid button leaves the rail; raids switched off → no button.</li>
       </ol>
     </div>
-  </div>
-  <div class="row">
     <div class="frame" id="R9">
-      <div class="fh"><span class="id">R9</span>After launching: the sheet folds to a strip<span class="route">Feed · about 2 s after R8</span></div>
+      <div class="fh"><span class="id">R9</span>After firing: the sheet folds to a strip<span class="route">Feed · about 2 s after R8</span></div>
       <div class="phone feed" data-feed="rwq" data-tab="live"></div>
       <ol class="notes">
-        <li><b>Strip</b> in place of the chat input: "queued" and the cooldown (the hosting design sends the queue position once, at launch, so the strip doesn't count down the line), so the arena is visible again while the viewer waits for their name. Tap it (or "Raid") to reopen the sheet and pick the next slot once the cooldown is full.</li>
-        <li><b>Raid button</b> shows the cooldown as a ring until the next shard is allowed.</li>
+        <li><b>Strip</b> in place of the chat input: "queued" and the cooldown, so the barrel is visible again while the viewer waits for their name. (The hosting design sends the queue position once, at launch, so the strip doesn't count down the line.) Tap it, or Raid, to reopen the sheet once the cooldown is full.</li>
+        <li><b>Raid button</b> shows the cooldown as a ring until the next shot is allowed.</li>
         <li class="g">The game frame behind is R8's, for comparison; on a real stream it has moved on two seconds.</li>
-        <li class="g">Draft: the strip and the sheet are one component in two heights. Whether chat input stays reachable during a raid is for the design review.</li>
       </ol>
     </div>
   </div>
@@ -355,8 +378,8 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
 
 <!-- ================================================================== HOT CORE -->
 <section id="hotcore">
-  <h2>C · Hot Core</h2>
-  <div class="facts"><span>29 / 40 · fallback</span><span>Portrait 1080 × 1920</span><span>1:30 rounds (assumed)</span><span>Viewers vote bank / hold</span></div>
+  <h2>C · Hot Core · not picked (decision 009)</h2>
+  <div class="facts"><span>29 / 40 · not picked</span><span>Portrait 1080 × 1920</span><span>1:30 rounds (assumed)</span><span>Viewers vote bank / hold</span></div>
   <p class="lede">A push-your-luck game on one button. Hold to pump energy into a reactor; the points at risk grow faster the longer you hold, but once it's in the danger zone it can overload at any moment, and the only warning is a flicker in its glow that gets harder to read each level. Let go to bank. The concept has no design doc, so these mockups make five assumptions: 1:30 rounds (from the first concept draft; decision 012 allows any length), levels that speed up the charge and come every 15 s, a <b>charge gauge</b> that fills while you hold (overload becomes possible once it enters its red last third and likelier as it fills; a full gauge always overloads; the reactor glows red while it's in that zone), a flicker that appears only in the last second or so before an overload (fainter each level, so a player who spots it can still let go in time), and a viewer <b>bank / hold vote</b> from the app as its viewer interaction (scored 2 of 5 in <code>concepts.md</code>, because stream delay makes votes late). Unlike Ringward, it was laid out from the start to keep everything above the feed's overlay.</p>
 
   <h3 class="sub">In the feed, and the game screen behind it</h3>
@@ -421,8 +444,8 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
 
 <!-- ================================================================== LUMEN DROP -->
 <section id="lumen">
-  <h2>B · Lumen Drop</h2>
-  <div class="facts"><span>28 / 40</span><span>Portrait 1080 × 1920</span><span>Endless run, ends on red</span><span>Viewers place gates</span></div>
+  <h2>B · Lumen Drop · not picked (decision 009)</h2>
+  <div class="facts"><span>28 / 40 · not picked</span><span>Portrait 1080 × 1920</span><span>Endless run, ends on red</span><span>Viewers place gates</span></div>
   <p class="lede">Steer a falling spark down an endless vertical shaft. Gates rise towards it in pairs, one mint and one red: pass through mint to grow the combo, touch red and the run ends. Every ten gates the shaft narrows and speeds up. Viewers place gate pairs ahead of the spark from the app (<code>concepts.md</code>: 3 of 5; every gate must stay fair). Assumptions drawn here: a pair is a mint gate and a red bar with open space around them, and flying past a mint gate without going through it resets the combo. The score is distance × the current combo, as <code>concepts.md</code> says, so a combo reset would cut it sharply; whether the score should instead build up is an open question for the design doc. Red bars carry a dark hatch so they don't rely on colour alone.</p>
 
   <h3 class="sub">In the feed, and the game screen behind it</h3>
@@ -468,7 +491,7 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
     <div class="frame" id="L4">
       <div class="fh"><span class="id">L4</span>End: run over<span class="route">OBS canvas · the spark touched red</span></div>
       <div class="cv" data-scene="ld-end" data-rail="4"></div>
-      <ol class="notes"><li class="g">When a viewer's red bar ends the run, the card names them, like Ringward's core breaker.</li></ol>
+      <ol class="notes"><li class="g">When a viewer's red bar ends the run, the card names them, like Ringward's "Final bonk by".</li></ol>
     </div>
   </div>
 
@@ -495,8 +518,8 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
     <li><b>Proposed rule for the chosen game's design doc:</b> keep the score, the goal or status line and the main action inside y 280–1140, and don't put anything a newcomer must read in the lower left or along the right edge below y 900.</li>
     <li><b>Clean view:</b> per wireframe W1, a single tap hides the whole overlay. That helps a viewer who has decided to watch, but the swipe-in impression comes before any tap, so the collisions above still count.</li>
     <li><b>Text sizes:</b> the canvas is shown at about 35% in the feed, so 40 px on the canvas is about 14 pt on a phone. Nothing a viewer needs is drawn under 40 px here.</li>
-    <li><b>Each game shows a one-line status</b> (Ringward "RAID ON · 12 raiding", Hot Core "LEVEL 3", Lumen Drop "SHAFT 4" with 6 of 10 blocks lit), the persistent line decision 012 proposes for swipe-in.</li>
-    <li><b>Look-alikes:</b> at thumbnail size Ringward and Hot Core look similar (a glowing disc, Hot Core's mint until its gauge reaches red, in a dark segmented ring under a big white number). If both stay in contention, give Hot Core its own silhouette.</li>
+    <li><b>Each game shows a one-line status</b> (Ringward "12 throwing" during a raid, with no status line in a solo round yet, Hot Core "LEVEL 3", Lumen Drop "SHAFT 4" with 6 of 10 blocks lit), the persistent line decision 012 proposes for swipe-in.</li>
+    <li><b>Look-alikes:</b> before the re-theme, Ringward and Hot Core looked alike at thumbnail size (a glowing disc in a dark ring under a big number). The barrel, the fish and the sepia finish settle that.</li>
     <li><b>Not drawn:</b> two-player modes for Hot Core (a race) and Lumen Drop (two sparks), which <code>concepts.md</code> scores low; sound; motion. A real stream also adds video compression, which these flat shapes survive better than thin lines.</li>
   </ul>
 </section>
@@ -522,6 +545,10 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
     <linearGradient id="gTrailM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2EF2C3" stop-opacity="0"/><stop offset="1" stop-color="#2EF2C3" stop-opacity=".8"/></linearGradient>
     <linearGradient id="gHudFade" x1="0" y1="0" x2="0" y2="1"><stop offset=".75" stop-color="#0B0B12"/><stop offset="1" stop-color="#0B0B12" stop-opacity="0"/></linearGradient>
     <linearGradient id="gScrimZone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5B700" stop-opacity="0"/><stop offset="1" stop-color="#F5B700" stop-opacity=".22"/></linearGradient>
+    <radialGradient id="gWater"><stop offset="0" stop-color="#3F7F78"/><stop offset="1" stop-color="#1F3E3E"/></radialGradient>
+    <radialGradient id="gVig" r=".75"><stop offset=".55" stop-color="#000000" stop-opacity="0"/><stop offset="1" stop-color="#000000" stop-opacity=".55"/></radialGradient>
+    <radialGradient id="gFrenzyEdge" r=".75"><stop offset=".6" stop-color="#D2483C" stop-opacity="0"/><stop offset="1" stop-color="#D2483C" stop-opacity=".5"/></radialGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
     <pattern id="hatch" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="28" fill="#0B0B12" fill-opacity=".45"/></pattern>
   </defs>
 </svg>
@@ -556,89 +583,218 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
   }
   function button(x, y, txt, o) { o = o || {}; return pill(x, y, txt, { size: o.size || 46, bg: o.bg || C.primary, fg: C.text, fam: DISPLAY, ls: 3, pad: 44, h: 104, k: 0.66 }); }
 
-  // ---------------------------------------------------------------- Ringward
-  function shard(x, y, a, out, tl) {
-    var rot = out ? a + 180 : a, col = out ? '#A1A1B5' : C.live;
-    tl = tl == null ? 176 : tl;
-    return '<g transform="translate(' + r1(x) + ' ' + r1(y) + ') rotate(' + rot + ')">' +
-      (tl > 20 ? '<rect x="-11" y="' + -(24 + tl) + '" width="22" height="' + tl + '" rx="11" fill="url(#' + (out ? 'gTrailG' : 'gTrailR') + ')"/>' : '') +
-      '<path d="M0 44L22 -2L0 -30L-22 -2Z" fill="' + col + '" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="3" filter="url(#glow)"/></g>';
+  // ---------------------------------------------------------------- Ringward: fish in a barrel (docs/game/design.md, decision 009)
+  // The game has its own palette (design.md "Art direction"); GameTime's tokens (C) are only for the app overlay.
+  var F = { ink: '#17110D', stripe: '#211812', fish: '#E98A3C', fishSh: '#C96A28', bump: '#F2B27A', line: '#1A1410', lips: '#D8323A',
+    hib: '#E0708E', plum: '#F4E7C8', mustard: '#E3B04B', stave: '#8A5A2E', joint: '#5A3818', rope: '#D8B37A', lily: '#6E9452', leaf: '#789F55',
+    iron: '#1A1410', red: '#D2483C', smoke: '#E9DCC0', p1: '#8E6CC4', p1hi: '#B49AE0', p2: '#E9DCBE', p2hi: '#FFF8E6',
+    cream: '#F4E7C8', tan: '#C9B591', bubble: '#8CC7A8', blush: '#EE8A80', bandaid: '#E8C9A0', stick: '#B88A55' };
+  var SLAB = "Rockwell,'Rockwell Nova','Roboto Slab',Georgia,serif";
+  function ST(x, y, size, txt, o) { o = o || {}; o.fam = SLAB; o.fill = o.fill || F.cream; return T(x, y, size, txt, o); }
+  // outlined slab lettering, like an old cartoon title
+  function OT(x, y, size, txt, fill, rot) {
+    return '<text x="' + r1(x) + '" y="' + r1(y) + '" font-size="' + size + '" font-weight="700" fill="' + fill + '" stroke="' + F.line + '" stroke-width="' + Math.round(size / 8) + '" paint-order="stroke" stroke-linejoin="round" text-anchor="middle" font-family="' + SLAB + '"' + (rot ? ' transform="rotate(' + rot + ' ' + r1(x) + ' ' + r1(y) + ')"' : '') + '>' + txt + '</text>';
   }
-  function shieldArc(cx, cy, r, a, col, hi, w) {
-    var span = 70;
-    return '<g filter="url(#glow)"><path d="' + arc(cx, cy, r, a - span / 2, a + span / 2) + '" stroke="' + col + '" stroke-width="' + w + '" fill="none" stroke-linecap="round"/>' +
-      '<path d="' + arc(cx, cy, r, a - span / 6, a + span / 6) + '" stroke="' + hi + '" stroke-width="' + w + '" fill="none"/></g>';
-  }
-  // kept clear of the timer digits in the middle of the core
-  var CRACKS = ['M-62 -118L-40 -84L-66 -62L-30 -48', 'M44 134L30 102L56 86L24 64', 'M-122 56L-88 66L-80 96L-48 108'];
-  function core(cx, cy, r, time, cracks, o) {
+  function circ(p, r, fill, o) {
     o = o || {};
-    var s = '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r + 110) + '" fill="url(#gMint)" opacity="' + (o.dim ? .4 : 1) + '"/>';
-    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + C.mint + '" opacity="' + (o.dim ? .35 : cracks >= 2 ? .82 : 1) + '"/>';
-    var k = r / 135;
-    for (var i = 0; i < cracks; i++) s += '<path d="' + CRACKS[i] + '" transform="translate(' + cx + ' ' + cy + ') scale(' + k + ')" stroke="' + C.bg + '" stroke-width="' + (9 / k) + '" fill="none" stroke-linejoin="round" stroke-linecap="round"' + (o.dim ? ' opacity=".4"' : '') + '/>';
-    if (time) s += T(cx, cy + 38 * k, 104 * k, time, { fill: C.bg });
+    return '<circle cx="' + r1(p[0]) + '" cy="' + r1(p[1]) + '" r="' + r1(r) + '" fill="' + fill + '"' + (o.stroke ? ' stroke="' + o.stroke + '" stroke-width="' + (o.sw || 4) + '"' : '') + (o.op != null ? ' opacity="' + o.op + '"' : '') + (o.dash ? ' stroke-dasharray="' + o.dash + '"' : '') + (o.filter ? ' filter="url(#' + o.filter + ')"' : '') + '/>';
+  }
+  function seg(a, b, col, w, op) { return '<line x1="' + r1(a[0]) + '" y1="' + r1(a[1]) + '" x2="' + r1(b[0]) + '" y2="' + r1(b[1]) + '" stroke="' + col + '" stroke-width="' + w + '" stroke-linecap="round"' + (op != null ? ' opacity="' + op + '"' : '') + '/>'; }
+  function starPath(x, y, r) {
+    var d = '';
+    for (var i = 0; i < 10; i++) { var p = P(x, y, i % 2 ? r * 0.45 : r, i * 36); d += (i ? 'L' : 'M') + r1(p[0]) + ' ' + r1(p[1]); }
+    return d + 'Z';
+  }
+  // carnival-tent stripes behind everything
+  function backdrop() {
+    var s = '<rect width="1080" height="1920" fill="' + F.ink + '"/>';
+    for (var x = 45; x < 1080; x += 180) s += '<rect x="' + x + '" y="0" width="90" height="1920" fill="' + F.stripe + '"/>';
     return s;
   }
-  function pips(cx, y, used, op, sp, k) {
-    sp = sp || 112; k = k || 1;
+  // old-film finish: sepia wash, vignette, grain, a couple of scratches (kept light so text stays readable)
+  function film(frenzy) {
+    return (frenzy ? '<rect width="1080" height="1920" fill="url(#gFrenzyEdge)"/>' : '') +
+      '<rect width="1080" height="1920" fill="#8A5A2E" opacity=".08" style="mix-blend-mode:multiply"/>' +
+      '<rect width="1080" height="1920" fill="url(#gVig)"/>' +
+      '<rect width="1080" height="1920" filter="url(#grain)" opacity=".08"/>' +
+      '<line x1="214" y1="0" x2="208" y2="1920" stroke="' + F.cream + '" stroke-opacity=".1" stroke-width="2"/>' +
+      '<line x1="852" y1="260" x2="856" y2="1480" stroke="' + F.cream + '" stroke-opacity=".07" stroke-width="2"/>';
+  }
+  // the barrel, seen from above: water, lily pads, leaves over a rope-bound rim; the 12 slot joints are every 30°
+  function barrel(cx, cy, R, frenzy) {
+    var k = R / 495, Rw = R - Math.round(50 * k), mid = (R + Rw) / 2, s = '';
+    s += circ([cx, cy], R + 7, F.line);
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r1(mid) + '" fill="none" stroke="' + F.stave + '" stroke-width="' + (R - Rw) + '"/>';
+    for (var i = 0; i < 24; i++) {
+      var slot = i % 2 === 0;
+      s += seg(P(cx, cy, Rw, i * 15), P(cx, cy, R, i * 15), slot ? F.joint : '#73492A', slot ? 8 : 3);
+    }
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r1(R - 9 * k) + '" fill="none" stroke="' + F.rope + '" stroke-width="' + r1(9 * k) + '" stroke-dasharray="14 6"/>';
+    if (frenzy) s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r1(R - 9 * k) + '" fill="none" stroke="' + F.red + '" stroke-width="' + r1(14 * k) + '" filter="url(#glowBig)" opacity=".9"/>';
+    s += circ([cx, cy], Rw, 'url(#gWater)', { stroke: F.line, sw: 5 });
+    [0.3, 0.55, 0.8].forEach(function (f) { s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r1(Rw * f) + '" fill="none" stroke="#FFFFFF" stroke-opacity=".06" stroke-width="3"/>'; });
+    [[45, .8], [160, .72], [245, .8], [312, .64]].forEach(function (lp) {
+      var p = P(cx, cy, Rw * lp[1], lp[0]), r = 34 * k;
+      s += '<g transform="translate(' + r1(p[0]) + ' ' + r1(p[1]) + ') rotate(' + (lp[0] * 2) + ')">' + circ([0, 0], r, F.lily, { stroke: F.line, sw: 3 }) +
+        '<path d="M0 0L' + r1(r + 2) + ' ' + r1(-r * 0.3) + 'L' + r1(r + 2) + ' ' + r1(r * 0.3) + 'Z" fill="#2B5551"/>' + seg([0, 0], [-r * 0.7, 0], '#56794A', 2) + '</g>';
+    });
+    [20, 140, 255].forEach(function (a) {
+      var p = P(cx, cy, Rw - 4 * k, a);
+      s += '<g transform="translate(' + r1(p[0]) + ' ' + r1(p[1]) + ') rotate(' + (a - 90 + 35) + ')"><ellipse rx="' + r1(48 * k) + '" ry="' + r1(17 * k) + '" fill="' + F.leaf + '" stroke="' + F.line + '" stroke-width="3"/>' + seg([-42 * k, 0], [42 * k, 0], '#56794A', 3) + '</g>';
+    });
+    return s;
+  }
+  // a round orange goldfish with red lips, lashes, blush and a flower; injuries build up with each bonk
+  // (design.md: 1 bruise + crossed band-aid + bump + sweat; 2 black eye + 2nd bruise + head band-aid + star;
+  //  3 third bruise + cheek band-aid; spiral eye and three stars only when the round is lost)
+  var BRUISE = '#7A5A94';
+  function bandaid(x, y, rot, len) {
+    len = len || 46;
+    return '<g transform="rotate(' + rot + ' ' + x + ' ' + y + ')"><rect x="' + (x - len / 2) + '" y="' + (y - 8) + '" width="' + len + '" height="16" rx="8" fill="' + F.bandaid + '" stroke="' + F.line + '" stroke-width="3"/><rect x="' + (x - 7) + '" y="' + (y - 6) + '" width="14" height="12" rx="3" fill="#D9AE7E"/>' +
+      circ([x - len / 2 + 7, y], 1.6, '#A07A50') + circ([x + len / 2 - 7, y], 1.6, '#A07A50') + '</g>';
+  }
+  function bruise(x, y, sc) {
+    sc = sc || 1;
+    return '<ellipse cx="' + x + '" cy="' + y + '" rx="' + 19 * sc + '" ry="' + 13 * sc + '" fill="' + BRUISE + '" opacity=".8"/><ellipse cx="' + (x + 7 * sc) + '" cy="' + (y - 5 * sc) + '" rx="' + 10 * sc + '" ry="' + 8 * sc + '" fill="' + BRUISE + '" opacity=".55"/>';
+  }
+  function fish(x, y, sc, o) {
+    o = o || {};
+    var b = o.bonks || 0, face = o.face || 1, L = F.line, s = '';
+    var flower = o.flower === 'plum' ? F.plum : F.hib, petals = 5 - Math.min(b, 3);
+    s += '<g transform="translate(' + r1(x) + ' ' + r1(y) + ') scale(' + r1(face * sc * 100) / 100 + ' ' + r1(sc * 100) / 100 + ')">';
+    // tail and top fin
+    s += '<path d="M-62 0C-95 -30 -128 -62 -140 -38C-128 -14 -114 -4 -110 0C-114 4 -128 14 -140 38C-128 62 -95 30 -62 0Z" fill="' + F.fish + '" stroke="' + L + '" stroke-width="5" stroke-linejoin="round"/>';
+    s += '<path d="M-36 -58C-18 -96 22 -94 36 -60Z" fill="' + F.fishSh + '" stroke="' + L + '" stroke-width="4" stroke-linejoin="round"/>';
+    if (b >= 1) s += circ([22, -60], 17, F.bump, { stroke: L, sw: 4 });
+    // body
+    s += '<ellipse cx="0" cy="0" rx="80" ry="66" fill="' + F.fish + '" stroke="' + L + '" stroke-width="5"/>';
+    s += '<ellipse cx="-8" cy="26" rx="62" ry="30" fill="' + F.fishSh + '" opacity=".45"/>';
+    s += '<path d="M-44 -14q10 10 0 20M-30 -22q12 14 0 30" stroke="' + F.bump + '" stroke-width="3" fill="none" opacity=".8"/>';
+    // bruises under the band-aids
+    if (b >= 1) s += bruise(-22, 14);
+    if (b >= 2) s += bruise(-52, -14, .8);
+    if (b >= 3) s += bruise(8, 40, .85);
+    s += '<ellipse cx="22" cy="30" rx="18" ry="10" transform="rotate(-25 22 30)" fill="' + F.fishSh + '" stroke="' + L + '" stroke-width="4"/>';
+    // flower behind the eye
+    for (var i = 0; i < petals; i++) {
+      var pp = P(4, -40, 13, i * 72 + 10);
+      s += '<ellipse cx="' + r1(pp[0]) + '" cy="' + r1(pp[1]) + '" rx="11" ry="8" transform="rotate(' + (i * 72 + 100) + ' ' + r1(pp[0]) + ' ' + r1(pp[1]) + ')" fill="' + flower + '" stroke="' + L + '" stroke-width="3"/>';
+    }
+    s += circ([4, -40], 7, F.mustard, { stroke: L, sw: 3 });
+    // blush and lips
+    s += '<ellipse cx="44" cy="18" rx="13" ry="7" fill="' + F.blush + '" opacity=".75"/>';
+    s += '<ellipse cx="80" cy="6" rx="12" ry="8" fill="' + F.lips + '" stroke="' + L + '" stroke-width="3"/><ellipse cx="80" cy="19" rx="12" ry="8" fill="' + F.lips + '" stroke="' + L + '" stroke-width="3"/>';
+    // eye: black eye (2+) is a dark ring around it with a droopy lid; spiral when dizzy
+    if (b >= 2) s += circ([40, -16], 30, '#3E2C46', { op: .85 });
+    s += circ([40, -16], 21, '#FFFDF4', { stroke: L, sw: 4 });
+    if (o.dizzy) {
+      s += '<path d="M40 -16m-3 0a3 3 0 1 1 6 0a6 6 0 1 1 -12 0a9 9 0 1 1 18 0a12 12 0 1 1 -24 0" fill="none" stroke="' + L + '" stroke-width="3"/>';
+    } else {
+      s += circ([45, -13], 9, L) + circ([42, -17], 3, '#FFFFFF');
+      if (b >= 2) s += '<path d="M19 -16A21 21 0 0 1 61 -16Q40 -8 19 -16Z" fill="' + F.fish + '" stroke="' + L + '" stroke-width="4"/>';
+    }
+    s += '<path d="M44 -37l5 -11M54 -33l9 -8M60 -26l11 -4" stroke="' + L + '" stroke-width="4" stroke-linecap="round"/>';
+    // band-aids: crossed over the first bruise (1), on the head (2), on the cheek (3)
+    if (b >= 1) s += bandaid(-22, 14, 35) + bandaid(-22, 14, -35);
+    if (b >= 2) s += bandaid(18, -58, -12, 42);
+    if (b >= 3) s += bandaid(50, 24, 20, 36);
+    if (b >= 1) s += '<path d="M98 -58q-9 13 0 18q9 -5 0 -18Z" fill="#CFE8F0" stroke="' + L + '" stroke-width="3"/>';
+    if (b >= 2 && !o.dizzy) s += '<path d="' + starPath(-48, -98, 16) + '" fill="' + F.mustard + '" stroke="' + L + '" stroke-width="3"/>';
+    if (o.dizzy) [[-52, -96], [12, -116], [70, -96]].forEach(function (st) { s += '<path d="' + starPath(st[0], st[1], 16) + '" fill="' + F.mustard + '" stroke="' + L + '" stroke-width="3"/>'; });
+    return s + '</g>';
+  }
+  // a shield on a stick, held out to the ring around the barrel's centre
+  function shieldOnStick(fx, fy, sc, cx, cy, TR, sh) {
+    var w = Math.round(40 * Math.max(TR / 232, .75)), hand = P(fx, fy, 52 * sc, sh.a), tip = P(cx, cy, TR - w / 2, sh.a);
+    var s = seg(hand, tip, F.line, 15) + seg(hand, tip, F.stick, 8);
+    s += '<path d="' + arc(cx, cy, TR, sh.a - 35, sh.a + 35) + '" stroke="' + F.line + '" stroke-width="' + (w + 10) + '" fill="none" stroke-linecap="round"/>';
+    s += '<path d="' + arc(cx, cy, TR, sh.a - 35, sh.a + 35) + '" stroke="' + sh.col + '" stroke-width="' + w + '" fill="none" stroke-linecap="round"/>';
+    s += '<path d="' + arc(cx, cy, TR, sh.a - 11.7, sh.a + 11.7) + '" stroke="' + sh.hi + '" stroke-width="' + w + '" fill="none"/>';
+    return s;
+  }
+  // a cartoon cannonball: iron with a faded-red rim while incoming, smoke puffs behind it
+  function cannonball(cx, cy, Rw, bl, k) {
+    var s = '', p = P(cx, cy, bl.d, bl.a);
+    for (var i = 1; i <= 4; i++) {
+      var dd = bl.d + (bl.out ? -1 : 1) * i * 42 * k;
+      if (!bl.out && dd > Rw + 30 * k) break;
+      s += circ(P(cx, cy, dd, bl.a), (25 - 4 * i) * k, F.smoke, { op: r1(.62 - .12 * i) });
+    }
+    s += circ(p, 28 * k, F.iron, { stroke: bl.out ? F.tan : F.red, sw: 6 });
+    s += circ([p[0] - 9 * k, p[1] - 9 * k], 7 * k, '#6B5A4A');
+    return s;
+  }
+  function namePill(x, y, name, o) { o = o || {}; return pill(x, y, name, { size: o.size || 40, k: .6, fam: SLAB, weight: 700, bg: 'rgba(23,17,13,.88)', stroke: o.stroke || F.tan, sw: o.sw || 3, fg: F.cream, pad: 22 }); }
+  function bubbles(cx, y, left, k, sp, op) {
+    k = k || 1; sp = sp || 112;
     var s = '<g' + (op != null ? ' opacity="' + op + '"' : '') + '>';
     for (var i = 0; i < 3; i++) {
       var x = cx + (i - 1) * sp;
-      if (i < 3 - used) s += '<circle cx="' + x + '" cy="' + y + '" r="' + 34 * k + '" fill="' + C.mint + '" filter="url(#glow)"/>';
-      else s += '<circle cx="' + x + '" cy="' + y + '" r="' + 32 * k + '" fill="' + C.raised + '" stroke="' + C.live + '" stroke-width="6"/><path d="M' + r1(x - 14 * k) + ' ' + r1(y - 20 * k) + 'l' + 10 * k + ' ' + 14 * k + 'l' + -8 * k + ' ' + 8 * k + 'l' + 14 * k + ' ' + 18 * k + '" stroke="' + C.live + '" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+      if (i < left) s += circ([x, y], 32 * k, F.bubble, { op: .7 }) + circ([x, y], 32 * k, 'none', { stroke: F.cream, sw: 4 }) + '<ellipse cx="' + r1(x - 11 * k) + '" cy="' + r1(y - 11 * k) + '" rx="' + r1(8 * k) + '" ry="' + r1(5 * k) + '" transform="rotate(-40 ' + r1(x - 11 * k) + ' ' + r1(y - 11 * k) + ')" fill="' + F.cream + '" opacity=".8"/>';
+      else s += circ([x, y], 32 * k, 'none', { stroke: F.tan, sw: 4, dash: '7 7', op: .6 });
     }
     return s + '</g>';
   }
-  function ringward(o) {
-    var cx = 540, cy = o.cy || 960, R = o.R || 490, TR = Math.round(R * 0.48), s = '';
-    if (o.overdrive) s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R + 70) + '" fill="url(#gRim)"/>';
-    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + C.surface + '" stroke="' + (o.overdrive ? C.live : C.border) + '" stroke-width="' + (o.overdrive ? 12 : 8) + '"' + (o.overdrive ? ' filter="url(#glow)"' : '') + '/>';
-    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + TR + '" fill="none" stroke="' + C.raised + '" stroke-width="3"/>';
-    for (var i = 0; i < 12; i++) {
-      var a = P(cx, cy, R - 34, i * 30), b = P(cx, cy, R - 6, i * 30);
-      s += '<line x1="' + r1(a[0]) + '" y1="' + r1(a[1]) + '" x2="' + r1(b[0]) + '" y2="' + r1(b[1]) + '" stroke="' + C.muted + '" stroke-opacity=".35" stroke-width="8" stroke-linecap="round"/>';
-    }
+  function bonkBurst(x, y, sc) {
+    return '<path d="' + starPath(x, y, 95 * sc) + '" fill="' + F.cream + '" stroke="' + F.line + '" stroke-width="4" opacity=".95"/>' + OT(x, y + 22 * sc, Math.round(62 * sc), 'BONK!', F.red, -8);
+  }
+  // one moment of play: o = { cy, R, frenzy, bonks, fishes:[{x,y,sc,face,flower}], shields:[{a,col,hi,label,fg}], balls:[{a,d,out,name,dx,dy}], warns:[{a,name}], pops:[{x,y,txt,small}] }
+  function rwScene(o) {
+    var cx = 540, cy = o.cy || 960, R = o.R || 495, k = R / 495, Rw = R - Math.round(50 * k), TR = Math.round(Rw * .52), s = '';
+    s += barrel(cx, cy, R, o.frenzy);
     (o.warns || []).forEach(function (w) {
-      var wc = o.overdrive ? '#FFFFFF' : C.live;
-      s += '<path d="' + arc(cx, cy, R, w.a - 9, w.a + 9) + '" stroke="' + wc + '" stroke-width="24" fill="none" stroke-linecap="round" filter="url(#glowBig)"/>';
-      if (w.name) { var p = P(cx, cy, R - 160, w.a); s += pill(p[0], p[1], w.name, { size: 40, k: 0.56, stroke: wc, sw: 4 }); }
+      var col = o.frenzy ? F.cream : F.red, p = P(cx, cy, (R + Rw) / 2, w.a);
+      s += circ(p, 38 * k, 'rgba(210,72,60,.3)', { stroke: col, sw: 9, filter: 'glowBig' }) + circ(p, 20 * k, 'none', { stroke: col, sw: 4, op: .7 });
     });
-    (o.shards || []).forEach(function (sh) { var p = P(cx, cy, sh.d, sh.a); s += shard(p[0], p[1], sh.a, sh.out, sh.out ? 176 : Math.min(176, R - sh.d - 20)); });
-    (o.shields || []).forEach(function (sd) {
-      s += shieldArc(cx, cy, TR, sd.a, sd.col, sd.hi, Math.round(44 * Math.max(R / 490, .8)));
-      if (sd.label) { var p = P(cx, cy, TR + 92, sd.a); s += pill(p[0], p[1], sd.label, { size: 40, k: 0.56, bg: sd.col, fg: sd.fg || C.text }); }
+    (o.balls || []).forEach(function (bl) { s += cannonball(cx, cy, Rw, bl, k); });
+    var fishes = o.fishes || [{ x: cx, y: cy, sc: 1.45 * k }];
+    (o.shields || []).forEach(function (sh, i) {
+      var f = fishes[Math.min(i, fishes.length - 1)];
+      s += shieldOnStick(f.x, f.y, f.sc, cx, cy, TR, sh);
     });
-    s += core(cx, cy, Math.round(R * 0.276), o.time, o.cracks || 0, { dim: o.dimCore });
-    // name pills last, so nothing in the arena clips them
-    (o.shards || []).forEach(function (sh) {
-      if (!sh.name) return;
-      var p = P(cx, cy, sh.d, sh.a);
-      s += pill(p[0] + (sh.dx || 0), p[1] + (sh.dy == null ? 72 : sh.dy), sh.name, { size: 40, k: 0.56, stroke: C.border });
+    fishes.forEach(function (f, i) {
+      var sh = (o.shields || [])[i];
+      s += fish(f.x, f.y, f.sc, { dizzy: o.dizzy, bonks: f.bonks != null ? f.bonks : o.bonks, face: f.face || (sh && Math.sin(sh.a * Math.PI / 180) < 0 ? -1 : 1), flower: f.flower });
     });
-
+    (o.shields || []).forEach(function (sh) {
+      if (sh.label) { var p = P(cx, cy, TR + 96 * k, sh.a); s += pill(p[0], p[1], sh.label, { size: 40, k: .6, fam: SLAB, bg: sh.col, fg: sh.fg || F.cream, stroke: F.line, sw: 4 }); }
+    });
+    (o.balls || []).forEach(function (bl) {
+      if (!bl.name) return;
+      var p = P(cx, cy, bl.d, bl.a);
+      s += namePill(p[0] + (bl.dx || 0), p[1] + (bl.dy == null ? 72 * k : bl.dy), bl.name);
+    });
+    (o.warns || []).forEach(function (w) { if (w.name) { var p = P(cx, cy, R - 170 * k, w.a); s += namePill(p[0], p[1], w.name, { stroke: o.frenzy ? F.cream : F.red, sw: 4 }); } });
     (o.pops || []).forEach(function (p) {
-      if (p.small) s += T(p.x, p.y - 62, 40, p.small, { fill: C.mint, ls: 3 });
-      s += T(p.x, p.y, 64, p.txt, { fill: C.mint });
+      if (p.small) s += OT(p.x, p.y - 60, 40, p.small, F.bubble);
+      s += OT(p.x, p.y, 64, p.txt, F.bubble);
     });
-    if (o.overdrive) s += pill(cx, cy - R + 112, 'OVERDRIVE', { size: 46, fam: DISPLAY, ls: 6, k: 0.72, bg: C.live, pad: 30 });
+    if (o.frenzy) s += pill(cx, cy - R + 88, 'FRENZY!', { size: 52, fam: SLAB, ls: 4, k: .7, bg: F.red, fg: F.cream, stroke: F.line, sw: 5, pad: 30 });
     return s;
   }
+  // HUD per design.md: time, score and multiplier above the barrel; bubbles (lives) below; one status line
   function rwHud(o) {
-    var s = T(540, 410, 170, o.score);
-    if (o.mult) s += pill(905, 360, o.mult, { size: 60, fam: DISPLAY, fg: C.mint, bg: 'rgba(46,242,195,.14)', stroke: 'rgba(46,242,195,.5)', pad: 22, k: 0.62 });
-    s += pips(540, 1560, o.cracks || 0);
-    if (o.status) s += T(540, 1672, 46, o.status, { fill: C.muted, ls: 2, fam: UI });
+    var s = ST(540, 410, 170, o.score);
+    s += ST(62, 400, 72, o.time, { a: 'start', fill: F.tan });
+    if (o.mult) s += pill(925, 362, o.mult, { size: 56, fam: SLAB, fg: F.bubble, bg: 'rgba(23,17,13,.88)', stroke: F.bubble, pad: 20, k: .62 });
+    s += bubbles(540, 1560, 3 - (o.bonks || 0));
+    if (o.status) s += ST(540, 1672, 46, o.status, { fill: F.tan });
     return s;
   }
   // proposal: the same HUD fitted into the band the feed overlay leaves clear (y 280-1140)
   function rwHudFit(o) {
-    var s = T(540, 392, 130, o.score);
-    s += pill(215, 345, o.mult, { size: 56, fam: DISPLAY, fg: C.mint, bg: 'rgba(46,242,195,.14)', stroke: 'rgba(46,242,195,.5)', pad: 22, k: 0.62 });
-    s += pips(882, 345, o.cracks || 0, null, 84, .9);
-    s += T(540, 440, 40, o.status, { fill: C.muted, ls: 2, fam: UI });
+    var s = ST(540, 392, 130, o.score);
+    s += ST(62, 384, 60, o.time, { a: 'start', fill: F.tan });
+    s += bubbles(886, 350, 3 - (o.bonks || 0), .78, 76);
+    s += ST(540, 440, 40, o.status, { fill: F.tan });
     return s;
   }
+  // a full-width band with double rules, like the greybox's title and result cards
+  function band(y0, y1, inner) {
+    return '<rect x="0" y="' + y0 + '" width="1080" height="' + (y1 - y0) + '" fill="rgba(23,17,13,.9)"/>' +
+      [y0 + 12, y0 + 22, y1 - 22, y1 - 12].map(function (y) { return '<line x1="30" y1="' + y + '" x2="1050" y2="' + y + '" stroke="' + F.tan + '" stroke-width="3" opacity=".8"/>'; }).join('') + inner;
+  }
+  function vbutton(x, y, txt) { return pill(x, y, txt, { size: 46, fam: SLAB, bg: F.cream, fg: F.ink, stroke: F.line, sw: 5, pad: 44, h: 104, k: .62, ls: 2 }); }
   function card(y0, y1, inner, edge) {
     return '<rect x="70" y="' + y0 + '" width="940" height="' + (y1 - y0) + '" rx="40" fill="rgba(22,22,31,.95)" stroke="' + (edge || C.border) + '" stroke-width="4"/>' + inner;
   }
@@ -755,62 +911,77 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
   // ---------------------------------------------------------------- scenes
   var SCENES = {
     'rw-mid': function () {
-      return ringward({ time: '1:08', cracks: 1,
-        shields: [{ a: 350, col: C.primary, hi: '#B9A8FF' }],
-        shards: [{ a: 320, d: 470, out: true }, { a: 90, d: 370, name: 'pixelpilot', dx: -60 }],
+      return backdrop() + rwScene({ bonks: 1,
+        shields: [{ a: 350, col: F.p1, hi: F.p1hi }],
+        balls: [{ a: 320, d: 470, out: true }, { a: 90, d: 370, name: 'pixelpilot', dx: -60 }],
         warns: [{ a: 210, name: 'mintmoth' }],
         pops: [{ x: 250, y: 840, txt: '+100', small: 'PERFECT' }] }) +
-        rwHud({ score: '2,900', mult: '×4', cracks: 1, status: 'RAID ON · 12 raiding' });
+        rwHud({ score: '2,900', time: '1:08', mult: '×4', bonks: 1, status: '12 throwing' }) + film();
     },
     'rw-fit': function () {
-      return ringward({ cy: 800, R: 340, time: '1:08', cracks: 1,
-        shields: [{ a: 350, col: C.primary, hi: '#B9A8FF' }],
-        shards: [{ a: 320, d: 330, out: true }, { a: 90, d: 255, name: 'pixelpilot', dx: -60, dy: -60 }],
+      return backdrop() + rwScene({ cy: 800, R: 340, bonks: 1,
+        shields: [{ a: 350, col: F.p1, hi: F.p1hi }],
+        balls: [{ a: 320, d: 330, out: true }, { a: 90, d: 255, name: 'pixelpilot', dx: -60, dy: -60 }],
         warns: [{ a: 210, name: 'mintmoth' }],
-        pops: [{ x: 295, y: 765, txt: '+100', small: 'PERFECT' }] }) +
-        rwHudFit({ score: '2,900', mult: '×4', cracks: 1, status: 'RAID ON · 12 raiding' });
+        pops: [{ x: 300, y: 770, txt: '+100', small: 'PERFECT' }] }) +
+        rwHudFit({ score: '2,900', time: '1:08', bonks: 1, status: '×4 · 12 throwing' }) + film();
     },
     'rw-raid': function () {
-      return ringward({ time: '0:14', cracks: 2, overdrive: true,
-        shields: [{ a: 337, col: C.primary, hi: '#B9A8FF' }],
-        shards: [{ a: 330, d: 270, name: 'quillfire', dx: -150, dy: -80 }, { a: 150, d: 488, name: 'combo_king', dx: -60, dy: -70 }, { a: 30, d: 470, out: true }],
+      return backdrop() + rwScene({ bonks: 2, frenzy: true,
+        shields: [{ a: 337, col: F.p1, hi: F.p1hi }],
+        balls: [{ a: 330, d: 270, name: 'quillfire', dx: -150, dy: -80 }, { a: 150, d: 488, name: 'combo_king', dx: -60, dy: -70 }, { a: 30, d: 470, out: true }],
         warns: [{ a: 90, name: 'blockhead' }],
         pops: [{ x: 840, y: 725, txt: '+125', small: 'PERFECT' }] }) +
-        rwHud({ score: '9,240', mult: '×5', cracks: 2, status: 'OVERDRIVE · 38 raiding · 8 queued' });
+        rwHud({ score: '9,240', time: '0:14', mult: '×5', bonks: 2, status: 'FRENZY! · 38 throwing · 8 queued' }) + film(true);
     },
     'rw-duo': function () {
-      return ringward({ time: '1:31', cracks: 0,
-        shields: [{ a: 300, col: C.primary, hi: '#B9A8FF', label: 'P1 nova' }, { a: 95, col: '#E8E8F0', hi: '#FFFFFF', label: 'P2 kai', fg: C.bg }],
-        shards: [{ a: 330, d: 260, name: 'pixelpilot', dy: -70 }, { a: 180, d: 470, name: 'tidepool', dx: 60, dy: -70 }, { a: 100, d: 470, out: true }],
-        pops: [{ x: 870, y: 900, txt: '+125', small: 'PERFECT' }] }) +
-        rwHud({ score: '1,900', mult: '×5', cracks: 0, status: 'DUO · nova + kai · 9 raiding' });
+      return backdrop() + rwScene({ bonks: 0,
+        fishes: [{ x: 466, y: 917, sc: .78, flower: 'hib', bonks: 0 }, { x: 625, y: 967, sc: .78, flower: 'plum', bonks: 1 }],
+        shields: [{ a: 300, col: F.p1, hi: F.p1hi, label: 'P1 nova' }, { a: 95, col: F.p2, hi: F.p2hi, label: 'P2 kai', fg: F.ink }],
+        balls: [{ a: 330, d: 260, name: 'pixelpilot', dy: -70 }, { a: 180, d: 470, name: 'tidepool', dx: 60, dy: -70 }, { a: 100, d: 470, out: true }],
+        pops: [{ x: 870, y: 900, txt: '+75', small: 'PERFECT' }] }) +
+        rwHud({ score: '1,040', time: '1:31', mult: '×3', bonks: 1, status: 'DUO · nova + kai · 9 throwing' }) + film();
     },
     'rw-start': function () {
-      return T(540, 395, 130, 'RINGWARD', { ls: 10 }) + T(540, 470, 48, 'Keep the core alive for 2:00', { fill: C.muted, fam: UI, w: 600 }) +
-        T(540, 545, 44, 'Raids on · raid when the round starts', { fill: C.mint, fam: UI, w: 700 }) +
-        ringward({ cy: 860, R: 270, time: '2:00', shields: [{ a: 0, col: C.primary, hi: '#B9A8FF' }], warns: [] }) +
-        T(540, 1250, 46, 'Turn the shield: mouse or A / D', { fam: UI, w: 700 }) +
-        button(540, 1390, 'SPACE OR CLICK TO START') +
-        T(540, 1520, 40, 'Best 7,960 · duo: invite link on your dashboard', { fill: C.muted, fam: UI, w: 600 });
+      return backdrop() + '<g opacity=".5">' + barrel(540, 960, 495) + '</g>' +
+        band(330, 1135, OT(540, 480, 140, 'RINGWARD', F.cream) + ST(540, 555, 50, '~ fish in a barrel ~', { fill: F.bubble, w: 400 }) +
+          shieldOnStick(540, 790, 1.1, 540, 790, 150, { a: 50, col: F.p1, hi: F.p1hi }) + fish(540, 790, 1.1, { face: 1 }) +
+          ST(540, 975, 50, 'Keep your fish safe for 2:00') + ST(540, 1050, 44, 'Raids on · fire when the round starts', { fill: F.bubble })) +
+        ST(540, 1250, 46, 'Mouse or A / D to swing the shield') + vbutton(540, 1390, 'CLICK OR SPACE TO START') +
+        ST(540, 1520, 40, 'Best 7,960 · duo invite on your dashboard', { fill: F.tan }) + film();
     },
     'rw-held': function () {
-      return '<g opacity=".3">' + ringward({ time: '0:00', cracks: 1, shields: [{ a: 200, col: C.primary, hi: '#B9A8FF' }] }) + '</g>' + T(540, 410, 170, '9,860') +
-        card(470, 1135, T(540, 600, 116, 'CORE HELD', { fill: C.mint, ls: 4 }) +
-          T(540, 675, 46, '+500 core bonus · 2 pips left', { fill: C.muted, fam: UI, w: 600 }) +
-          T(540, 775, 54, 'Beat 14 raiders', { fam: UI, w: 800 }) + T(540, 845, 44, '162 blocked · 41 perfect · best ×5', { fill: C.muted, fam: UI, w: 600 }) +
-          pill(540, 945, 'NEW BEST', { size: 40, fam: UI, fg: C.bg, bg: C.mint, ls: 4, k: 0.68 }) +
-          T(540, 1080, 40, 'Space or click to play again', { fill: C.muted, fam: UI, w: 600 }), 'rgba(46,242,195,.5)') +
-        pips(540, 1560, 1, .3);
+      return backdrop() + rwScene({ bonks: 1, shields: [{ a: 60, col: F.p1, hi: F.p1hi }] }) + ST(540, 410, 170, '9,860') +
+        band(1090, 1450, OT(540, 1190, 96, 'STILL SWIMMING', F.bubble) +
+          ST(540, 1258, 44, '+500 bubble bonus · beat 14 throwers') +
+          ST(540, 1318, 42, '162 blocked · 41 perfect · best ×5', { fill: F.tan }) +
+          pill(540, 1392, 'NEW BEST', { size: 40, fam: SLAB, fg: F.ink, bg: F.bubble, stroke: F.line, sw: 4, ls: 3, k: .66 })) +
+        ST(540, 1515, 40, 'Click or Space to play again', { fill: F.tan }) + bubbles(540, 1600, 2, 1, 112, .6) + film();
     },
     'rw-vwin': function () {
-      return '<g opacity=".3">' + ringward({ time: '0:26', cracks: 3, dimCore: true, shields: [{ a: 80, col: C.primary, hi: '#B9A8FF' }] }) + '</g>' + T(540, 410, 170, '4,480') +
-        card(470, 1140, T(540, 590, 112, 'VIEWERS WIN', { fill: C.live, ls: 4 }) +
-          T(540, 665, 46, 'Core broken by', { fill: C.muted, fam: UI, w: 600 }) +
-          pill(540, 760, 'combo_king', { size: 72, k: 0.56, bg: 'rgba(255,59,92,.2)', stroke: C.live, sw: 5, pad: 40 }) +
-          T(540, 880, 44, '104 blocked · 21 raiders · survived 1:34', { fam: UI, w: 700 }) +
-          T(540, 945, 42, 'Cracks: combo_king 2 · lagwizard 1', { fill: C.muted, fam: UI, w: 600 }) +
-          T(540, 1080, 40, 'Space or click to play again', { fill: C.muted, fam: UI, w: 600 }), C.live) +
-        pips(540, 1560, 3, .5);
+      return backdrop() + rwScene({ bonks: 3, dizzy: true, shields: [{ a: 250, col: F.p1, hi: F.p1hi }] }) + ST(540, 410, 170, '4,480') +
+        band(1090, 1450, OT(540, 1190, 104, 'VIEWERS WIN', F.red) +
+          ST(540, 1262, 50, 'Final bonk by combo_king') +
+          ST(540, 1325, 42, '104 blocked · 21 throwers · lasted 1:34', { fill: F.tan }) +
+          ST(540, 1385, 40, 'Bonks: combo_king 2 · lagwizard 1', { fill: F.tan })) +
+        ST(540, 1515, 40, 'Click or Space to play again', { fill: F.tan }) + bubbles(540, 1600, 0, 1, 112, .6) + film();
+    },
+    'rw-dizzy': function () {
+      return backdrop() + rwScene({ bonks: 3, dizzy: true, shields: [{ a: 110, col: F.p1, hi: F.p1hi }] }) + ST(540, 410, 170, '2,610') +
+        band(1090, 1450, OT(540, 1205, 120, 'DIZZY!', F.red) +
+          ST(540, 1280, 48, 'Lasted 1:12') + ST(540, 1345, 42, '75 blocked · 18 perfect · best ×4', { fill: F.tan }) +
+          ST(540, 1400, 40, 'Best 7,960', { fill: F.tan })) +
+        ST(540, 1515, 40, 'Click or Space to play again', { fill: F.tan }) + bubbles(540, 1600, 0, 1, 112, .6) + film();
+    },
+    'rw-damage': function () {
+      var s = backdrop() + OT(540, 260, 84, 'BONK BY BONK', F.cream);
+      [[0, 'No bonks', 'clean', 'five petals'], [1, '1 bonk', 'bruise, crossed band-aid', 'bump, sweat drop'], [2, '2 bonks', 'black eye, droopy lid', 'bruise, head band-aid, star'], [3, '3 bonks: DIZZY!', 'bruise, cheek band-aid', 'spiral eye, three stars']].forEach(function (p, i) {
+        var y = 470 + i * 360;
+        s += barrel(250, y, 165) + fish(250, y + 6, .95, { bonks: p[0], dizzy: p[0] === 3, face: 1 });
+        if (p[0] === 1) s += bonkBurst(355, y - 110, .55);
+        s += ST(460, y - 30, 54, p[1], { a: 'start' }) + ST(460, y + 30, 40, p[2], { a: 'start', fill: F.tan }) + ST(460, y + 80, 40, p[3], { a: 'start', fill: F.tan });
+      });
+      return s + ST(540, 1830, 40, 'Slapstick only: no blood or gore', { fill: F.tan }) + film();
     },
     'hc-mid': function () {
       return hotcore({ charge: .70, holdTxt: 'HOLDING 3.2 s', risk: '+1,350', riskLbl: 'AT RISK', flicker: [[38, 6, 5, .55], [212, 5, 5, .45]] }) +
@@ -876,14 +1047,14 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
 
   // ---------------------------------------------------------------- feed phones (overlay as in wireframe W1)
   var FEEDS = {
-    rw: { scene: 'rw-mid', raid: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: C.mint, title: 'Raid me: can 30 of you break the core?',
-      chat: [['scroller', 'how do i raid?'], ['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'core is cracking lol']],
+    rw: { scene: 'rw-mid', raid: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: '#E98A3C', title: 'Fire away: can 30 of you make the fish dizzy?',
+      chat: [['scroller', 'how do i raid?'], ['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'poor fish lol']],
       marks: [[1, 170, 22, ''], [2, 316, 323, ''], [3, 470, 196, 'r'], [4, 556, 246, 'r']] },
-    rwfit: { scene: 'rw-fit', raid: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: C.mint, title: 'Raid me: can 30 of you break the core?',
-      chat: [['scroller', 'how do i raid?'], ['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'core is cracking lol']],
-      marks: [[1, 190, 24, ''], [2, 168, 300, ''], [3, 350, 215, '']] },
-    rwq: { scene: 'rw-mid', raid: true, cool: true, strip: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: C.mint, title: 'Raid me: can 30 of you break the core?',
-      chat: [['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'core is cracking lol'], ['scroller', 'launched one!']],
+    rwfit: { scene: 'rw-fit', raid: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: '#E98A3C', title: 'Fire away: can 30 of you make the fish dizzy?',
+      chat: [['scroller', 'how do i raid?'], ['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'poor fish lol']],
+      marks: [[1, 190, 24, ''], [2, 170, 300, ''], [3, 350, 215, '']] },
+    rwq: { scene: 'rw-mid', raid: true, cool: true, strip: true, viewers: '1.2K', hearts: '3.4K', name: 'nova', av: '#7C5CFF', game: 'Ringward', color: '#E98A3C', title: 'Fire away: can 30 of you make the fish dizzy?',
+      chat: [['kartqueen', 'PERFECT'], ['mintmoth', "7 o'clock is mine"], ['combo_king', 'poor fish lol'], ['scroller', 'fired one!']],
       marks: [[1, 632, 280, ''], [2, 316, 323, '']] },
     hc: { scene: 'hc-mid', viewers: '318', hearts: '902', name: 'emberline', av: '#FF3B5C', game: 'Hot Core', color: C.live, title: 'Never banking under 3k. Chat decides.',
       chat: [['tidepool', 'is it gonna blow??'], ['scroller', 'what does at risk mean'], ['kartqueen', 'BANK IT'], ['blockhead', 'BANK IT NOW']],
@@ -897,13 +1068,13 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
       '<div class="toggle"><span>Following</span><b>For You</b></div>' +
       '<div class="top-left" style="top:100px"><span class="live">LIVE</span><span class="vc">◉ ' + f.viewers + '</span></div>' +
       '<div class="rail" style="top:' + (f.raid ? 350 : 430) + 'px">' +
-      (f.raid ? '<div class="rb raid' + (f.cool ? ' cool' : '') + '"><i>' + (f.cool ? '<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="none" stroke="#2A2A38" stroke-width="4"/><path d="' + arc(20, 20, 16, 0, 180) + '" fill="none" stroke="#7C5CFF" stroke-width="4" stroke-linecap="round"/><circle cx="20" cy="20" r="5" fill="#2EF2C3"/></svg>' : '<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="11" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="14" cy="14" r="4" fill="#2EF2C3"/><path d="M14 0L17 7L14 9L11 7Z" fill="#FF3B5C"/></svg>') + '</i>Raid</div>' : '') +
+      (f.raid ? '<div class="rb raid' + (f.cool ? ' cool' : '') + '"><i>' + (f.cool ? '<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="none" stroke="#2A2A38" stroke-width="4"/><path d="' + arc(20, 20, 16, 0, 180) + '" fill="none" stroke="#7C5CFF" stroke-width="4" stroke-linecap="round"/><circle cx="20" cy="20" r="6" fill="#1A1410" stroke="#D2483C" stroke-width="2"/></svg>' : '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><path d="M21 9q3 -4 6 -4" stroke="#E9DCC0" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M28 1l1.2 2.6 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4z" fill="#E3B04B"/><circle cx="14" cy="18" r="11" fill="#1A1410" stroke="#fff" stroke-width="2.5"/><circle cx="10" cy="14" r="3" fill="#6B5A4A"/></svg>') + '</i>Raid</div>' : '') +
       '<div class="rb"><span class="av" style="background:' + f.av + ';color:' + (f.av === C.mint ? C.bg : C.text) + '">' + f.name[0].toUpperCase() + '</span><span class="follow">+</span></div>' +
       '<div class="rb"><i>♥</i>' + f.hearts + '</div><div class="rb"><i>↗</i>Share</div><div class="rb"><i>⋯</i></div></div>' +
       '<div class="chatov" style="top:436px">' + f.chat.map(function (m, i) { return '<div class="msg" style="opacity:' + [.35, .6, .85, 1][i] + '"><b>' + m[0] + '</b>' + m[1] + '</div>'; }).join('') + '</div>' +
       '<div class="meta" style="top:590px"><div class="flex"><span class="av" style="background:' + f.av + ';color:' + (f.av === C.mint ? C.bg : C.text) + '">' + f.name[0].toUpperCase() + '</span><b>' + f.name + '</b><span class="chip" style="--c:' + f.color + '">' + f.game + '</span></div>' +
       '<div class="sm" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + f.title + '</div></div>' +
-      (f.strip ? '<div class="rstrip" style="top:668px"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="4"/><path d="' + arc(16, 16, 12, 0, 180) + '" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg><div><b>Your shard is queued</b><div style="font-size:12.5px;font-weight:600">next one in 2 s</div></div><span class="go">Raid ▴</span></div>'
+      (f.strip ? '<div class="rstrip" style="top:668px"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="4"/><path d="' + arc(16, 16, 12, 0, 180) + '" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg><div style="white-space:nowrap"><b>Queued</b> · next in 2 s</div><span class="go" style="white-space:nowrap">Raid ▴</span></div>'
         : '<div class="chatin" style="top:670px">Say something…</div>');
     f.marks.forEach(function (m) { h += '<span class="m' + (m[3] ? ' ' + m[3] : '') + '" style="top:' + m[1] + 'px;left:' + m[2] + 'px">' + m[0] + '</span>'; });
     return h;
@@ -920,7 +1091,7 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
   document.querySelectorAll('.phone.feed').forEach(function (p) { p.innerHTML = feedHtml(FEEDS[p.getAttribute('data-feed')]); });
   document.querySelectorAll('.phone .stream[data-scene]').forEach(function (d) { d.innerHTML = svgFor(d.getAttribute('data-scene'), true, false); });
   document.querySelectorAll('.cv[data-scene]').forEach(function (d) {
-    var html = svgFor(d.getAttribute('data-scene'), d.getAttribute('data-rail') === '5', true);
+    var html = svgFor(d.getAttribute('data-scene'), d.getAttribute('data-rail') === '5', !d.hasAttribute('data-nozones'));
     JSON.parse(d.getAttribute('data-marks') || '[]').forEach(function (m) {
       html += '<span class="m' + (m[3] ? ' ' + m[3] : '') + '" style="left:' + r1(m[1] / 10.8) + '%;top:' + r1(m[2] / 19.2) + '%">' + m[0] + '</span>';
     });
@@ -930,14 +1101,13 @@ ol.notes li.risk::before{background:var(--live);color:#fff}
   // Raid sheet ring: 12 slots, 44 pt each, same layout as the rim ticks
   document.querySelectorAll('.phone').forEach(chrome);
   document.querySelectorAll('[data-ring]').forEach(function (ring) {
-    var h = '<svg class="mid" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="150" r="122" fill="none" stroke="#2A2A38" stroke-width="2"/><circle cx="150" cy="150" r="74" fill="#0B0B12" stroke="#2A2A38" stroke-width="2"/>' +
-      '<circle cx="150" cy="150" r="30" fill="#2EF2C3"/><circle cx="150" cy="150" r="46" fill="none" stroke="#20202C" stroke-width="7"/>' +
-      '<path d="' + arc(150, 150, 46, 0, 20) + '" fill="none" stroke="#7C5CFF" stroke-width="7" stroke-linecap="round"/>' +
-      '<text x="150" y="157" text-anchor="middle" font-size="18" font-weight="800" fill="#0B0B12" font-family="' + UI + '">4 s</text>' +
-      '<text x="150" y="214" text-anchor="middle" font-size="12" font-weight="700" fill="#A1A1B5" font-family="' + UI + '">NEXT SHARD</text></svg>';
+    var h = '<svg class="mid" viewBox="0 0 300 300" aria-hidden="true">' + barrel(150, 150, 140) + fish(150, 150, .36, { bonks: 1, face: 1 }) +
+      '<circle cx="150" cy="150" r="66" fill="none" stroke="#20202C" stroke-width="7" opacity=".85"/>' +
+      '<path d="' + arc(150, 150, 66, 0, 20) + '" fill="none" stroke="#7C5CFF" stroke-width="7" stroke-linecap="round"/>' +
+      '<rect x="104" y="208" width="92" height="22" rx="11" fill="rgba(11,11,18,.8)"/><text x="150" y="224" text-anchor="middle" font-size="12.5" font-weight="800" fill="#FFFFFF" font-family="' + UI + '">NEXT SHOT 4 s</text></svg>';
     for (var i = 0; i < 12; i++) {
-      var p = P(150, 150, 122, i * 30), cls = 'slot' + (i === 4 ? ' me' : '');
-      h += '<span class="' + cls + '" style="left:' + r1(p[0]) + 'px;top:' + r1(p[1]) + 'px"' + (i === 4 ? '><svg width="20" height="20" viewBox="-10 -10 20 20" transform="rotate(120)"><path d="M0 9L6 0L0 -7L-6 0Z" fill="#fff"/></svg></span>' : '></span>');
+      var p = P(150, 150, 127, i * 30), cls = 'slot' + (i === 4 ? ' me' : '');
+      h += '<span class="' + cls + '" style="left:' + r1(p[0]) + 'px;top:' + r1(p[1]) + 'px"' + (i === 4 ? '><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#1A1410" stroke="#fff" stroke-width="2"/></svg></span>' : '></span>');
     }
     ring.innerHTML = h;
   });
