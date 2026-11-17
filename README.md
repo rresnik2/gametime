@@ -34,7 +34,7 @@ include (video playback, for example), switch to a development build with
 | `npm run build:web` | Static web export to `dist/` |
 | `npm run icons` | Regenerate the app icons, splash and favicon from `assets/brand/mark.svg` |
 | `scripts/create-backlog-issues.sh` | Validate `docs/backlog.md` and preview its GitHub issues; `--apply` files tickets that don't have an issue yet (public repo: ask the project lead first) |
-| `npm run game` | Install and run the original game, Ringward (separate from the app) |
+| `npm run game` | Install and run the original game, Ringward: fish in a barrel (separate from the app) |
 
 CI runs lint, typecheck, tests and the web build on every pull request
 ([.github/workflows/ci.yml](.github/workflows/ci.yml)), plus a separate job that tests and
@@ -124,8 +124,8 @@ assets/
 └─ images/                 # icon, Android adaptive layers, splash, favicon (generated)
 scripts/generate-icons.mjs # npm run icons
 games/
-├─ ringward/               # recommended original game: greybox (Vite + TypeScript, own package.json)
-└─ the-biosphere-realm/    # earlier candidate (static page, separate from the app)
+├─ ringward/               # the MVP game, fish in a barrel: greybox (Vite + TypeScript, own package.json)
+└─ the-biosphere-realm/    # not picked; a regular game (static page, separate from the app)
 docs/
 ├─ decisions/              # one record per decision
 └─ wireframes/index.html   # low-fi wireframes for every MVP screen (self-contained)
@@ -152,8 +152,8 @@ Games are standalone web builds, kept out of the Expo app's build, lint, typeche
 
 ### Deploying the game to Vercel (not set up yet)
 
-The game gets its own Vercel project so a game bug can't break the app's deploys. When the
-concept is picked, create it once in the Vercel dashboard (Add New → Project → import
+The game gets its own Vercel project so a game bug can't break the app's deploys. The game is
+picked (decision 009); create the project once in the Vercel dashboard (Add New → Project → import
 `rresnik2/gametime` again) with:
 
 | Setting | Value |
