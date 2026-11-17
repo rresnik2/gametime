@@ -53,7 +53,8 @@ Viewers watch the stream a few seconds behind the host (D1: about 2–5 s in low
 - **Risk:** if D1 picks standard latency, raids feel sluggish. Prefer the low-latency mode.
 
 ## Duo partner
-- The host's Go Live dashboard shows an invite link; the partner opens it signed in.
+- The host panel on the game page makes an invite link; the partner opens it signed in. (No app
+  change needed: host and partner are both at a desktop.)
 - The partner sends input at 30 Hz; the host simulates and sends compact state at 20 Hz
   (two shield angles, at most ~10 shards, score, cracks, timer: well under 1 KB).
 - The partner's own shield is predicted locally so it feels instant; shards are interpolated.
@@ -71,14 +72,14 @@ bottom sheet: the 12-slot ring (same layout as the rim ticks in the game), a coo
 - The host signs in on the game page with their GameTime account; the page finds their live
   stream (`streams.status = 'live'`, `game_id` = Ringward) to name the channels. Offline or
   signed out, solo and local duo still work.
-- Streamer controls: raids on/off, kick partner.
+- Streamer controls, on the game page's host panel (kept out of the capture): raids on/off, remove the partner.
 
 ## Who builds what (keeps the game owner near 6 weeks)
 | Work | Owner | When |
 |---|---|---|
-| Full game loop, host networking, partner client | F (game) | Weeks 3–5 |
-| `ringward-launch` Edge Function, Realtime policies + RLS tests, a `game_sessions` row (stream, host, partner) | C (backend) | Weeks 4–6 |
-| Raid button and bottom sheet in the app | B (app) | Weeks 6–7 |
+| Full game loop (P2-GAME-02), host sign-in (P2-GAME-06), raids on the host (P2-GAME-07), online duo (P2-GAME-08) | F (game) | Weeks 3–5 |
+| `game_sessions` and Realtime policies with RLS tests (P2-DATA-08), `ringward-launch` Edge Function (P3-DATA-07) | C (backend) | Weeks 4–6 |
+| Raid button and sheet in the app (P3-APP-15; designed in P2-DES-04) | B (app) | Weeks 6–7 |
 | Art, sound, polish (reduced), stream tests with the team | F | Weeks 6–8 |
 
 **Cut to make room:** matchmaking (invite link only), leaderboards, persistent per-viewer stats,
