@@ -43,7 +43,7 @@ Update this list in the same PR as the work.
 **Open**
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
 - [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
-- [ ] Game name: "Ringward" is the working title; the team picks a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README), and removing the `blocked:game-concept` label from its 20 issues
+- [ ] Game name: "Ringward" is the working title; the team picks a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README). The `blocked:game-concept` label is off its 20 issues (Nov 17)
 - [ ] Game networking (decision 010): **ticketed and filed Nov 17, 2026, owners not assigned.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F; #103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107) (C), P3-APP-15 Raid sheet (B; #106), in [docs/backlog.md](docs/backlog.md)
 - [ ] Game: stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
 - [ ] Production games list (production has none; the seed list is local-only)
