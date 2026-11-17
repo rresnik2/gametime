@@ -41,7 +41,7 @@ Update this list in the same PR as the work.
 - [x] Jev (TypeSafe) adopted as a dev-time judgment tool only, not in the app or MVP scope; key in the maintainer's shell profile, ask before live calls ([decision 013](docs/decisions/013-jev-dev-tool.md))
 
 **Open**
-- [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
+- [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2). **Playback half done Nov 17, 2026** with public HLS test streams in `/spike`: `expo-video` plays live HLS on iOS (simulator) and web (Chrome plays HLS natively; `hls.js` covers Firefox), with a cost estimate favouring IVS Basic ([decision 001](docs/decisions/001-streaming-provider.md)). Left: a provider account (project lead), OBS ingest, start/end events, latency, Android
 - [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
 - [ ] Game name: "Ringward" is the working title; the team picks a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README). The `blocked:game-concept` label is off its 20 issues (Nov 17)
 - [ ] Game networking (decision 010): **ticketed and filed Nov 17, 2026, owners not assigned.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F; #103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107) (C), P3-APP-15 Raid sheet (B; #106), in [docs/backlog.md](docs/backlog.md)
