@@ -68,8 +68,9 @@ the notes: open a small `docs/…` PR for them.
 - **Scope is frozen at the MVP column** of the product plan, plus decision 010 (viewer raids
   and a duo mode in the original game). v2 work (Play with me, clips, squads,
   push, mobile capture, a second game) goes in the "Stretch (v2)" list in `docs/backlog.md`, not in a PR.
-- **Backlog:** the tickets in `docs/backlog.md` are filed as GitHub issues #9–#90 (milestones
-  "Phase 2/3/4: …", labels `ws:*`, `size:*`, `blocked:*`). **The issues are the source of truth**
+- **Backlog:** the tickets in `docs/backlog.md` are filed as GitHub issues #9–#90 and #93–#94
+  (milestones "Phase 2/3/4: …", labels `ws:*`, `size:*`, `blocked:*`), except those its Status
+  paragraph lists as not filed yet. **The issues are the source of truth**
   for owner and progress. To add a ticket, add it to the file in the same format, then run
   `scripts/create-backlog-issues.sh` (dry run, validates) and `--apply`, which files only the new
   IDs. Re-scoping or cutting a ticket: edit the file and the issue by hand; the script never edits.

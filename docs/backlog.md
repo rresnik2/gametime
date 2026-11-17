@@ -11,6 +11,12 @@ are not filed. Twelve issues were updated on Nov 16 to match this file: #12, #17
 #32, #39, #40 and #43 for [decision 011](decisions/011-stream-orientation.md), and #28, #31 and #65
 for [decision 012](decisions/012-game-session-length.md).
 
+**Nov 17, 2026:** six tickets added for the game's networking ([decision 010](decisions/010-game-multiplayer-and-viewers.md)):
+P2-GAME-06, P2-GAME-07, P2-GAME-08, P2-DATA-08, P3-DATA-07 and P3-APP-15. **Not filed yet**
+(the repo is public: ask the project lead, then `--apply` files only these). Three filed tickets
+gained a criterion and their issues need the same text: #35 (P2-DES-04), #36 (P2-OPS-01) and
+#67 (P3-GAME-05). V2-12 "Viewer interaction in the game" is removed: decision 010 made it MVP.
+
 ## How to read a ticket
 
 ```
@@ -33,7 +39,7 @@ One to three lines of description.
   |---|---|---|
   | **⛔ D1** | Streaming provider (Mux or IVS) | [001](decisions/001-streaming-provider.md) |
   | **⛔ D4** | Anonymous viewing: Supabase anonymous sign-in or local storage | [004](decisions/004-anonymous-viewing.md) |
-  | **⛔ GAME** | Which game concept ships (The Biosphere Realm is a candidate, not chosen) | PHASE_1_PLAN.md §4F |
+  | **⛔ GAME** | Which game ships (Ringward recommended; the team picks) | [009](decisions/009-game-concept.md) |
 
 - **Tags:** `safety` (report, block, chat filters, age gate, terms), `cold-start` (empty-feed
   mitigation), `accessibility`, `demo`.
@@ -49,15 +55,15 @@ changes to existing tickets must be mirrored on the issue by hand.
 
 | Phase | Weeks | APP | DATA | VID | GAME | DES | OPS | Total |
 |---|---|---|---|---|---|---|---|---|
-| 2. Watch the feed | 3–5 | 10 | 7 | 3 | 5 | 4 | 3 | **32** |
-| 3. Go live and chat | 6–8 | 14 | 6 | 4 | 5 | 2 | 4 | **35** |
+| 2. Watch the feed | 3–5 | 10 | 8 | 3 | 8 | 4 | 3 | **36** |
+| 3. Go live and chat | 6–8 | 15 | 7 | 4 | 5 | 2 | 4 | **37** |
 | 4. Polish and demo | 9–10 | 3 | 2 | 1 | 2 | 3 | 6 | **17** |
-| **Total** | | 27 | 15 | 8 | 12 | 9 | 13 | **84** |
+| **Total** | | 28 | 17 | 8 | 15 | 9 | 13 | **90** |
 
-Plus 15 [Stretch (v2)](#stretch-v2) items, unscheduled. `scripts/create-backlog-issues.sh`
+Plus 14 [Stretch (v2)](#stretch-v2) items, unscheduled. `scripts/create-backlog-issues.sh`
 (dry run by default) prints these counts from the tickets below; rerun it after editing.
 
-Blocked tickets: ⛔ D1 × 7, ⛔ D4 × 3, ⛔ GAME × 14.
+Blocked tickets: ⛔ D1 × 7, ⛔ D4 × 3, ⛔ GAME × 20.
 
 ---
 
@@ -69,7 +75,8 @@ streams on iOS, Android and web, and can sign up and see profiles.
 **Critical path:** P2-VID-01 → P2-VID-02 → P2-APP-04. The feed runs on seed streams the whole
 phase; real OBS streams arrive in Phase 3.
 
-**Cut first if behind:** P2-APP-09 web keyboard shortcuts, P2-GAME-05 second playtest round.
+**Cut first if behind:** P2-APP-09 web keyboard shortcuts, P2-GAME-05 second playtest round,
+P2-GAME-08 online duo (local keyboard duo stays).
 
 ### App
 
@@ -254,6 +261,18 @@ before its first frame.
 - [ ] `get_live_feed` and the ranked feed (P2-DATA-02) return it
 - [ ] Seed streams include both orientations; RLS tests cover the new column; `db:types` regenerated
 
+#### P2-DATA-08 · Game sessions and Realtime channel policies
+- **Size:** M · **Owner:** TBD · **Depends on:** — · **Blocked on:** ⛔ GAME · **Tags:** safety
+
+[Decision 010](decisions/010-game-multiplayer-and-viewers.md): the streamer's browser hosts the
+game and Supabase Realtime carries its messages, so the database decides who may send on each
+channel ([docs/game/hosting-and-interaction.md](game/hosting-and-interaction.md)).
+
+- [ ] `game_sessions` (one row per stream: `stream_id`, `host_id`, `partner_id`, `raids_enabled` default on, `created_at`): the streamer inserts and updates their own; anyone can read rows for live streams (the app needs `raids_enabled`)
+- [ ] Realtime Authorization policies on `realtime.messages`: on `ringward:<stream_id>` signed-in users can receive and only the stream's owner can send (viewer launches are sent by P3-DATA-07 with the service role); on `ringward-duo:<stream_id>` only the owner and the session's partner can send or receive
+- [ ] pgTAP tests for every policy, including a stranger trying to send and a partner reading another stream's duo channel
+- [ ] `db:types` regenerated
+
 ### Video
 
 #### P2-VID-01 · StreamPlayer component (iOS, Android, web)
@@ -335,6 +354,40 @@ screen once they join it ([decision 011](decisions/011-stream-orientation.md)).
 - [ ] 3–5 classmates play two or more rounds each (or one long session); at least one watches it as a stream on a phone, joining partway through
 - [ ] Findings and the changes they lead to written in `docs/game/playtests.md`
 
+#### P2-GAME-06 · Host sign-in and stream channel
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-02, P2-DATA-08 · **Blocked on:** ⛔ GAME
+
+The game page is the host for raids and duo (decision 010). It signs in with the streamer's
+GameTime account and joins its live stream's channel; without that, solo and local duo still work.
+
+- [ ] Sign in on the game page against the same Supabase project (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, public values only)
+- [ ] Finds the streamer's live stream (`status = 'live'`, `game_id` = the original game) and creates or reuses its `game_sessions` row
+- [ ] Joins the private channel `ringward:<stream_id>`; a host panel (toggled with a key, kept out of the capture) shows connection state
+- [ ] A dropped connection reconnects without ending the round; signed out or offline, solo and local duo are unaffected
+
+#### P2-GAME-07 · Viewer raids on the host
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-GAME-06 · **Blocked on:** ⛔ GAME
+
+Viewers launch shards from the app; the host runs every launch through the rules' `launch()` and
+tells viewers what happened. Launches replace the game's own spawns, so difficulty doesn't depend
+on audience size (already unit tested in the greybox).
+
+- [ ] Every `launch` message goes through `launch()` (round running, valid slot, cooldown, queue of 8); usernames on stream come only from the message the Edge Function sent, truncated as in the greybox
+- [ ] Broadcasts raid events: round started and ended, each launch's result (queued with its place in line, cooldown, full, raids off), and the core breaker and top raiders at round end
+- [ ] A raids on/off switch on the host panel, saved to `game_sessions.raids_enabled`
+- [ ] A dev script sends launches as the service role against local Supabase, so the host can be tested without the app
+
+#### P2-GAME-08 · Online duo partner
+- **Size:** L · **Owner:** TBD · **Depends on:** P2-GAME-06 · **Blocked on:** ⛔ GAME
+
+A friend joins from their own browser with the second shield. Host-authoritative: the partner
+sends input, the host sends state.
+
+- [ ] The host panel makes an invite link; a signed-in partner who opens it is saved as `game_sessions.partner_id`, and the host can remove them
+- [ ] The partner sends input at about 30 Hz on `ringward-duo:<stream_id>`; the host sends compact state at about 20 Hz (under 1 KB)
+- [ ] The partner's own shield is predicted locally and shards are interpolated; playable with 150 ms round trip (tested with network throttling)
+- [ ] If the partner drops, P2 goes idle and the round continues; local keyboard duo still works with no partner
+
 ### Design
 
 #### P2-DES-01 · High-fidelity: auth, onboarding, feed, profiles
@@ -371,6 +424,7 @@ Ready before Phase 3 starts in week 6.
 - [ ] Chat overlay (collapsed, expanded, docked on web), reactions, action rail
 - [ ] Discover, game page, search results
 - [ ] Report sheet, block confirmation, block list, chat filter settings
+- [ ] Raid button and sheet for the original game (slot ring, cooldown, place in line, full and off states) for P3-APP-15 ([decision 010](decisions/010-game-multiplayer-and-viewers.md))
 
 ### DevOps / QA
 
@@ -379,6 +433,7 @@ Ready before Phase 3 starts in week 6.
 
 - [ ] CI builds the game when `games/<slug>/` changes
 - [ ] Vercel project for the game with a preview per PR and production from `main`; URL recorded in `AGENTS.md`
+- [ ] The game's Vercel project has `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` for preview and production (public values only), for P2-GAME-06
 
 #### P2-OPS-02 · Development build with video for the team
 - **Size:** S · **Owner:** TBD · **Depends on:** P2-VID-01 · **Blocked on:** —
@@ -525,6 +580,17 @@ Flow 1: sign-up is optional until you chat or follow.
 - [ ] After signing up, the user returns to the same stream and the action completes
 - [ ] Favorites picked during onboarding carry over (per D4)
 
+#### P3-APP-15 · Raid button and sheet
+- **Size:** M · **Owner:** TBD · **Depends on:** P3-DATA-07, P2-APP-04, P2-DES-04, P3-APP-14 · **Blocked on:** ⛔ GAME
+
+Viewers join the original game from the stream (decision 010). The app answers instantly; the
+stream shows the shard a few seconds later with the viewer's name on it.
+
+- [ ] On streams of the original game with raids on, the action rail shows a Raid button (44 pt target, screen-reader label)
+- [ ] A bottom sheet with the 12-slot ring (same layout as the game's rim), a 4 s cooldown ring, and the host's answer: place in line, "raid full", "raids are off"; it only accepts taps while a round is running
+- [ ] Signed-out and anonymous viewers get the sign-in prompt (P3-APP-14); a viewer the streamer blocked sees a neutral "You can't raid this stream"
+- [ ] Works in the portrait feed and the joined landscape view ([decision 011](decisions/011-stream-orientation.md)); respects reduced motion
+
 ### Backend / data
 
 #### P3-DATA-01 · Stream lifecycle housekeeping
@@ -574,6 +640,17 @@ Production has no games; `supabase/seed.sql` is local-only and must never be pus
 - [ ] A migration (or a reviewed service-role script) inserts the production games list, including the original game with `is_original = true`, its color and cover art
 - [ ] Adds a `play_url` column for the original game's web build, if P3-APP-09 needs it
 - [ ] Verified on the hosted project with `--remote`
+
+#### P3-DATA-07 · `ringward-launch` Edge Function for viewer launches
+- **Size:** M · **Owner:** TBD · **Depends on:** P2-DATA-08, P3-OPS-01 · **Blocked on:** ⛔ GAME · **Tags:** safety
+
+A broadcast payload is whatever the client sends, so viewers don't broadcast launches themselves.
+This function checks who they are and sends the launch for them.
+
+- [ ] Verifies the caller's session; anonymous sessions (D4) and signed-out callers are refused
+- [ ] Refuses when the stream isn't live, raids are off, or the streamer has blocked the viewer (`public.is_blocked_by()`); enforces the 4 s per-viewer cooldown and slots 0–11
+- [ ] Sends `{ slot, by }` on `ringward:<stream_id>` with the service role, where `by` is the viewer's username from `profiles` (any name in the request is ignored); returns sent or the refusal reason
+- [ ] Tests for each refusal and for a spoofed username
 
 ### Video
 
@@ -641,6 +718,7 @@ Risk #2 mitigation: cap resolution and stream length.
 - **Size:** S · **Owner:** TBD · **Depends on:** P3-GAME-01, P3-VID-04 · **Blocked on:** ⛔ GAME
 
 - [ ] A teammate streams the game through OBS and the app's Go Live flow; 3+ classmates watch on phones and play
+- [ ] The classmates raid from their phones and one round is played in online duo; the time from a tap to the shard showing on stream is noted
 - [ ] Findings in `docs/game/playtests.md`; must-fix items ticketed for Phase 4
 
 ### Design
@@ -866,9 +944,6 @@ Stats across streams: followers over time, average viewers, peak times.
 
 #### V2-11 · Second original game
 A second browser game built for streaming (decision 002 limits the MVP to one).
-
-#### V2-12 · Viewer interaction in the game
-Chat or reactions affect the original game while it's streamed.
 
 #### V2-13 · Light mode
 The `#F7F7FB` light theme from the product plan.
