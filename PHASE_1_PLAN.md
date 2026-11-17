@@ -43,16 +43,15 @@ Update this list in the same PR as the work.
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2)
 - [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
 - [ ] **Game concept: proposed, awaiting pick** between Ringward, Lumen Drop, Hot Core and The Biosphere Realm (as is or with a streaming mode). Recommended: **Ringward** (37/40; portrait) ([decision 009](docs/decisions/009-game-concept.md), Open; the team's call). After the pick: mark 009 Decided, seed row with `is_original = true`, its own Vercel project (README)
-- [ ] Game networking (decision 010): **ticketed Nov 17, 2026, not filed yet.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F), P2-DATA-08 game sessions and Realtime policies and P3-DATA-07 `ringward-launch` Edge Function (C), P3-APP-15 Raid sheet (B), in [docs/backlog.md](docs/backlog.md). Filing them publishes to the public repo, so it needs the project lead's OK
+- [ ] Game networking (decision 010): **ticketed and filed Nov 17, 2026, owners not assigned.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F; #103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107) (C), P3-APP-15 Raid sheet (B; #106), in [docs/backlog.md](docs/backlog.md)
 - [ ] Game: stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
 - [ ] Production games list (production has none; the seed list is local-only)
 - [ ] `docs/obs-setup.md`
 - [ ] Phases 2–4 backlog (exit criterion 7): **ticketed, owners not assigned.** 90 tickets in
-  [docs/backlog.md](docs/backlog.md): 84 filed Nov 16, 2026 as GitHub issues #9–#90 and #93–#94
-  under milestones Phase 2, 3 and 4, and 6 game-networking tickets (decision 010) added Nov 17
-  and not filed yet; 14 v2 items stay unfiled. Left to do: file the 6 (ask the project lead
-  first), update issues #35, #36 and #67 to match their amended text, and assign owners. The
-  nine issues with orientation criteria (decision 011) are updated
+  [docs/backlog.md](docs/backlog.md), all filed as GitHub issues under milestones Phase 2, 3 and
+  4: #9–#90 and #93–#94 on Nov 16, 2026, and the 6 game-networking tickets (decision 010) as
+  #102–#107 on Nov 17; 14 v2 items stay unfiled. Left to do: assign owners. The issues amended
+  for decisions 010, 011 and 012 are updated
 - [ ] Wireframes: draw the landscape card's "Full screen" button, the joined landscape view and the Go Live orientation picker (decision 011)
 - [ ] Teammates added to GitHub, the `rresniks-team` Expo account and the GameTime Supabase org; raise required PR approvals to 1
 

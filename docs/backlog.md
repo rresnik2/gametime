@@ -5,17 +5,17 @@ Drafted Nov 16, 2026, from the product plan's MVP column, [PHASE_1_PLAN.md](../P
 (`supabase/migrations/`). Scope is frozen at the MVP column; v2 ideas go in
 [Stretch (v2)](#stretch-v2) at the end and are not scheduled.
 
-**Status:** filed as GitHub issues #9–#90 and #93–#94 on Nov 16, 2026 (milestones Phase 2–4).
+**Status:** filed as GitHub issues #9–#90 and #93–#94 on Nov 16, 2026, and #102–#107 on
+Nov 17, 2026 (milestones Phase 2–4).
 Owners are TBD until the team assigns them on the issues (Phase 1 exit criterion 7). The v2 items
 are not filed. Twelve issues were updated on Nov 16 to match this file: #12, #17, #24, #25, #30,
 #32, #39, #40 and #43 for [decision 011](decisions/011-stream-orientation.md), and #28, #31 and #65
 for [decision 012](decisions/012-game-session-length.md).
 
 **Nov 17, 2026:** six tickets added for the game's networking ([decision 010](decisions/010-game-multiplayer-and-viewers.md)):
-P2-GAME-06, P2-GAME-07, P2-GAME-08, P2-DATA-08, P3-DATA-07 and P3-APP-15. **Not filed yet**
-(the repo is public: ask the project lead, then `--apply` files only these). Three filed tickets
-gained a criterion and their issues need the same text: #35 (P2-DES-04), #36 (P2-OPS-01) and
-#67 (P3-GAME-05). V2-12 "Viewer interaction in the game" is removed: decision 010 made it MVP.
+P2-DATA-08 (#102), P2-GAME-06 (#103), P2-GAME-07 (#104), P2-GAME-08 (#105), P3-APP-15 (#106) and
+P3-DATA-07 (#107), filed Nov 17. Three filed tickets gained a criterion, and their issues were
+updated to match: #35 (P2-DES-04), #36 (P2-OPS-01) and #67 (P3-GAME-05). V2-12 "Viewer interaction in the game" is removed: decision 010 made it MVP.
 
 ## How to read a ticket
 
