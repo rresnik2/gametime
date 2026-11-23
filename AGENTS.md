@@ -100,7 +100,8 @@ the notes: open a small `docs/…` PR for them.
 | Game mockups | `docs/game/mockups/index.html`: mid-fidelity mockups of the three top game concepts (feed with overlay, game canvas, start/end, signature moments). Preview with the `game-mockups` config in `.claude/launch.json` (serves `docs/`; open `/game/mockups/`); `?real` = phones at 100%, `?zones` = app overlay outlined on each canvas, `?only=R1` = one frame. Review log: `docs/game/mockups/REVIEW.md` |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
 | Backlog | `docs/backlog.md`; issue filer `scripts/create-backlog-issues.sh` (dry run unless `--apply`) |
-| Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. Recommended: `games/ringward/` (greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Earlier candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`) |
+| Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. Recommended: `games/ringward/` (greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Earlier candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`; this copy adds the session adapter and tests, decision 014) |
+| Session engine (proposed, decision 014) | `games/engine/gametime-engine.js`: roles (optional host, players, viewers, AIs) and the house rules every game shares; rules and adapter contract in `games/engine/README.md`. Biosphere's adapter: `games/the-biosphere-realm/src/session.js` (local demo `src/session-local.js`, `?session&host&players=2&ai=2&viewers=40`). Tests: `npm run test:games` |
 | Game design | `docs/game/concepts.md` (shortlist), `docs/game/design.md` (one page), `docs/game/hosting-and-interaction.md` (raids, duo, Realtime channels `ringward:<stream_id>` and `ringward-duo:<stream_id>`); pick tracked in decision 009, multiplayer in 010 |
 | Jev (TypeSafe), dev tool only | `POST https://api.typesafe.ai/v1/systemone`, model `jev-latest`; docs https://docs.typesafe.ai/llms.txt; local skill copy in `.claude/skills/typesafe-ai/` (git-excluded). Use it when it helps, no per-call approval, under $5/month; rules in [decision 013](docs/decisions/013-jev-dev-tool.md) |
 | CI failure triage | `.github/workflows/ci-triage.yml` (runs when CI fails; comments on the PR) and `scripts/ci-triage/` (questions in `questions.mjs`, live check `probe.mjs`, tests `npm run test:scripts`) |
@@ -144,6 +145,10 @@ a GitHub Actions repository secret: never in the repo, Vercel or EAS, and never 
   lints every JS file, `tsc` includes every `**/*.ts`, and Jest runs every `*.test.ts`. The
   games have their own tooling, so `eslint.config.js` ignores `games/*`, `tsconfig.json`
   excludes `games`, and `jest.config.js` ignores `<rootDir>/games/`. Keep all three.
+- **The Biosphere Realm loads `../engine/gametime-engine.js`,** so serve `games/`, not its own folder
+  (`python3 -m http.server 8092 --directory games`, or the `biosphere` launch config). Served alone it
+  still plays, without shared sessions. Its tests load the real game headless in a Node `vm` with a
+  do-nothing DOM (`test/load-headless.cjs`); loading takes about 10 s, so load once per test file.
 - **Ringward tests use `node --test`, not Jest:** `src/*.ts` imports use `.ts` extensions and
   only erasable TypeScript (no enums), so Node 24 runs them with no build step.
 - **The Browser pane pauses animation when it's hidden,** so a canvas game looks frozen there.

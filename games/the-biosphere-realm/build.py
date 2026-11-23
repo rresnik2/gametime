@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Bundle index.html + style.css + src/*.js into a single self-contained dist/the-biosphere-realm.html."""
+"""Bundle index.html + style.css + src/*.js (and the shared ../engine) into a single self-contained dist/the-biosphere-realm.html."""
 import re, pathlib
 root = pathlib.Path(__file__).parent
 html = (root / "index.html").read_text(encoding="utf-8")
 css = (root / "style.css").read_text(encoding="utf-8")
-order = re.findall(r'<script src="(src/[^"]+)"></script>', html)
+order = re.findall(r'<script src="([^"]+\.js)"></script>', html)
 js = "\n".join((root / p).read_text(encoding="utf-8") for p in order)
 bundle = "<script>\n(()=>{\n" + js + "\n})();\n</script>"
 html = html.replace('<link rel="stylesheet" href="style.css">', "<style>\n" + css + "</style>")

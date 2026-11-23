@@ -72,3 +72,16 @@ jobs:
         run: npm test
       - name: Build (typecheck + Vite)
         run: npm run build
+
+  # The shared session engine (games/engine, decision 014) and its first game adapter, The Biosphere
+  # Realm, run end to end with the real simulation headless. No install: plain Node. Not a required check.
+  engine:
+    name: Engine (session rules, Biosphere end to end)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Test
+        run: npm run test:games

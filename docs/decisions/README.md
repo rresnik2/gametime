@@ -17,6 +17,7 @@ One file per decision, numbered in order. 001–006 match D1–D6 in `PHASE_1_PL
 | [011](011-stream-orientation.md) | Vertical feed; landscape streams rotate when you join them | Decided |
 | [012](012-game-session-length.md) | The original game may be quick or long-form (replaces 002's round limit) | Decided |
 | [013](013-jev-dev-tool.md) | Jev (TypeSafe) as a dev-time judgment tool, not in the app | Decided |
+| [014](014-game-session-engine.md) | A shared session engine for every game (host, players, viewers, AIs) | **Proposed** |
 
 ## Adding a record
 
