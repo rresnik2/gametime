@@ -640,6 +640,8 @@ function tick(t,dt){
     if(acc>=1)acc=.99;
     alpha=acc;
   }else alpha=1;
+  /* shared-session actions (players, viewers, AIs; src/session.js) land between sim steps, never inside one */
+  if(speed>0||warpLeft>0)SESSION.tick();
   if(painting&&hover&&BRUSH.has(tool))applyBrush(hover,dt);
   updEffects(dt);
   /* a drawing error must not take the panels, the chronicle or the sim loop down with it */

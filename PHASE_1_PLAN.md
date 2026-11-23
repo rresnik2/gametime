@@ -16,7 +16,7 @@ has a deployable skeleton app that CI builds on every pull request.
 
 ---
 
-## Status (updated Nov 17, 2026)
+## Status (updated Nov 22, 2026)
 
 Update this list in the same PR as the work.
 
@@ -47,6 +47,7 @@ Update this list in the same PR as the work.
 - [ ] Game networking (decision 010): **ticketed and filed Nov 17, 2026, owners not assigned.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F; #103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107) (C), P3-APP-15 Raid sheet (B; #106), in [docs/backlog.md](docs/backlog.md)
 - [ ] Game: stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
 - [ ] Production games list (production has none; the seed list is local-only)
+- [ ] **Proposed, in review:** a shared session engine for every game (optional host, players, viewers, AIs; one set of house rules) in `games/engine/`, tested on The Biosphere Realm (`?session` locally; headless end-to-end tests in CI) ([decision 014](docs/decisions/014-game-session-engine.md)). The project lead decides scope and whether Ringward moves onto it
 - [ ] `docs/obs-setup.md`
 - [ ] Phases 2–4 backlog (exit criterion 7): **ticketed, owners not assigned.** 90 tickets in
   [docs/backlog.md](docs/backlog.md), all filed as GitHub issues under milestones Phase 2, 3 and

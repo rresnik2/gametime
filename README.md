@@ -126,6 +126,7 @@ assets/
 scripts/generate-icons.mjs # npm run icons
 games/
 ├─ ringward/               # the MVP game, fish in a barrel: greybox (Vite + TypeScript, own package.json)
+├─ engine/                 # shared session engine: roles and house rules for every game (decision 014, proposed)
 └─ the-biosphere-realm/    # not picked; a regular game (static page, separate from the app)
 docs/
 ├─ decisions/              # one record per decision
@@ -148,8 +149,12 @@ Games are standalone web builds, kept out of the Expo app's build, lint, typeche
 
 - **Ringward:** `npm run game` from the repo root (or `npm install` and `npm run dev` in
   `games/ringward/`). Details and controls: [games/ringward/README.md](games/ringward/README.md).
-- **The Biosphere Realm:** serve its folder with any static server, for example
-  `npx serve games/the-biosphere-realm`, or open its `index.html` directly.
+- **The Biosphere Realm:** serve the `games/` folder (it loads `../engine/`), for example
+  `python3 -m http.server 8092 --directory games`, then open http://localhost:8092/the-biosphere-realm/.
+  For a simulated shared session (host controls, 2 players, 2 AIs, 40 viewers), add
+  `?session&host&players=2&ai=2&viewers=40`.
+- **Session engine and Biosphere tests:** `npm run test:games` (Node 24, no install needed). Rules and
+  how to plug in a game: [games/engine/README.md](games/engine/README.md).
 
 ### Deploying the game to Vercel (not set up yet)
 

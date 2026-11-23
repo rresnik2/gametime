@@ -31,6 +31,24 @@ python3 build.py
 
 This writes `dist/the-biosphere-realm.html`, a self-contained copy you can share or drop anywhere.
 
+## Shared sessions (GameTime)
+
+In GameTime the world can be shared, on the session engine in [`../engine`](../engine/README.md)
+(decision [014](../../docs/decisions/014-game-session-engine.md), proposed):
+
+| Role | Does what |
+| --- | --- |
+| **Host** (optional, the streamer) | Plays with the whole tray as usual; switches viewer omens, chaos omens and AI seats on or off; mutes, removes or blocks anyone; can issue an edict for any kingdom |
+| **Players** | Each rules one kingdom with the ruler's moves (war, peace, alliances, a village, patronage), one decree a year, plus a festival every two years. A player whose kingdom falls claims another |
+| **AIs** | Rule a kingdom like a player, under the same checks: the built-in cautious ruler (offline), or Claude through the ruler bridge (`&bridge`) |
+| **Viewers** | Send an omen to a kingdom they pick from the list: rain, harvest, festival or a herd, and lightning when the host allows chaos. Their name appears in the Chronicle; they can't type anything onto the stream |
+
+The status line ("Year 12 · 7 kingdoms · largest: … · war: …") tells someone who swipes in what
+is happening. Try it: serve `games/` and open
+`/the-biosphere-realm/?session&host&players=2&ai=2&viewers=40`. Tests: `npm run test:games` from
+the repo root (the real simulation runs headless, `test/load-headless.cjs`). The adapter is
+`src/session.js`; `src/session-local.js` simulates the network and draws the session panel.
+
 ## AI chronicles
 
 Open any kingdom's Realm Codex, go to **History** and press **Ask Claude for a chronicle**. Copy the prompt into Claude, paste the reply back, and the game checks every name, year and citation against the kingdom's recorded events before keeping it. This works on the published page too, because the game itself never calls Claude. To chronicle a whole world at once, use `tools/chronicler`, which runs `claude -p` headless. See [tools/chronicler/README.md](tools/chronicler/README.md).
@@ -165,5 +183,7 @@ Kingdoms research (more people, teachers and a great hall make it faster) and di
 | `src/render.js` | Camera, interpolated drawing, lighting, weather effects, spatial sound |
 | `src/codex.js` | The Realm Codex: faith, culture, art and history of each kingdom |
 | `src/ui.js` | Tools, inspector, side panel, input and the main loop |
+| `src/session.js` | GameTime only: the session-engine adapter (roles, omens, decrees, status line) |
+| `src/session-local.js` | GameTime only: `?session`, a simulated shared session with its panel |
 
 The simulation runs at a fixed rate (20 steps per second at 1x) and the renderer interpolates between steps, so movement stays smooth at any frame rate.
