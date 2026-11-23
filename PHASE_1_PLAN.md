@@ -38,24 +38,24 @@ Update this list in the same PR as the work.
 - [x] **Game picked** (Nov 17, 2026): Ringward's mechanics re-themed as "shooting fish in a barrel": an orange goldfish (two in duo) in a wooden barrel batting away cartoon cannonballs, tropical and old-timey ([decision 009](docs/decisions/009-game-concept.md), [design](docs/game/design.md)). The greybox is re-skinned; the local seed row `…001` is Ringward and The Biosphere Realm is a regular game
 - [x] Decided: the MVP game has viewer interaction and a 2-player mode, hosted by the streamer's browser over Supabase Realtime ([decision 010](docs/decisions/010-game-multiplayer-and-viewers.md); design in [docs/game/hosting-and-interaction.md](docs/game/hosting-and-interaction.md))
 - [x] Mockups of the three top game concepts (Ringward, Hot Core, Lumen Drop): each in the feed with the app overlay, its 1080×1920 game screen, start and end screens and its signature moment, plus Ringward's Raid sheet and a comparison of readability risks: [`docs/game/mockups/index.html`](docs/game/mockups/index.html) ([review log](docs/game/mockups/REVIEW.md)). After the pick (decision 009), Ringward's section is redrawn in the fish-in-a-barrel theme from its design doc (Nov 17, 2026); Hot Core and Lumen Drop are marked not picked
+- [x] **Team and owners** (Nov 22, 2026): the team is two people. Reece builds the app; Sudip builds the game and the streaming backend. Split by folder, with the handoff points and week 2's Phase 1 tasks in [decision 015](docs/decisions/015-team-and-ownership.md)
+- [x] Phases 2–4 backlog (exit criterion 7): 90 tickets in [docs/backlog.md](docs/backlog.md), filed as GitHub issues under milestones Phase 2, 3 and 4 (#9–#90 and #93–#94 on Nov 16, 2026; the 6 game-networking tickets of decision 010 as #102–#107 on Nov 17). **Owners assigned Nov 22, 2026** (decision 015): Reece 59, Sudip 31, set as each issue's assignee and **Owner** field. 14 v2 items stay unfiled. The issues amended for decisions 010, 011 and 012 are updated
+- [x] Game networking (decision 010) ticketed: P2-GAME-06–08 host sign-in, viewer raids and online duo (#103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107), all Sudip's; P3-APP-15 Raid sheet (#106), Reece's
 - [x] Jev (TypeSafe) adopted as a dev-time judgment tool, not in the app or MVP scope: agents use it when it helps (under $5/month), and it triages every failed CI run with a PR comment ([decision 013](docs/decisions/013-jev-dev-tool.md); `.github/workflows/ci-triage.yml`). The `TYPESAFE_API_KEY` repository secret is set, and an end-to-end test on Nov 17, 2026 (throwaway PR #112, a deliberate type error) got the right comment
 
 **Open**
-- [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2). **Playback half done Nov 17, 2026** with public HLS test streams in `/spike`: `expo-video` plays live HLS on iOS (simulator) and web (Chrome plays HLS natively; `hls.js` covers Firefox), with a cost estimate favouring IVS Basic ([decision 001](docs/decisions/001-streaming-provider.md)). Left: a provider account (project lead), OBS ingest, start/end events, latency, Android
-- [ ] **D4 anonymous viewing:** decide; anonymous sign-ins are currently off
-- [ ] Game name: "Ringward" is the working title; the team picks a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README). The `blocked:game-concept` label is off its 20 issues (Nov 17)
-- [ ] Game networking (decision 010): **ticketed and filed Nov 17, 2026, owners not assigned.** P2-GAME-06–08 host sign-in, viewer raids and online duo (F; #103–#105), P2-DATA-08 game sessions and Realtime policies (#102) and P3-DATA-07 `ringward-launch` Edge Function (#107) (C), P3-APP-15 Raid sheet (B; #106), in [docs/backlog.md](docs/backlog.md)
-- [ ] Game: stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
-- [ ] Production games list (production has none; the seed list is local-only)
-- [ ] **Proposed, in review:** a shared session engine for every game (optional host, players, viewers, AIs; one set of house rules) in `games/engine/`, tested on The Biosphere Realm (`?session` locally; headless end-to-end tests in CI) ([decision 014](docs/decisions/014-game-session-engine.md)). The project lead decides scope and whether Ringward moves onto it
-- [ ] `docs/obs-setup.md`
-- [ ] Phases 2–4 backlog (exit criterion 7): **ticketed, owners not assigned.** 90 tickets in
-  [docs/backlog.md](docs/backlog.md), all filed as GitHub issues under milestones Phase 2, 3 and
-  4: #9–#90 and #93–#94 on Nov 16, 2026, and the 6 game-networking tickets (decision 010) as
-  #102–#107 on Nov 17; 14 v2 items stay unfiled. Left to do: assign owners. The issues amended
-  for decisions 010, 011 and 012 are updated
-- [ ] Wireframes: draw the landscape card's "Full screen" button, the joined landscape view and the Go Live orientation picker (decision 011)
-- [ ] Teammates added to GitHub, the `rresniks-team` Expo account and the GameTime Supabase org; raise required PR approvals to 1
+- [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2). **Playback half done Nov 17, 2026** with public HLS test streams in `/spike`: `expo-video` plays live HLS on iOS (simulator) and web (Chrome plays HLS natively; `hls.js` covers Firefox), with a cost estimate favouring IVS Basic ([decision 001](docs/decisions/001-streaming-provider.md)). Left: a provider account (Reece), then OBS ingest, start/end events, latency and Android (Sudip)
+- [ ] **D4 anonymous viewing:** decide (Reece); anonymous sign-ins are currently off
+- [ ] Game name: "Ringward" is the working title; Reece and Sudip pick a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README). The `blocked:game-concept` label is off its 20 issues (Nov 17)
+- [ ] Game (Sudip): stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
+- [ ] Production games list (Sudip; production has none; the seed list is local-only)
+- [ ] **Proposed, in review:** a shared session engine for every game (optional host, players, viewers, AIs; one set of house rules) in `games/engine/`, tested on The Biosphere Realm (`?session` locally; headless end-to-end tests in CI) ([decision 014](docs/decisions/014-game-session-engine.md)). The project lead decides scope and whether Ringward moves onto it. The Biosphere Realm's source of truth is now this repo's copy, which Sudip reworked for streaming at Reece's request (Nov 22, 2026)
+- [ ] **Open question:** does The Biosphere Realm also ship in the MVP? Ringward is the MVP game (decision 009); shipping Biosphere too would supersede decision 002's "exactly one original game" (decision 015)
+- [ ] `docs/obs-setup.md` (Sudip)
+- [ ] Wireframes (Reece): draw the landscape card's "Full screen" button, the joined landscape view and the Go Live orientation picker (decision 011)
+- [ ] Clickable prototype of the core loop, tested with 3–5 classmates (§4A; Reece)
+- [ ] Sudip (on GitHub already) added to the `rresniks-team` Expo account and the GameTime Supabase org; raise required PR approvals to 1 (Reece)
+- [ ] Gate demo date: §5 puts it on Fri of week 2, Nov 27, 2026, the day after Thanksgiving. Reece confirms or moves it
 
 ---
 
@@ -180,7 +180,8 @@ Store it in a separate owner-only table, or fetch it on demand through an Edge F
 
 ## 4. Workstreams and owners
 
-These are written for a team of 4 plus the game. **The game needs its own owner (F) from Phase 2
+**The team is two people; [decision 015](docs/decisions/015-team-and-ownership.md) sets who owns
+what.** The workstreams below are written for a team of 4 plus the game. **The game needs its own owner (F) from Phase 2
 onward**, so a team of 5 gives F a dedicated person. With 4, A (design) also owns F in Phase 1 and
 hands the build to whoever finishes the video spike (D). With 3, merge B and E as well, and keep
 the game to the smallest concept on the shortlist.

@@ -1,11 +1,12 @@
 # The Biosphere Realm
 
-> **In GameTime:** a candidate original game, added to test the in-app game path (decision
-> [002](../../docs/decisions/002-in-app-games.md)). Copied from
+> **In GameTime:** Sudip's game, added to test the in-app game path (decision
+> [002](../../docs/decisions/002-in-app-games.md)) and reworked for streaming with the shared
+> session engine (decision [014](../../docs/decisions/014-game-session-engine.md)). Copied from
 > [SudipKing/The-Biosphere-Realm](https://github.com/SudipKing/The-Biosphere-Realm) at commit
-> `dad7ebe`; that repository stays the source of truth. Only the playable game is copied here:
-> `tools/` (the chronicler and ruler bridge) is left out, so the sections below that mention it
-> apply to the source repository. It's a static page with no dependencies and isn't part of the
+> `dad7ebe`; **this copy is now the source of truth** (Nov 22, 2026). Only the playable game is
+> copied here: `tools/` (the chronicler and ruler bridge) stays in the original repository, so the
+> sections below that mention it apply there. It's a static page with no dependencies and isn't part of the
 > Expo app's build or lint.
 
 A living god-simulation sandbox for the browser. Shape continents, seed seven peoples (humans, elves, dwarves, orcs, gnomes, goblins and saurians), awaken new ones with the monolith, release animals, and watch kingdoms grow, pray, create art, sail, ally, feud and fall through day, night, seasons and weather.
