@@ -41,7 +41,8 @@ ruler's moves, viewers send omens to a kingdom, and the host holds the controls.
   `.d.ts` (games/engine/README.md, "Applying it to the next game").
 - Networking is not built: the engine is transport-agnostic, and the Supabase Realtime and Edge
   Function pieces in decision 010 call `submit()` when they exist.
-- `games/the-biosphere-realm/` now differs from its source of truth
-  (`SudipKing/The-Biosphere-Realm`): `src/session.js`, `src/session-local.js`, `test/`, one line
-  in `src/ui.js`, two script tags and `build.py`. Port them there, or make this copy the source.
+- `games/the-biosphere-realm/` differs from `SudipKing/The-Biosphere-Realm`: `src/session.js`,
+  `src/session-local.js`, `test/`, one line in `src/ui.js`, two script tags and `build.py`.
+  **Resolved Nov 22, 2026 by the project lead,** who asked for the rework for streaming: this
+  copy is the source of truth, and Sudip's repository is the earlier original.
 - New CI job "Engine (session rules, Biosphere end to end)", not a required check.

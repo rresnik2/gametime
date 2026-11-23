@@ -68,6 +68,11 @@ the notes: open a small `docs/…` PR for them.
 - **Scope is frozen at the MVP column** of the product plan, plus decision 010 (viewer raids
   and a duo mode in the original game). v2 work (Play with me, clips, squads,
   push, mobile capture, a second game) goes in the "Stretch (v2)" list in `docs/backlog.md`, not in a PR.
+- **Who owns what** ([decision 015](docs/decisions/015-team-and-ownership.md)): the team is
+  Reece and Sudip. Reece owns the app (`src/`, the app's migrations, design, QA, release); Sudip
+  owns the game and the streaming backend (`games/`, `supabase/functions/`, the game's and the
+  stream lifecycle's migrations). The `streams` table and the game's channel messages are the
+  handoff points: change them in a PR the other person reviews. An issue's assignee is its owner.
 - **Backlog:** the tickets in `docs/backlog.md` are filed as GitHub issues #9–#90, #93–#94 and
   #102–#107 (milestones "Phase 2/3/4: …", labels `ws:*`, `size:*`, `blocked:*`). **The issues are the source of truth**
   for owner and progress. To add a ticket, add it to the file in the same format, then run
@@ -100,7 +105,7 @@ the notes: open a small `docs/…` PR for them.
 | Game mockups | `docs/game/mockups/index.html`: mid-fidelity mockups of the three top game concepts (feed with overlay, game canvas, start/end, signature moments). Preview with the `game-mockups` config in `.claude/launch.json` (serves `docs/`; open `/game/mockups/`); `?real` = phones at 100%, `?zones` = app overlay outlined on each canvas, `?only=R1` = one frame. Review log: `docs/game/mockups/REVIEW.md` |
 | Supabase client | `getSupabase()` in `src/lib/supabase.ts` |
 | Backlog | `docs/backlog.md`; issue filer `scripts/create-backlog-issues.sh` (dry run unless `--apply`) |
-| Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. Recommended: `games/ringward/` (greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Earlier candidate: `games/the-biosphere-realm/` (source of truth: `SudipKing/The-Biosphere-Realm`; this copy adds the session adapter and tests, decision 014) |
+| Original games | `games/<slug>/`, standalone web builds kept out of the Expo app's lint, typecheck and Jest. The MVP game: `games/ringward/` (decision 009; greybox; Vite + TypeScript, own `package.json`, CI job "Game"; no Vercel project yet). Also `games/the-biosphere-realm/`, Sudip's god-simulation reworked for streaming with the session adapter and tests (decision 014). **This copy is its source of truth** (Nov 22, 2026); `SudipKing/The-Biosphere-Realm` is the earlier original and still holds `tools/` (chronicler, ruler bridge) |
 | Session engine (proposed, decision 014) | `games/engine/gametime-engine.js`: roles (optional host, players, viewers, AIs) and the house rules every game shares; rules and adapter contract in `games/engine/README.md`. Biosphere's adapter: `games/the-biosphere-realm/src/session.js` (local demo `src/session-local.js`, `?session&host&players=2&ai=2&viewers=40`). Tests: `npm run test:games` |
 | Game design | `docs/game/concepts.md` (shortlist), `docs/game/design.md` (one page), `docs/game/hosting-and-interaction.md` (raids, duo, Realtime channels `ringward:<stream_id>` and `ringward-duo:<stream_id>`); pick tracked in decision 009, multiplayer in 010 |
 | Jev (TypeSafe), dev tool only | `POST https://api.typesafe.ai/v1/systemone`, model `jev-latest`; docs https://docs.typesafe.ai/llms.txt; local skill copy in `.claude/skills/typesafe-ai/` (git-excluded). Use it when it helps, no per-call approval, under $5/month; rules in [decision 013](docs/decisions/013-jev-dev-tool.md) |
@@ -145,6 +150,9 @@ a GitHub Actions repository secret: never in the repo, Vercel or EAS, and never 
   lints every JS file, `tsc` includes every `**/*.ts`, and Jest runs every `*.test.ts`. The
   games have their own tooling, so `eslint.config.js` ignores `games/*`, `tsconfig.json`
   excludes `games`, and `jest.config.js` ignores `<rootDir>/games/`. Keep all three.
+- **Jest also ran the tests in Claude Code worktrees** (`.claude/worktrees/*`, full copies of the
+  repo), and a stale copy failed `npm test` locally on Nov 22, 2026. CI has no worktrees, so it
+  passed there. `jest.config.js` ignores `<rootDir>/.claude/`; keep it.
 - **The Biosphere Realm loads `../engine/gametime-engine.js`,** so serve `games/`, not its own folder
   (`python3 -m http.server 8092 --directory games`, or the `biosphere` launch config). Served alone it
   still plays, without shared sessions. Its tests load the real game headless in a Node `vm` with a
