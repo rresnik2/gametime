@@ -31,6 +31,12 @@ Or from this folder: `npm install`, then `npm run dev`. Requires Node 24.
 | `npm run build` | Typecheck, then a static build in `dist/` |
 | `npm run preview` | Serve the built `dist/` |
 
+## Deploy
+
+Deploy the Git repository as a separate Vercel project with `games/ringward` as its Root Directory.
+The [game Vercel config](vercel.json) runs `npm ci` and `npm run build`, then publishes `dist/`.
+See [the repository deployment guide](../../README.md#deploying-ringward-to-vercel) for project settings.
+
 ## Controls and options
 
 | Input | Action |

@@ -156,7 +156,7 @@ Games are standalone web builds, kept out of the Expo app's build, lint, typeche
 - **Session engine and Biosphere tests:** `npm run test:games` (Node 24, no install needed). Rules and
   how to plug in a game: [games/engine/README.md](games/engine/README.md).
 
-### Deploying the game to Vercel (not set up yet)
+### Deploying Ringward to Vercel
 
 The game gets its own Vercel project so a game bug can't break the app's deploys. The game is
 picked (decision 009); create the project once in the Vercel dashboard (Add New → Project → import
@@ -166,7 +166,7 @@ picked (decision 009); create the project once in the Vercel dashboard (Add New 
 |---|---|
 | Project name | `ringward` (or the final game's slug) |
 | Root Directory | `games/ringward` |
-| Framework Preset | Vite (detected); build `npm run build`, output `dist`, install `npm ci` |
+| Framework and build | Vite, with install, build and output set in [the game's Vercel config](games/ringward/vercel.json) |
 | Node.js version | 24.x |
 | Ignored Build Step | custom command `git diff --quiet HEAD^ HEAD -- .` (skips builds when the game didn't change) |
 | Environment variables | none for the greybox; `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` once raids and duo are networked (decision 010) |
