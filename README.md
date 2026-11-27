@@ -156,6 +156,14 @@ Games are standalone web builds, kept out of the Expo app's build, lint, typeche
 - **Session engine and Biosphere tests:** `npm run test:games` (Node 24, no install needed). Rules and
   how to plug in a game: [games/engine/README.md](games/engine/README.md).
 
+### Reviewing the Ringward CI build
+
+The Ringward job runs on pull requests and pushes to `main`. Download `ringward-dist` from
+the workflow run's **Artifacts** section and extract it into a folder named `ringward-dist`.
+Serve it with `python -m http.server 4173 --directory ringward-dist` and open
+http://localhost:4173. The build uses relative asset paths so it can also be served from a
+static host and loaded as an OBS browser source.
+
 ### Deploying Ringward to Vercel
 
 The game gets its own Vercel project so a game bug can't break the app's deploys. The game is
@@ -168,10 +176,22 @@ picked (decision 009); create the project once in the Vercel dashboard (Add New 
 | Root Directory | `games/ringward` |
 | Framework and build | Vite, with install, build and output set in [the game's Vercel config](games/ringward/vercel.json) |
 | Node.js version | 24.x |
-| Ignored Build Step | custom command `git diff --quiet HEAD^ HEAD -- .` (skips builds when the game didn't change) |
-| Environment variables | none for the greybox; `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` once raids and duo are networked (decision 010) |
+| Production branch | `main` |
+| Preview deployments | Enable automatic Git previews and keep the Ignored Build Step on Automatic. Disable **Skip deployment** for unaffected changes if it is enabled so every PR gets a game preview. |
 
-Every PR that touches the game then gets its own preview URL next to the app's. The Hobby plan's
-deployment protection applies to it as well (previews need the owner's Vercel login). The build
-uses relative asset paths (`base: './'` in `vite.config.ts`), so it also works as an OBS browser
-source or from any static host. Record the production URL in `AGENTS.md` → "Where things live".
+In the Ringward project's **Environment Variables**, add both public Supabase values to
+**Preview** and **Production**. Use the hosted GameTime project for both values.
+
+| Variable | Value |
+|---|---|
+| `VITE_SUPABASE_URL` | Public Supabase project URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Public Supabase publishable key |
+
+Vite exposes these values to browsers. Use the publishable key and keep secret keys and
+service-role credentials out of this project. The greybox builds without these variables.
+Host sign-in in #103 will use them.
+
+Verify that a branch with a pull request gets its own Ringward preview URL and that the
+production deployment comes from `main`. If deployment protection is enabled, sign in
+to Vercel to check the preview. Open both deployments and start a round, then record the
+verified production URL in `AGENTS.md` under "Where things live".

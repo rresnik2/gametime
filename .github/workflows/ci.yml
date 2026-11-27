@@ -72,6 +72,12 @@ jobs:
         run: npm test
       - name: Build (typecheck + Vite)
         run: npm run build
+      - name: Upload Ringward static build
+        uses: actions/upload-artifact@v6
+        with:
+          name: ringward-dist
+          path: games/ringward/dist/
+          if-no-files-found: error
 
   # The shared session engine (games/engine, decision 014) and its first game adapter, The Biosphere
   # Realm, run end to end with the real simulation headless. No install: plain Node. Not a required check.
