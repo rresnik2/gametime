@@ -16,7 +16,7 @@ has a deployable skeleton app that CI builds on every pull request.
 
 ---
 
-## Status (updated Nov 22, 2026)
+## Status (updated Nov 26, 2026)
 
 Update this list in the same PR as the work.
 
@@ -46,7 +46,7 @@ Update this list in the same PR as the work.
 **Open**
 - [ ] **D1 streaming provider:** spike Mux and IVS, OBS → playback on iOS/Android/web, webhook updates `streams.status` (exit criterion 1–2). **Playback half done Nov 17, 2026** with public HLS test streams in `/spike`: `expo-video` plays live HLS on iOS (simulator) and web (Chrome plays HLS natively; `hls.js` covers Firefox), with a cost estimate favouring IVS Basic ([decision 001](docs/decisions/001-streaming-provider.md)). Left: a provider account (Reece), then OBS ingest, start/end events, latency and Android (Sudip)
 - [ ] **D4 anonymous viewing:** decide (Reece); anonymous sign-ins are currently off
-- [ ] Game name: "Ringward" is the working title; Reece and Sudip pick a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Also open: the game's own Vercel project (README). The `blocked:game-concept` label is off its 20 issues (Nov 17)
+- [ ] Game name: "Ringward" is the working title; Reece and Sudip pick a final name (proposals in [decision 009](docs/decisions/009-game-concept.md)). Ringward has its own Vercel build configuration. Creating the hosted project and verifying its URL are open (issue #27). The `blocked:game-concept` label is off its 20 issues (Nov 17)
 - [ ] Game (Sudip): stream the greybox through OBS into the app once to check it reads on a phone (exit criterion 8; needs the D1 spike) with a portrait OBS canvas. `?autopilot` makes it play itself for the test
 - [ ] Production games list (Sudip; production has none; the seed list is local-only)
 - [ ] **Proposed, in review:** a shared session engine for every game (optional host, players, viewers, AIs; one set of house rules) in `games/engine/`, tested on The Biosphere Realm (`?session` locally; headless end-to-end tests in CI) ([decision 014](docs/decisions/014-game-session-engine.md)). The project lead decides scope and whether Ringward moves onto it. The Biosphere Realm's source of truth is now this repo's copy, which Sudip reworked for streaming at Reece's request (Nov 22, 2026)
